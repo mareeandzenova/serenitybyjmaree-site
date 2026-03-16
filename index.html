@@ -1,22 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Serenity · J. Maree — A sanctuary for returning to yourself. Yoga, somatic practice, and guided rituals.">
-
-    <!-- Security headers via meta tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-
     <title>Serenity · J. Maree</title>
-
-    <!--
-        FONTS: loaded from Google Fonts.
-        Privacy note: Google sees visitor IPs when fonts load.
-        To fully avoid this, download fonts and host them yourself.
-    -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
@@ -30,7 +20,6 @@
             --ink-dark:      #3a4a54;
             --ink-mid:       #5a7078;
             --ink-light:     #7a9098;
-
             --navy:          #0c3a52;
             --parchment:     #ede8d8;
             --parchment-dim: #c8c0a8;
@@ -41,7 +30,6 @@
             --body-bg:       #f2ede0;
             --body-text:     #2e3a3f;
             --body-text-2:   #4a5a60;
-
             --serif: 'Cormorant Garamond', serif;
             --sans:  'Jost', sans-serif;
         }
@@ -57,6 +45,9 @@
             overflow-x: hidden;
         }
 
+        /* ────────────────────────────────────────
+           HERO
+        ──────────────────────────────────────── */
         #hero {
             position: relative;
             width: 100vw;
@@ -66,28 +57,18 @@
             grid-template-rows: 80px 1fr 80px;
             padding: 24px;
             z-index: 1;
-
             background:
-                radial-gradient(ellipse 55% 50% at 52% 48%,
-                    rgba(90,140,134,0.38) 0%,
-                    transparent 70%),
-                radial-gradient(ellipse 75% 65% at 48% 52%,
-                    rgba(120,165,158,0.22) 0%,
-                    transparent 75%),
-                radial-gradient(ellipse 100% 90% at 50% 50%,
-                    rgba(184,207,201,0.3) 0%,
-                    transparent 100%),
+                radial-gradient(ellipse 55% 50% at 52% 48%, rgba(90,140,134,0.38) 0%, transparent 70%),
+                radial-gradient(ellipse 75% 65% at 48% 52%, rgba(120,165,158,0.22) 0%, transparent 75%),
+                radial-gradient(ellipse 100% 90% at 50% 50%, rgba(184,207,201,0.3) 0%, transparent 100%),
                 linear-gradient(160deg, #dce8e4 0%, #ccddd8 40%, #bdd0ca 100%);
         }
 
-        /* Subtle slow-breathing animation — very cheap, just opacity */
         #hero::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse 50% 45% at 50% 50%,
-                rgba(100,150,144,0.18) 0%,
-                transparent 65%);
+            background: radial-gradient(ellipse 50% 45% at 50% 50%, rgba(100,150,144,0.18) 0%, transparent 65%);
             animation: breathe-bg 12s ease-in-out infinite;
             pointer-events: none;
         }
@@ -97,7 +78,6 @@
             50%       { opacity: 1;   transform: scale(1.06); }
         }
 
-        /* Grain texture — SVG-based, zero external requests */
         #hero::after {
             content: '';
             position: absolute;
@@ -107,12 +87,12 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        /* ── NAV ── */
+        /* ── Nav ── */
         #hero nav {
             grid-column: 1 / -1;
             grid-row: 1;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: flex-start;
             position: relative;
             z-index: 2;
@@ -157,7 +137,7 @@
         .nav-links a:hover { color: var(--ink-mid); }
         .nav-links a:hover::after { width: 100%; left: 0; }
 
-        /* ── SIDE LABELS ── */
+        /* ── Side labels ── */
         .side {
             grid-row: 2;
             writing-mode: vertical-rl;
@@ -179,7 +159,7 @@
             opacity: 0.3;
         }
 
-        /* ── HERO CENTRE ── */
+        /* ── Hero centre ── */
         .hero-c {
             grid-column: 2;
             grid-row: 2;
@@ -202,7 +182,6 @@
             margin-bottom: 28px;
         }
 
-        /* Lotus — toned for the light bg */
         .lotus {
             width: 56px;
             height: 56px;
@@ -215,7 +194,6 @@
             50%       { transform: translateY(-6px) scale(1.04); opacity: 1; }
         }
 
-        /* Brand name — the overlay blend trick from V1 */
         .hero-title {
             font-family: var(--serif);
             font-size: clamp(36px, 7vw, 80px);
@@ -250,7 +228,6 @@
             margin-bottom: 40px;
         }
 
-        /* Ghost button — dark version for hero */
         .btn-ghost {
             font-family: var(--sans);
             font-size: 9px;
@@ -281,7 +258,6 @@
         .btn-ghost:hover::before,
         .btn-ghost:hover::after { width: 46px; }
 
-        /* Ghost button — light version for navy sections */
         .btn-ghost-light {
             font-family: var(--sans);
             font-size: 9px;
@@ -312,7 +288,7 @@
         .btn-ghost-light:hover::before,
         .btn-ghost-light:hover::after { width: 46px; }
 
-        /* ── HERO FOOTER ── */
+        /* ── Hero footer bar ── */
         .hero-foot {
             grid-column: 1 / -1;
             grid-row: 3;
@@ -357,9 +333,13 @@
         }
 
         /* ────────────────────────────────────────
-           FADE-IN ORCHESTRATION (hero elements)
+           ANIMATIONS
         ──────────────────────────────────────── */
         .fu {
+            opacity: 1;
+        }
+
+        .js-ready .fu {
             opacity: 0;
             transform: translateY(12px);
             animation: fu 1.8s ease forwards;
@@ -375,20 +355,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Scroll-triggered reveals for sections below */
         .reveal {
-            opacity: 0;
-            transform: translateY(20px);
+            opacity: 1;
+            transform: translateY(0);
             transition: opacity 0.9s ease, transform 0.9s ease;
         }
 
-        .reveal.visible {
+        /* JS adds .js-ready to <body>, then reveals animate in */
+        .js-ready .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .js-ready .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
         /* ────────────────────────────────────────
-           SHARED SECTION ELEMENTS
+           SHARED
         ──────────────────────────────────────── */
         .section-eyebrow {
             font-family: var(--sans);
@@ -410,8 +395,18 @@
             opacity: 0.3;
         }
 
+        .transition-band {
+            height: 280px;
+            background: linear-gradient(to bottom, var(--body-bg) 0%, var(--body-bg) 15%, var(--navy) 100%);
+        }
+
+        .transition-band-dark {
+            height: 320px;
+            background: linear-gradient(to bottom, var(--navy) 0%, var(--seafoam-mid) 70%, var(--seafoam) 100%);
+        }
+
         /* ────────────────────────────────────────
-           GUIDE SECTION — parchment bg, high contrast
+           GUIDE — parchment bg
         ──────────────────────────────────────── */
         #guide {
             background: var(--body-bg);
@@ -453,10 +448,7 @@
             margin-bottom: 1.6em;
         }
 
-        .guide-body em {
-            font-style: italic;
-            color: var(--gold);
-        }
+        .guide-body em { font-style: italic; color: var(--gold); }
 
         .ornament {
             text-align: center;
@@ -486,7 +478,7 @@
             align-items: center;
             gap: 10px;
             font-family: var(--sans);
-            font-size: 9px;
+            font-size: 11px;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--body-text-2);
@@ -507,14 +499,67 @@
         .guide-link:hover { opacity: 1; }
         .guide-link:hover::after { width: 42px; }
 
-        /* ── Gradient transition band ── */
-        .transition-band {
-            height: 140px;
-            background: linear-gradient(to bottom, var(--body-bg), var(--navy));
+        /* ────────────────────────────────────────
+           WHO THIS IS FOR — inside offering block (navy bg)
+        ──────────────────────────────────────── */
+        .for-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        .for-col-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .for-col-label::after {
+            content: '';
+            height: 0.5px;
+            flex: 1;
+            background: currentColor;
+            opacity: 0.2;
+        }
+
+        .for-col-yes .for-col-label { color: var(--gold-pale); }
+        .for-col-no  .for-col-label { color: rgba(237,232,216,0.35); }
+
+        .for-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .for-list li {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--parchment);
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .for-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 5px;
+            height: 0.5px;
+            background: rgba(237,232,216,0.3);
         }
 
         /* ────────────────────────────────────────
-           PRACTICES SECTION — navy bg
+           PRACTICES — navy bg
         ──────────────────────────────────────── */
         #practices {
             background: var(--navy);
@@ -583,21 +628,21 @@
         .practice-accent-line {
             font-family: var(--serif);
             font-style: italic;
-            font-size: 13px;
-            color: rgba(237,232,216,0.4);
+            font-size: 14px;
+            color: var(--parchment-dim);
             margin-bottom: 14px;
             display: block;
         }
 
         .practice-desc {
             font-family: var(--sans);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 300;
             line-height: 1.9;
-            color: var(--parchment-dim);
+            color: var(--parchment);
         }
 
-        /* ── Offering block ── */
+        /* ── Offering ── */
         .offering-block {
             border: 0.5px solid rgba(106,81,16,0.35);
             padding: 40px;
@@ -624,7 +669,7 @@
 
         .offering-name em {
             font-style: italic;
-            color: rgba(237,232,216,0.55);
+            color: var(--parchment-dim);
             display: block;
             font-size: 0.72em;
             margin-top: 4px;
@@ -634,7 +679,7 @@
             font-family: var(--serif);
             font-style: italic;
             font-size: 15px;
-            color: rgba(237,232,216,0.5);
+            color: var(--parchment-dim);
             line-height: 1.9;
             margin: 20px 0 28px;
             border-left: 1px solid rgba(106,81,16,0.3);
@@ -643,10 +688,10 @@
 
         .offering-desc {
             font-family: var(--sans);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 300;
             line-height: 2;
-            color: var(--parchment-dim);
+            color: var(--parchment);
             margin-bottom: 32px;
         }
 
@@ -665,10 +710,10 @@
 
         .od-label {
             font-family: var(--sans);
-            font-size: 8px;
+            font-size: 11px;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: rgba(237,232,216,0.35);
+            color: rgba(237,232,216,0.4);
             font-weight: 200;
             margin-bottom: 6px;
         }
@@ -682,9 +727,9 @@
 
         .od-sub {
             font-family: var(--sans);
-            font-size: 11px;
+            font-size: 14px;
             font-weight: 300;
-            color: rgba(237,232,216,0.45);
+            color: var(--parchment-dim);
             margin-top: 3px;
         }
 
@@ -707,7 +752,7 @@
         .offering-price span {
             display: block;
             font-family: var(--sans);
-            font-size: 9px;
+            font-size: 11px;
             letter-spacing: 0.16em;
             color: var(--gold-pale);
             font-weight: 300;
@@ -718,14 +763,41 @@
         .offering-price small {
             display: block;
             font-family: var(--sans);
-            font-size: 11px;
+            font-size: 14px;
             font-weight: 300;
-            color: rgba(237,232,216,0.4);
+            color: var(--parchment-dim);
             margin-top: 6px;
         }
 
+        /* ── Disclaimer band ── */
+        .disclaimer-band {
+            margin-top: 48px;
+            padding: 24px 28px;
+            border: 0.5px solid rgba(237,232,216,0.1);
+            background: rgba(237,232,216,0.03);
+        }
+
+        .disclaimer-band p {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.85;
+            color: var(--parchment-dim);
+        }
+
+        .disclaimer-band strong {
+            font-weight: 400;
+            color: var(--parchment);
+            letter-spacing: 0.04em;
+        }
+
+        #practice-coming {
+            background: var(--navy);
+            padding: 0 24px 120px;
+        }
+
         /* ────────────────────────────────────────
-           JOURNAL SECTION — aqua-pale bg
+           JOURNAL — aqua-pale bg
         ──────────────────────────────────────── */
         #journal {
             background: var(--aqua-pale);
@@ -773,7 +845,7 @@
 
         .entry-date {
             font-family: var(--sans);
-            font-size: 9px;
+            font-size: 11px;
             letter-spacing: 0.14em;
             color: var(--mauve);
             font-weight: 300;
@@ -793,7 +865,7 @@
         .entry-accent {
             font-family: var(--serif);
             font-style: italic;
-            font-size: 13px;
+            font-size: 14px;
             color: var(--mauve);
             margin-bottom: 10px;
             display: block;
@@ -801,9 +873,9 @@
 
         .entry-preview {
             font-family: var(--sans);
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 300;
-            color: rgba(12,58,82,0.65);
+            color: rgba(12,58,82,0.8);
             line-height: 1.85;
         }
 
@@ -812,11 +884,11 @@
             align-items: center;
             gap: 10px;
             font-family: var(--sans);
-            font-size: 9px;
+            font-size: 11px;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--navy);
-            opacity: 0.45;
+            opacity: 0.5;
             text-decoration: none;
             font-weight: 300;
             margin-top: 44px;
@@ -834,10 +906,10 @@
         .journal-link:hover::after { width: 40px; }
 
         /* ────────────────────────────────────────
-           BEGIN SECTION — navy bg
+           BEGIN — seafoam bg (mirrors hero)
         ──────────────────────────────────────── */
         #begin {
-            background: var(--navy);
+            background: var(--seafoam);
             padding: 130px 24px;
             text-align: center;
         }
@@ -848,7 +920,7 @@
         }
 
         #begin .section-eyebrow {
-            color: rgba(226,243,243,0.35);
+            color: var(--ink-mid);
             justify-content: center;
         }
 
@@ -865,7 +937,7 @@
             font-family: var(--serif);
             font-size: clamp(30px, 4.5vw, 48px);
             font-weight: 300;
-            color: var(--parchment);
+            color: var(--ink-dark);
             line-height: 1.25;
             margin-bottom: 14px;
         }
@@ -874,7 +946,7 @@
             font-family: var(--serif);
             font-style: italic;
             font-size: 15px;
-            color: rgba(237,232,216,0.5);
+            color: var(--ink-mid);
             line-height: 1.9;
             margin-bottom: 48px;
         }
@@ -887,31 +959,31 @@
 
         .begin-input {
             flex: 1;
-            background: rgba(226,243,243,0.06);
-            border: 0.5px solid rgba(226,243,243,0.18);
+            background: rgba(255,255,255,0.5);
+            border: 0.5px solid rgba(58,74,84,0.25);
             border-right: none;
             padding: 14px 18px;
             font-family: var(--sans);
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 300;
-            color: var(--parchment);
+            color: var(--ink-dark);
             letter-spacing: 0.06em;
             outline: none;
             transition: border-color 0.4s;
         }
 
-        .begin-input::placeholder { color: rgba(237,232,216,0.3); }
-        .begin-input:focus { border-color: rgba(226,243,243,0.4); }
+        .begin-input::placeholder { color: var(--ink-light); }
+        .begin-input:focus { border-color: var(--ink-mid); }
 
         .begin-submit {
-            background: rgba(226,243,243,0.08);
-            border: 0.5px solid rgba(226,243,243,0.18);
+            background: rgba(58,74,84,0.08);
+            border: 0.5px solid rgba(58,74,84,0.25);
             padding: 14px 24px;
             font-family: var(--sans);
-            font-size: 9px;
+            font-size: 11px;
             letter-spacing: 0.22em;
             text-transform: uppercase;
-            color: rgba(237,232,216,0.6);
+            color: var(--ink-mid);
             cursor: pointer;
             font-weight: 300;
             transition: background 0.4s, color 0.4s;
@@ -919,15 +991,15 @@
         }
 
         .begin-submit:hover {
-            background: rgba(226,243,243,0.14);
-            color: var(--parchment);
+            background: rgba(58,74,84,0.14);
+            color: var(--ink-dark);
         }
 
         .begin-note {
             font-family: var(--sans);
-            font-size: 10px;
-            font-weight: 200;
-            color: rgba(237,232,216,0.3);
+            font-size: 11px;
+            font-weight: 300;
+            color: var(--ink-light);
             letter-spacing: 0.08em;
             margin-bottom: 56px;
         }
@@ -935,7 +1007,8 @@
         .begin-divider {
             width: 0.5px;
             height: 52px;
-            background: rgba(237,232,216,0.12);
+            background: var(--ink-light);
+            opacity: 0.2;
             margin: 0 auto 36px;
         }
 
@@ -943,8 +1016,26 @@
             font-family: var(--serif);
             font-size: 17px;
             font-style: italic;
-            color: rgba(237,232,216,0.55);
+            color: var(--ink-mid);
             margin-bottom: 20px;
+        }
+
+        .secondary-cta-note {
+            font-family: var(--serif);
+            font-size: 15px;
+            font-style: italic;
+            color: var(--ink-mid);
+            opacity: 0.7;
+            margin-top: 40px;
+            margin-bottom: 6px;
+        }
+
+        .secondary-cta-sub {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--ink-light);
+            letter-spacing: 0.06em;
         }
 
         /* ────────────────────────────────────────
@@ -953,12 +1044,80 @@
         footer {
             background: var(--navy);
             border-top: 0.5px solid rgba(237,232,216,0.06);
-            padding: 30px 24px;
+            padding: 40px 24px 32px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px 48px;
+            align-items: start;
+        }
+
+        .footer-left {}
+        .footer-right { text-align: right; }
+
+        .footer-brand {
+            font-family: var(--serif);
+            font-size: 15px;
+            font-weight: 300;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.6);
+            margin-bottom: 16px;
+        }
+
+        .footer-contact {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: rgba(237,232,216,0.5);
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .footer-contact a {
+            color: rgba(237,232,216,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-contact a:hover { color: var(--parchment); }
+
+        .footer-tagline {
+            font-family: var(--serif);
+            font-size: 14px;
+            font-style: italic;
+            color: rgba(237,232,216,0.3);
+            margin-top: 16px;
+        }
+
+        .footer-legal {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .footer-legal a {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.35);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+
+        .footer-legal a:hover { color: rgba(237,232,216,0.7); }
+
+        .footer-copy {
+            grid-column: 1 / -1;
+            border-top: 0.5px solid rgba(237,232,216,0.05);
+            padding-top: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 8px;
         }
 
         .footer-meta {
@@ -966,9 +1125,94 @@
             font-size: 8px;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: rgba(237,232,216,0.35);
+            color: rgba(237,232,216,0.2);
             font-weight: 200;
         }
+
+        /* ────────────────────────────────────────
+           MODALS
+        ──────────────────────────────────────── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5,24,36,0.85);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal-box {
+            background: var(--body-bg);
+            color: var(--body-text);
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 48px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--body-text-2);
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .modal-close:hover { opacity: 1; }
+
+        .modal-title {
+            font-family: var(--serif);
+            font-size: 28px;
+            font-weight: 300;
+            color: var(--body-text);
+            margin-bottom: 8px;
+        }
+
+        .modal-date {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--mauve);
+            font-weight: 300;
+            margin-bottom: 36px;
+        }
+
+        .modal-body h3 {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: var(--body-text-2);
+            margin: 28px 0 10px;
+        }
+
+        .modal-body p {
+            font-family: var(--sans);
+            font-size: 13px;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--body-text-2);
+            margin-bottom: 12px;
+        }
+
+        .modal-body a { color: var(--gold); text-decoration: none; }
 
         /* ────────────────────────────────────────
            RESPONSIVE
@@ -984,11 +1228,15 @@
             .hero-title { font-size: 38px; letter-spacing: 0.35em; }
             .practice-grid, .offering-details { grid-template-columns: 1fr; }
             #guide, #practices, #journal, #begin { padding: 80px 20px; }
+            .for-grid { grid-template-columns: 1fr; gap: 32px; }
             .offering-footer { flex-direction: column; align-items: flex-start; }
             .begin-form { flex-direction: column; }
             .begin-input { border-right: 0.5px solid rgba(226,243,243,0.18); border-bottom: none; }
             .journal-entry { grid-template-columns: 1fr; gap: 6px; }
-            footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+            footer { grid-template-columns: 1fr; }
+            .footer-right { text-align: left; }
+            .footer-legal { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 16px; }
+            .modal-box { padding: 32px 24px; }
         }
     </style>
 </head>
@@ -1008,8 +1256,6 @@
 
     <div class="side side-l fu d2">
         <span class="meta" style="color:var(--ink-light)">Re-Selfing Rituals</span>
-        <div class="side-mark"></div>
-        <span class="meta" style="color:var(--ink-light)">Phase : Waning Crescent</span>
     </div>
 
     <div class="hero-c">
@@ -1044,14 +1290,11 @@
 
     <div class="side side-r fu d2">
         <span class="meta" style="color:var(--ink-light)">The Spoken Sanctuary</span>
-        <div class="side-mark"></div>
-        <span class="meta" style="color:var(--ink-light)">Vol. I · 2025</span>
     </div>
 
     <div class="hero-foot fu d3">
         <span class="meta">Serenity by J. Maree</span>
-        <div class="scroll-stem"></div>
-        </div>
+        <span class="meta" style="opacity:0"></span>
     </div>
 
 </section>
@@ -1093,46 +1336,12 @@
     </div>
 </section>
 
+<!-- Gradient fade from parchment into navy -->
 <div class="transition-band"></div>
 
 <!-- ══════ PRACTICES ══════ -->
 <section id="practices">
     <div class="practices-inner">
-
-        <div class="section-eyebrow reveal">Curated Practices</div>
-
-        <h2 class="practices-headline reveal">The Practice</h2>
-        <span class="practices-accent reveal">what lives here</span>
-
-        <div class="practice-grid reveal">
-            <div class="practice-cell">
-                <p class="practice-num">01</p>
-                <p class="practice-name">Yoga &amp; Movement</p>
-                <span class="practice-accent-line">sequences for the body you have today</span>
-                <p class="practice-desc">Functional, somatic-informed yoga that supports confident, sustainable movement. Built around joint health, balance, and trusting the body's present capacity.</p>
-            </div>
-
-            <div class="practice-cell">
-                <p class="practice-num">02</p>
-                <p class="practice-name">Guided Voice Rituals</p>
-                <span class="practice-accent-line">short, intimate recordings for regulation</span>
-                <p class="practice-desc">Crafted for moments of overwhelm, stillness, or emotional settling. Something to listen to in the quiet — designed for the nervous system, not the calendar.</p>
-            </div>
-
-            <div class="practice-cell">
-                <p class="practice-num">03</p>
-                <p class="practice-name">Somatic Integration</p>
-                <span class="practice-accent-line">we move to remember the architecture of our own breath</span>
-                <p class="practice-desc">Practices that blend somatics, storytelling, and sensory guidance — helping you integrate and release what the body has been quietly carrying.</p>
-            </div>
-
-            <div class="practice-cell">
-                <p class="practice-num">04</p>
-                <p class="practice-name">Ritual &amp; Reflection</p>
-                <span class="practice-accent-line">philosophies for different seasons of life</span>
-                <p class="practice-desc">The meditations, journal prompts, and frameworks that have grounded Jamie through her own re-selfing — shared as companions, not prescriptions.</p>
-            </div>
-        </div>
 
         <div class="offering-block reveal">
             <p class="offering-tag">Current Offering</p>
@@ -1140,18 +1349,43 @@
                 A Private Space for Coming Back
                 <em>to Yourself</em>
             </h3>
- 
+
             <p class="offering-poem">
                 an invitation to step into the quiet.<br>
                 this is not a performance, but a dismantling.<br>
                 we move to remember the architecture of our own breath.
             </p>
- 
+
             <p class="offering-desc">
                 A short-term, one-to-one container for emotional clarity, nervous system settling, and feeling like yourself again. No fixing. No homework. No pressure to arrive with answers.<br><br>
                 Your system leads. I hold the structure.
             </p>
- 
+
+            <!-- Who this is for — scoped to this offering -->
+            <div class="for-grid reveal" style="margin-bottom: 32px;">
+                <div class="for-col for-col-yes">
+                    <p class="for-col-label">This is for you if</p>
+                    <ul class="for-list">
+                        <li>You feel like you've lost the thread back to yourself</li>
+                        <li>You're functioning, but something has gone quiet inside</li>
+                        <li>You want to be met without being fixed</li>
+                        <li>You're ready to slow down and actually listen</li>
+                        <li>You're curious about what somatic practice could open up</li>
+                        <li>You've tried therapy or coaching and found it wasn't quite right</li>
+                    </ul>
+                </div>
+
+                <div class="for-col for-col-no">
+                    <p class="for-col-label">This may not be right if</p>
+                    <ul class="for-list">
+                        <li>You're in active crisis or need clinical mental health support</li>
+                        <li>You're looking for a structured wellness programme with goals and homework</li>
+                        <li>You want someone to tell you what to do</li>
+                        <li>You're not ready to be still with what's there</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="offering-details">
                 <div class="od-cell">
                     <p class="od-label">Sessions</p>
@@ -1174,87 +1408,24 @@
                     <p class="od-sub">To ensure the fit is right</p>
                 </div>
             </div>
- 
+
             <div class="offering-footer">
                 <div class="offering-price">
                     <span>Investment</span>
                     $1,000
+                    <small>Founding rate $500 · Limited to 3 clients<br>Not therapy or clinical care</small>
                 </div>
                 <button class="btn-ghost-light" onclick="document.getElementById('begin').scrollIntoView({behavior:'smooth'})">Apply for a space</button>
             </div>
         </div>
- 
-        <!-- Ethical disclaimer — visible near the decision point -->
+
         <div class="disclaimer-band reveal">
             <p><strong>Please read carefully.</strong> Serenity is not therapy, counselling, or any form of clinical or medical care. J. Maree is not a licensed therapist, psychologist, or healthcare provider. Sessions are not a substitute for professional mental health treatment. If you are experiencing a mental health crisis, please contact a qualified professional or crisis service. What is offered here is somatic-informed, experiential, and relational — it is a personal practice shared, not a clinical service rendered.</p>
         </div>
- 
-    </div>
-</section>
-    <!-- ══════ WHO THIS IS FOR ══════ -->
-<section id="for">
-    <div class="for-inner">
- 
-        <div class="for-grid">
-            <div class="for-col for-col-yes reveal">
-                <p class="for-col-label">This is for you if</p>
-                <ul class="for-list">
-                    <li>You feel like you've lost the thread back to yourself</li>
-                    <li>You're functioning, but something has gone quiet inside</li>
-                    <li>You want to be met without being fixed</li>
-                    <li>You're ready to slow down and actually listen</li>
-                    <li>You're curious about what somatic practice could open up</li>
-                    <li>You've tried therapy or coaching and found it wasn't quite right</li>
-                </ul>
-            </div>
- 
-            <div class="for-col for-col-no reveal">
-                <p class="for-col-label">This may not be right if</p>
-                <ul class="for-list">
-                    <li>You're in active crisis or need clinical mental health support</li>
-                    <li>You're looking for a structured wellness programme with goals and homework</li>
-                    <li>You want someone to tell you what to do</li>
-                    <li>You're not ready to be still with what's there</li>
-                </ul>
-            </div>
-        </div>
- 
-    </div>
-</section>
- 
-<div class="transition-band"></div>
- 
-<!-- ══════ BEGIN ══════ -->
-<section id="begin">
-    <div class="begin-inner">
-
-        <div class="section-eyebrow reveal">A Way to Begin</div>
-
-        <h2 class="begin-headline reveal">Stay close<br>to the practice</h2>
-        <p class="begin-poem reveal">
-            letters from inside the work.<br>
-            slow, occasional, honest.
-        </p>
-
-        <!--
-            REPLACE THIS FORM with your email provider's embed code.
-            Mailchimp, ConvertKit, and Buttondown all offer a simple
-            copy-paste snippet. That way emails go to your account
-            there — not floating around with no destination.
-        -->
-        <div class="begin-form reveal">
-            <input class="begin-input" type="email" placeholder="your email address" autocomplete="email">
-            <button class="begin-submit" type="button">Enter</button>
-        </div>
-        <p class="begin-note reveal">No noise. Unsubscribe any time.</p>
-
-        <div class="begin-divider"></div>
-
-        <p class="begin-apply reveal">Ready for the container?</p>
-        <button class="btn-ghost-light reveal" style="margin:0 auto;display:inline-flex;" type="button">Apply for a private space</button>
 
     </div>
 </section>
+
 <!-- ══════ JOURNAL ══════ -->
 <section id="journal">
     <div class="journal-inner">
@@ -1298,15 +1469,93 @@
     </div>
 </section>
 
+<!-- ══════ THE PRACTICE ══════ -->
+<section id="practice-coming">
+    <div class="practices-inner">
+
+        <div class="section-eyebrow reveal">The Practice</div>
+
+        <h2 class="practices-headline reveal">What's taking shape</h2>
+        <span class="practices-accent reveal">coming as the work deepens</span>
+
+        <div class="practice-grid reveal">
+            <div class="practice-cell">
+                <p class="practice-num">01</p>
+                <p class="practice-name">Yoga &amp; Movement</p>
+                <span class="practice-accent-line">sequences for the body you have today</span>
+                <p class="practice-desc">Functional, somatic-informed yoga that supports confident, sustainable movement. Built around joint health, balance, and trusting the body's present capacity.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">02</p>
+                <p class="practice-name">Guided Voice Rituals</p>
+                <span class="practice-accent-line">short, intimate recordings for regulation</span>
+                <p class="practice-desc">Crafted for moments of overwhelm, stillness, or emotional settling. Something to listen to in the quiet — designed for the nervous system, not the calendar.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">03</p>
+                <p class="practice-name">Somatic Integration</p>
+                <span class="practice-accent-line">we move to remember the architecture of our own breath</span>
+                <p class="practice-desc">Practices that blend somatics, storytelling, and sensory guidance — helping you integrate and release what the body has been quietly carrying.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">04</p>
+                <p class="practice-name">Ritual &amp; Reflection</p>
+                <span class="practice-accent-line">philosophies for different seasons of life</span>
+                <p class="practice-desc">The meditations, journal prompts, and frameworks that have grounded Jamie through her own re-selfing — shared as companions, not prescriptions.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div class="transition-band-dark"></div>
+
+<!-- ══════ BEGIN ══════ -->
+<section id="begin">
+    <div class="begin-inner">
+
+        <div class="section-eyebrow reveal">A Way to Begin</div>
+
+        <h2 class="begin-headline reveal">Stay close<br>to the practice</h2>
+        <p class="begin-poem reveal">
+            letters from inside the work.<br>
+            slow, occasional, honest.
+        </p>
+
+        <!--
+            REPLACE THIS FORM with your email provider's embed code.
+            Mailchimp, ConvertKit, and Buttondown all offer a simple
+            copy-paste snippet.
+        -->
+        <div class="begin-form reveal">
+            <input class="begin-input" type="email" placeholder="your email address" autocomplete="email">
+            <button class="begin-submit" type="button">Enter</button>
+        </div>
+        <p class="begin-note reveal">No noise. Unsubscribe any time.</p>
+
+        <div class="begin-divider"></div>
+
+        <p class="begin-apply reveal">Ready for the container?</p>
+        <button class="btn-ghost reveal" style="margin:0 auto;display:inline-flex;" type="button">Apply for a private space</button>
+
+        <p class="secondary-cta-note reveal">Not ready yet — that's okay.</p>
+        <p class="secondary-cta-sub reveal">The letters are a quieter place to start. Come when it feels right.</p>
+
+    </div>
+</section>
+
 <!-- ══════ FOOTER ══════ -->
 <footer>
     <div class="footer-left">
         <p class="footer-brand">Serenity · J. Maree</p>
-        <p class="footer-contact">Questions or enquiries: <a href="mailto:hello@serenity-jmaree.com">hello@serenity-jmaree.com</a></p>
+        <p class="footer-contact">Questions or enquiries: <a href="/cdn-cgi/l/email-protection#9af2fff6f6f5dae9ffe8fff4f3eee3f8e3f0f7fbe8ffffb4f9f5f7"><span class="__cf_email__" data-cfemail="e48c8188888ba4978196818a8d909d869d8e8985968181ca878b89">[email&#160;protected]</span></a></p>
         <p class="footer-contact">Based online · Available internationally</p>
         <p class="footer-tagline">Not therapy · Not coaching · Something quieter</p>
     </div>
- 
+
     <div class="footer-right">
         <div class="footer-legal">
             <a href="#" onclick="openModal('privacy'); return false;">Privacy Policy</a>
@@ -1314,13 +1563,13 @@
             <a href="#" onclick="openModal('disclaimer'); return false;">Scope &amp; Disclaimer</a>
         </div>
     </div>
- 
+
     <div class="footer-copy">
         <span class="footer-meta">© 2025 Serenity · J. Maree · All rights reserved</span>
         <span class="footer-meta">Serenity Bespoken · The Spoken Sanctuary · Re-Selfing Rituals</span>
     </div>
 </footer>
- 
+
 <!-- ══════ PRIVACY POLICY MODAL ══════ -->
 <div class="modal-overlay" id="modal-privacy">
     <div class="modal-box">
@@ -1335,13 +1584,13 @@
             <h3>Cookies and tracking</h3>
             <p>This website does not use cookies or tracking scripts. Google Fonts is loaded from Google's servers, which means Google may register your IP address when the page loads. This is the only third-party data exposure on this site.</p>
             <h3>Your rights</h3>
-            <p>You may unsubscribe from the newsletter at any time using the link at the bottom of any email. To request deletion of your data, email <a href="mailto:hello@serenity-jmaree.com">hello@serenity-jmaree.com</a>.</p>
+            <p>You may unsubscribe from the newsletter at any time using the link at the bottom of any email. To request deletion of your data, email <a href="/cdn-cgi/l/email-protection#b9d1dcd5d5d6f9cadccbdcd7d0cdc0dbc0d3d4d8cbdcdc97dad6d4"><span class="__cf_email__" data-cfemail="87efe2ebebe8c7f4e2f5e2e9eef3fee5feedeae6f5e2e2a9e4e8ea">[email&#160;protected]</span></a>.</p>
             <h3>Contact</h3>
-            <p>For any privacy-related questions, please write to <a href="mailto:hello@serenity-jmaree.com">hello@serenity-jmaree.com</a>.</p>
+            <p>For any privacy-related questions, please write to <a href="/cdn-cgi/l/email-protection#29414c454546695a4c5b4c47405d504b504344485b4c4c074a4644"><span class="__cf_email__" data-cfemail="4028252c2c2f00332532252e29343922392a2d213225256e232f2d">[email&#160;protected]</span></a>.</p>
         </div>
     </div>
 </div>
- 
+
 <!-- ══════ TERMS OF USE MODAL ══════ -->
 <div class="modal-overlay" id="modal-terms">
     <div class="modal-box">
@@ -1358,11 +1607,11 @@
             <h3>Limitation of liability</h3>
             <p>J. Maree and Serenity are not liable for any outcomes — positive or negative — experienced as a result of engaging with the content on this website or in sessions. All participation is voluntary and at the individual's own discretion.</p>
             <h3>Contact</h3>
-            <p>Questions about these terms can be directed to <a href="mailto:hello@serenity-jmaree.com">hello@serenity-jmaree.com</a>.</p>
+            <p>Questions about these terms can be directed to <a href="/cdn-cgi/l/email-protection#1179747d7d7e51627463747f78656873687b7c706374743f727e7c"><span class="__cf_email__" data-cfemail="caa2afa6a6a58ab9afb8afa4a3beb3a8b3a0a7abb8afafe4a9a5a7">[email&#160;protected]</span></a>.</p>
         </div>
     </div>
 </div>
- 
+
 <!-- ══════ SCOPE & DISCLAIMER MODAL ══════ -->
 <div class="modal-overlay" id="modal-disclaimer">
     <div class="modal-box">
@@ -1381,9 +1630,13 @@
         </div>
     </div>
 </div>
- 
-<!-- ══════ SCROLL REVEALS ══════ -->
-<script>
+
+<!-- ══════ SCRIPTS ══════ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Mark body so CSS animations only apply when JS is running
+    document.body.classList.add('js-ready');
+
+    // Scroll reveals
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => {
             if (e.isIntersecting) {
@@ -1392,40 +1645,15 @@
             }
         });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
- 
+
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
- 
+
     // Modal helpers
     function openModal(id) {
         document.getElementById('modal-' + id).classList.add('open');
         document.body.style.overflow = 'hidden';
     }
- 
+
     function closeModal(id) {
         document.getElementById('modal-' + id).classList.remove('open');
-        document.body.style.overflow = '';
-    }
- 
-    // Close on overlay click
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
-    });
- 
-    // Close on Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.modal-overlay.open').forEach(m => {
-                m.classList.remove('open');
-                document.body.style.overflow = '';
-            });
-        }
-    });
-</script>
- 
-</body>
-</html>
+        document.bo
