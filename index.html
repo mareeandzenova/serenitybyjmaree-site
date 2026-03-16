@@ -4,46 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Serenity · J. Maree — A sanctuary for returning to yourself. Yoga, somatic practice, and guided rituals.">
+
+    <!-- Security headers via meta tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
     <title>Serenity · J. Maree</title>
+
+    <!--
+        FONTS: loaded from Google Fonts.
+        Privacy note: Google sees visitor IPs when fonts load.
+        To fully avoid this, download fonts and host them yourself.
+    -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
-        /* ── TOKENS ── */
+        /* ── DESIGN TOKENS ── */
         :root {
-            /* Hero palette — V1 seafoam */
-            --seafoam:      #e0e9e6;
-            --seafoam-deep: #8aaba5;
-            --ink-dark:     #3a4a54;
-            --ink-mid:      #5a7078;
-            --ink-light:    #7a9098;
+            --seafoam:       #dce8e4;
+            --seafoam-mid:   #b8cfc9;
+            --seafoam-deep:  #7a9e98;
+            --ink-dark:      #3a4a54;
+            --ink-mid:       #5a7078;
+            --ink-light:     #7a9098;
 
-            /* Body palette — V2 but warmer/lighter */
-            --navy:         #0c3a52;
-            --navy-light:   #164d69;
-            --parchment:    #ede8d8;
-            --parchment-dim:#c8c0a8;
-            --gold:         #8a6a20;
-            --gold-pale:    #c09a50;
-            --mauve:        #8a7a78;
-            --aqua-pale:    #e8f2f0;
-
-            /* Body text — the readability fix */
-            --body-bg:      #f2ede0;
-            --body-text:    #2e3a3f;
-            --body-text-2:  #4a5a60;
-            --body-text-3:  #6a7a80;
+            --navy:          #0c3a52;
+            --parchment:     #ede8d8;
+            --parchment-dim: #c8c0a8;
+            --gold:          #8a6a20;
+            --gold-pale:     #c09a50;
+            --mauve:         #8a7a78;
+            --aqua-pale:     #e8f2f0;
+            --body-bg:       #f2ede0;
+            --body-text:     #2e3a3f;
+            --body-text-2:   #4a5a60;
 
             --serif: 'Cormorant Garamond', serif;
             --sans:  'Jost', sans-serif;
-
-            --space-xs: 4px;
-            --space-sm: 12px;
-            --space-md: 24px;
-            --space-lg: 48px;
-            --space-xl: 96px;
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -57,48 +57,65 @@
             overflow-x: hidden;
         }
 
-        /* ── GRAIN OVERLAY ── */
-        .grain {
-            position: fixed;
-            inset: 0;
-            z-index: 3;
-            pointer-events: none;
-            opacity: 0.18;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
-        }
-
-        /* ── CANVAS (hero only, fades out on scroll) ── */
-        #canvas-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            transition: opacity 0.6s ease;
-        }
-
-        .z { position: relative; z-index: 10; }
-
-        /* ────────────────────────────────────────
-           HERO
-        ──────────────────────────────────────── */
         #hero {
+            position: relative;
             width: 100vw;
             height: 100vh;
             display: grid;
             grid-template-columns: 80px 1fr 80px;
             grid-template-rows: 80px 1fr 80px;
-            padding: var(--space-md);
-            position: relative;
-            z-index: 10;
+            padding: 24px;
+            z-index: 1;
+
+            background:
+                radial-gradient(ellipse 55% 50% at 52% 48%,
+                    rgba(90,140,134,0.38) 0%,
+                    transparent 70%),
+                radial-gradient(ellipse 75% 65% at 48% 52%,
+                    rgba(120,165,158,0.22) 0%,
+                    transparent 75%),
+                radial-gradient(ellipse 100% 90% at 50% 50%,
+                    rgba(184,207,201,0.3) 0%,
+                    transparent 100%),
+                linear-gradient(160deg, #dce8e4 0%, #ccddd8 40%, #bdd0ca 100%);
         }
 
-        /* ── Nav ── */
+        /* Subtle slow-breathing animation — very cheap, just opacity */
+        #hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 50% 45% at 50% 50%,
+                rgba(100,150,144,0.18) 0%,
+                transparent 65%);
+            animation: breathe-bg 12s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes breathe-bg {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50%       { opacity: 1;   transform: scale(1.06); }
+        }
+
+        /* Grain texture — SVG-based, zero external requests */
+        #hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.06;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* ── NAV ── */
         #hero nav {
             grid-column: 1 / -1;
             grid-row: 1;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            position: relative;
+            z-index: 2;
         }
 
         .meta {
@@ -107,9 +124,8 @@
             letter-spacing: 0.22em;
             text-transform: uppercase;
             font-weight: 200;
+            color: var(--ink-mid);
         }
-
-        .nav-meta { color: var(--ink-mid); }
 
         .nav-links {
             list-style: none;
@@ -141,7 +157,7 @@
         .nav-links a:hover { color: var(--ink-mid); }
         .nav-links a:hover::after { width: 100%; left: 0; }
 
-        /* ── Side labels ── */
+        /* ── SIDE LABELS ── */
         .side {
             grid-row: 2;
             writing-mode: vertical-rl;
@@ -149,6 +165,8 @@
             align-items: center;
             justify-content: center;
             gap: 14px;
+            position: relative;
+            z-index: 2;
         }
 
         .side-l { grid-column: 1; transform: rotate(180deg); }
@@ -161,7 +179,7 @@
             opacity: 0.3;
         }
 
-        /* ── Hero centre ── */
+        /* ── HERO CENTRE ── */
         .hero-c {
             grid-column: 2;
             grid-row: 2;
@@ -170,6 +188,8 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-eyebrow {
@@ -182,7 +202,7 @@
             margin-bottom: 28px;
         }
 
-        /* ── Lotus — V2's richer petals, V1's float ── */
+        /* Lotus — toned for the light bg */
         .lotus {
             width: 56px;
             height: 56px;
@@ -191,11 +211,11 @@
         }
 
         @keyframes breathe {
-            0%,100% { transform: translateY(0) scale(1); opacity: 0.85; }
-            50%      { transform: translateY(-6px) scale(1.04); opacity: 1; }
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.75; }
+            50%       { transform: translateY(-6px) scale(1.04); opacity: 1; }
         }
 
-        /* ── Brand name — V1's overlay trick, V2's bigger scale ── */
+        /* Brand name — the overlay blend trick from V1 */
         .hero-title {
             font-family: var(--serif);
             font-size: clamp(36px, 7vw, 80px);
@@ -205,7 +225,6 @@
             text-transform: uppercase;
             color: #f0f7f5;
             mix-blend-mode: overlay;
-            text-shadow: 0 0 20px rgba(140,180,170,0.25);
             line-height: 1;
             margin-bottom: 16px;
         }
@@ -226,12 +245,12 @@
             font-size: 13px;
             font-style: italic;
             color: var(--ink-mid);
-            opacity: 0.6;
+            opacity: 0.65;
             letter-spacing: 0.05em;
             margin-bottom: 40px;
         }
 
-        /* ── Ghost button ── */
+        /* Ghost button — dark version for hero */
         .btn-ghost {
             font-family: var(--sans);
             font-size: 9px;
@@ -262,21 +281,53 @@
         .btn-ghost:hover::before,
         .btn-ghost:hover::after { width: 46px; }
 
-        /* ── Hero footer ── */
+        /* Ghost button — light version for navy sections */
+        .btn-ghost-light {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.65);
+            text-decoration: none;
+            font-weight: 300;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: color 0.4s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .btn-ghost-light::before,
+        .btn-ghost-light::after {
+            content: '';
+            width: 28px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .btn-ghost-light:hover { color: var(--parchment); }
+        .btn-ghost-light:hover::before,
+        .btn-ghost-light:hover::after { width: 46px; }
+
+        /* ── HERO FOOTER ── */
         .hero-foot {
             grid-column: 1 / -1;
             grid-row: 3;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Audio bars from V1 */
         .audio-control {
             display: flex;
             align-items: center;
-            gap: var(--space-sm);
-            cursor: pointer;
+            gap: 12px;
+            cursor: default;
         }
 
         .audio-bars {
@@ -288,16 +339,9 @@
 
         .bar {
             width: 1.5px;
-            background-color: var(--ink-light);
-            transition: height 0.2s ease;
+            background: var(--ink-light);
         }
 
-        .audio-control:hover .bar:nth-child(1) { height: 100%; }
-        .audio-control:hover .bar:nth-child(2) { height: 60%; }
-        .audio-control:hover .bar:nth-child(3) { height: 80%; }
-        .audio-control:hover .bar:nth-child(4) { height: 40%; }
-
-        /* Scroll stem */
         .scroll-stem {
             width: 0.5px;
             height: 40px;
@@ -308,14 +352,19 @@
         }
 
         @keyframes stem {
-            0%,100% { transform: scaleY(0.25); opacity: 0.15; }
-            50%      { transform: scaleY(1); opacity: 0.45; }
+            0%, 100% { transform: scaleY(0.25); opacity: 0.12; }
+            50%       { transform: scaleY(1);    opacity: 0.4; }
         }
 
         /* ────────────────────────────────────────
-           FADE ORCHESTRATION
+           FADE-IN ORCHESTRATION (hero elements)
         ──────────────────────────────────────── */
-        .fu { opacity: 0; transform: translateY(12px); animation: fu 1.8s ease forwards; }
+        .fu {
+            opacity: 0;
+            transform: translateY(12px);
+            animation: fu 1.8s ease forwards;
+        }
+
         .d1 { animation-delay: 0.4s; }
         .d2 { animation-delay: 0.8s; }
         .d3 { animation-delay: 1.2s; }
@@ -326,7 +375,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Scroll-triggered reveals */
+        /* Scroll-triggered reveals for sections below */
         .reveal {
             opacity: 0;
             transform: translateY(20px);
@@ -339,7 +388,7 @@
         }
 
         /* ────────────────────────────────────────
-           SHARED SECTION COMPONENTS
+           SHARED SECTION ELEMENTS
         ──────────────────────────────────────── */
         .section-eyebrow {
             font-family: var(--sans);
@@ -361,17 +410,8 @@
             opacity: 0.3;
         }
 
-        /* V1's vertical indicator line — reused as section divider */
-        .indicator-stem {
-            width: 0.5px;
-            height: 52px;
-            background: currentColor;
-            opacity: 0.15;
-            margin: 0 auto 48px;
-        }
-
         /* ────────────────────────────────────────
-           GUIDE — parchment bg, dark text, HIGH contrast
+           GUIDE SECTION — parchment bg, high contrast
         ──────────────────────────────────────── */
         #guide {
             background: var(--body-bg);
@@ -404,7 +444,6 @@
             margin-bottom: 52px;
         }
 
-        /* Body text — the main readability fix: bigger, darker, more leading */
         .guide-body {
             font-family: var(--serif);
             font-size: clamp(19px, 2.2vw, 22px);
@@ -434,10 +473,10 @@
 
         .guide-close p {
             font-family: var(--sans);
-            font-size: 14px;   /* was 13px at 45% opacity — now 14px at full */
+            font-size: 14px;
             font-weight: 300;
             line-height: 2;
-            color: var(--body-text-2);   /* was rgba(5,44,77,0.55) — now proper dark */
+            color: var(--body-text-2);
         }
 
         .guide-close p + p { margin-top: 1em; }
@@ -468,16 +507,14 @@
         .guide-link:hover { opacity: 1; }
         .guide-link:hover::after { width: 42px; }
 
-        /* ────────────────────────────────────────
-           TRANSITION BAND — seafoam → navy
-        ──────────────────────────────────────── */
+        /* ── Gradient transition band ── */
         .transition-band {
-            height: 160px;
+            height: 140px;
             background: linear-gradient(to bottom, var(--body-bg), var(--navy));
         }
 
         /* ────────────────────────────────────────
-           PRACTICES — navy bg
+           PRACTICES SECTION — navy bg
         ──────────────────────────────────────── */
         #practices {
             background: var(--navy);
@@ -538,7 +575,7 @@
             font-family: var(--serif);
             font-size: 22px;
             font-weight: 300;
-            color: var(--parchment);   /* full parchment, not dimmed */
+            color: var(--parchment);
             margin-bottom: 6px;
             line-height: 1.2;
         }
@@ -552,13 +589,12 @@
             display: block;
         }
 
-        /* Practice desc: the big fix — was 40% opacity, now proper readable */
         .practice-desc {
             font-family: var(--sans);
             font-size: 13px;
             font-weight: 300;
             line-height: 1.9;
-            color: var(--parchment-dim);  /* #c8c0a8 — warm and clearly legible */
+            color: var(--parchment-dim);
         }
 
         /* ── Offering block ── */
@@ -598,7 +634,7 @@
             font-family: var(--serif);
             font-style: italic;
             font-size: 15px;
-            color: rgba(237,232,216,0.5);  /* up from 30% */
+            color: rgba(237,232,216,0.5);
             line-height: 1.9;
             margin: 20px 0 28px;
             border-left: 1px solid rgba(106,81,16,0.3);
@@ -610,7 +646,7 @@
             font-size: 13px;
             font-weight: 300;
             line-height: 2;
-            color: var(--parchment-dim);  /* was 45% — now proper warm mid-tone */
+            color: var(--parchment-dim);
             margin-bottom: 32px;
         }
 
@@ -632,7 +668,7 @@
             font-size: 8px;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: rgba(237,232,216,0.35);  /* up from 20% */
+            color: rgba(237,232,216,0.35);
             font-weight: 200;
             margin-bottom: 6px;
         }
@@ -641,14 +677,14 @@
             font-family: var(--serif);
             font-size: 16px;
             font-weight: 300;
-            color: var(--parchment);  /* full parchment */
+            color: var(--parchment);
         }
 
         .od-sub {
             font-family: var(--sans);
             font-size: 11px;
             font-weight: 300;
-            color: rgba(237,232,216,0.45);  /* up from 30% */
+            color: rgba(237,232,216,0.45);
             margin-top: 3px;
         }
 
@@ -684,43 +720,12 @@
             font-family: var(--sans);
             font-size: 11px;
             font-weight: 300;
-            color: rgba(237,232,216,0.4);  /* up from 25% */
+            color: rgba(237,232,216,0.4);
             margin-top: 6px;
         }
 
-        /* ── Navy btn ── */
-        .btn-ghost-light {
-            font-family: var(--sans);
-            font-size: 9px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: rgba(237,232,216,0.65);
-            text-decoration: none;
-            font-weight: 300;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: color 0.4s;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-        }
-
-        .btn-ghost-light::before,
-        .btn-ghost-light::after {
-            content: '';
-            width: 28px; height: 0.5px;
-            background: currentColor;
-            transition: width 0.4s;
-        }
-
-        .btn-ghost-light:hover { color: var(--parchment); }
-        .btn-ghost-light:hover::before,
-        .btn-ghost-light:hover::after { width: 46px; }
-
         /* ────────────────────────────────────────
-           JOURNAL — aqua-pale bg
+           JOURNAL SECTION — aqua-pale bg
         ──────────────────────────────────────── */
         #journal {
             background: var(--aqua-pale);
@@ -794,7 +799,6 @@
             display: block;
         }
 
-        /* Journal preview — was 50% opacity, now 70% readable */
         .entry-preview {
             font-family: var(--sans);
             font-size: 13px;
@@ -830,7 +834,7 @@
         .journal-link:hover::after { width: 40px; }
 
         /* ────────────────────────────────────────
-           BEGIN — navy bg
+           BEGIN SECTION — navy bg
         ──────────────────────────────────────── */
         #begin {
             background: var(--navy);
@@ -870,7 +874,7 @@
             font-family: var(--serif);
             font-style: italic;
             font-size: 15px;
-            color: rgba(237,232,216,0.45);  /* up from 30% */
+            color: rgba(237,232,216,0.5);
             line-height: 1.9;
             margin-bottom: 48px;
         }
@@ -955,11 +959,8 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            position: relative;
-            z-index: 10;
         }
 
-        /* Footer meta — up from 15% to 35% */
         .footer-meta {
             font-family: var(--sans);
             font-size: 8px;
@@ -993,14 +994,11 @@
 </head>
 <body>
 
-<div class="grain"></div>
-<canvas id="canvas-bg"></canvas>
-
 <!-- ══════ HERO ══════ -->
-<section id="hero" class="z">
+<section id="hero">
 
     <nav class="fu d1">
-        <span class="meta nav-meta">Est. 2024 · Online Studio</span>
+        <span class="meta">Est. 2024 · Online Studio</span>
         <ul class="nav-links">
             <li><a href="#guide">The Practice</a></li>
             <li><a href="#journal">Journal</a></li>
@@ -1020,21 +1018,21 @@
 
         <div class="lotus fu d2">
             <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g opacity="0.75">
-                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35"/>
-                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(60 50 50)"/>
-                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(120 50 50)"/>
-                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(180 50 50)"/>
-                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(240 50 50)"/>
-                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(300 50 50)"/>
-                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(30 50 50)"/>
-                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(90 50 50)"/>
-                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(150 50 50)"/>
-                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(210 50 50)"/>
-                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(270 50 50)"/>
-                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(330 50 50)"/>
-                    <circle cx="50" cy="50" r="4.5" fill="#3a4a54" opacity="0.5"/>
-                    <circle cx="50" cy="50" r="2" fill="#5a7078" opacity="0.7"/>
+                <g opacity="0.7">
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(60 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(120 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(180 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(240 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(300 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(30 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(90 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(150 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(210 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(270 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(330 50 50)"/>
+                    <circle cx="50" cy="50" r="4.5" fill="#3a4a54" opacity="0.45"/>
+                    <circle cx="50" cy="50" r="2" fill="#5a7078" opacity="0.65"/>
                 </g>
             </svg>
         </div>
@@ -1052,23 +1050,23 @@
     </div>
 
     <div class="hero-foot fu d3">
-        <span class="meta nav-meta">Serenity Bespoken · J. Maree</span>
+        <span class="meta">Serenity by J. Maree</span>
         <div class="scroll-stem"></div>
-        <div class="audio-control">
-            <span class="meta nav-meta">Ambient Sound</span>
-            <div class="audio-bars">
-                <div class="bar" style="height:40%"></div>
-                <div class="bar" style="height:80%"></div>
-                <div class="bar" style="height:30%"></div>
-                <div class="bar" style="height:60%"></div>
-            </div>
         </div>
     </div>
 
 </section>
 
 <!-- ══════ GUIDE ══════ -->
-<section id="guide" class="z">
+<section id="guide">
+     <nav class="fu d1">
+        <ul class="nav-links">
+            <li><a href="#guide">The Practice</a></li>
+            <li><a href="#journal">Journal</a></li>
+            <li><a href="#practices">The Container</a></li>
+            <li><a href="#begin">Begin</a></li>
+        </ul>
+    </nav>
     <div class="guide-inner">
 
         <div class="section-eyebrow reveal">The Guide</div>
@@ -1104,11 +1102,19 @@
     </div>
 </section>
 
-<!-- transition -->
 <div class="transition-band"></div>
 
 <!-- ══════ PRACTICES ══════ -->
-<section id="practices" class="z">
+<section id="practices">
+     <nav class="fu d1">
+        <span class="meta">Est. 2024 · Online Studio</span>
+        <ul class="nav-links">
+            <li><a href="#guide">The Practice</a></li>
+            <li><a href="#journal">Journal</a></li>
+            <li><a href="#practices">The Container</a></li>
+            <li><a href="#begin">Begin</a></li>
+        </ul>
+    </nav>
     <div class="practices-inner">
 
         <div class="section-eyebrow reveal">Curated Practices</div>
@@ -1146,7 +1152,6 @@
             </div>
         </div>
 
-        <!-- Current Offering -->
         <div class="offering-block reveal">
             <p class="offering-tag">Current Offering</p>
             <h3 class="offering-name">
@@ -1202,7 +1207,16 @@
 </section>
 
 <!-- ══════ JOURNAL ══════ -->
-<section id="journal" class="z">
+<section id="journal">
+     <nav class="fu d1">
+        <span class="meta">Est. 2024 · Online Studio</span>
+        <ul class="nav-links">
+            <li><a href="#guide">The Practice</a></li>
+            <li><a href="#journal">Journal</a></li>
+            <li><a href="#practices">The Container</a></li>
+            <li><a href="#begin">Begin</a></li>
+        </ul>
+    </nav>
     <div class="journal-inner">
 
         <div class="section-eyebrow reveal">Journal</div>
@@ -1211,7 +1225,6 @@
         <p class="journal-sub reveal">writing from inside the re-selfing</p>
 
         <div class="journal-entries">
-
             <div class="journal-entry reveal">
                 <p class="entry-date">2025<br>—</p>
                 <div class="entry-body">
@@ -1238,7 +1251,6 @@
                     <p class="entry-preview">There is a version of quiet that feels like resolution. And there is a version that is just the absence of noise. Learning to tell them apart has been its own kind of practice...</p>
                 </div>
             </div>
-
         </div>
 
         <a class="journal-link reveal" href="#">Read all entries</a>
@@ -1247,7 +1259,16 @@
 </section>
 
 <!-- ══════ BEGIN ══════ -->
-<section id="begin" class="z">
+<section id="begin">
+     <nav class="fu d1">
+        <span class="meta">Est. 2024 · Online Studio</span>
+        <ul class="nav-links">
+            <li><a href="#guide">The Practice</a></li>
+            <li><a href="#journal">Journal</a></li>
+            <li><a href="#practices">The Container</a></li>
+            <li><a href="#begin">Begin</a></li>
+        </ul>
+    </nav>
     <div class="begin-inner">
 
         <div class="section-eyebrow reveal">A Way to Begin</div>
@@ -1258,129 +1279,46 @@
             slow, occasional, honest.
         </p>
 
+        <!--
+            REPLACE THIS FORM with your email provider's embed code.
+            Mailchimp, ConvertKit, and Buttondown all offer a simple
+            copy-paste snippet. That way emails go to your account
+            there — not floating around with no destination.
+        -->
         <div class="begin-form reveal">
-            <input class="begin-input" type="email" placeholder="your email address">
-            <button class="begin-submit">Enter</button>
+            <input class="begin-input" type="email" placeholder="your email address" autocomplete="email">
+            <button class="begin-submit" type="button">Enter</button>
         </div>
         <p class="begin-note reveal">No noise. Unsubscribe any time.</p>
 
         <div class="begin-divider"></div>
 
         <p class="begin-apply reveal">Ready for the container?</p>
-        <button class="btn-ghost-light reveal" style="margin:0 auto;display:inline-flex;">Apply for a private space</button>
+        <button class="btn-ghost-light reveal" style="margin:0 auto;display:inline-flex;" type="button">Apply for a private space</button>
 
     </div>
 </section>
 
 <!-- ══════ FOOTER ══════ -->
-<footer class="z">
+<footer>
     <span class="footer-meta">© 2025 Serenity · J. Maree</span>
     <span class="footer-meta">Serenity Bespoken · The Spoken Sanctuary · Re-Selfing Rituals</span>
     <span class="footer-meta">Not therapy · Not coaching · Something quieter</span>
 </footer>
 
-<!-- ══════ SHADER ══════ -->
+<!-- ══════ SCROLL REVEALS — no external dependencies ══════ -->
 <script>
-(function(){
-    const canvas = document.getElementById('canvas-bg');
-    const R = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-    R.setPixelRatio(Math.min(devicePixelRatio, 2));
-    R.setSize(innerWidth, innerHeight);
+    // Reveal elements as they scroll into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    const scene = new THREE.Scene();
-    const cam = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
-
-    const vert = `varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position,1.); }`;
-
-    // V1's seafoam palette — light, airy, full opacity
-    const frag = `
-        uniform float t;
-        uniform vec2 res;
-        varying vec2 vUv;
-
-        float rand(vec2 n){ return fract(sin(dot(n,vec2(12.9898,78.233)))*43758.5453); }
-
-        float noise(vec2 p){
-            vec2 i=floor(p), f=fract(p), u=f*f*(3.-2.*f);
-            return mix(mix(rand(i),rand(i+vec2(1,0)),u.x),mix(rand(i+vec2(0,1)),rand(i+vec2(1,1)),u.x),u.y);
-        }
-
-        float fbm(vec2 p){
-            float v=0.,a=.5;
-            for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.; a*=.5; }
-            return v;
-        }
-
-        void main(){
-            vec2 st = gl_FragCoord.xy/res;
-            st.x *= res.x/res.y;
-
-            vec3 paper   = vec3(0.87, 0.91, 0.90);
-            vec3 sage    = vec3(0.42, 0.58, 0.56);
-            vec3 aqua    = vec3(0.28, 0.42, 0.45);
-
-            vec2 q = vec2(fbm(st+.005*t), fbm(st+vec2(1.)));
-            vec2 r = vec2(fbm(st+q+vec2(1.7,9.2)+.01*t), fbm(st+q+vec2(8.3,2.8)+.008*t));
-            float f = fbm(st+r);
-
-            vec2 cen = vec2(.5*res.x/res.y, .5);
-            float d = length(st-cen);
-            float org = d + f*.45;
-
-            vec3 col = paper;
-            col = mix(col, sage,  smoothstep(.75,.35,org)*.5);
-            col = mix(col, aqua,  smoothstep(.55,.25,org-f*.25)*.6);
-
-            float grain = rand(st*12.)*.035;
-            col -= grain;
-
-            float vig = smoothstep(1.3,.4,d);
-            col = mix(col*.92, col, vig);
-
-            gl_FragColor = vec4(col, 1.);
-        }
-    `;
-
-    const mat = new THREE.ShaderMaterial({
-        vertexShader: vert,
-        fragmentShader: frag,
-        uniforms: {
-            t:   { value: 0 },
-            res: { value: new THREE.Vector2(innerWidth, innerHeight) }
-        }
-    });
-
-    scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), mat));
-
-    const clk = new THREE.Clock();
-    (function tick(){ requestAnimationFrame(tick); mat.uniforms.t.value = clk.getElapsedTime(); R.render(scene,cam); })();
-
-    window.addEventListener('resize', ()=>{
-        R.setSize(innerWidth, innerHeight);
-        mat.uniforms.res.value.set(innerWidth, innerHeight);
-    });
-
-    // Fade canvas out as user scrolls past hero
-    window.addEventListener('scroll', () => {
-        const heroH = document.getElementById('hero').offsetHeight;
-        const progress = Math.min(window.scrollY / (heroH * 0.6), 1);
-        canvas.style.opacity = 1 - progress;
-    }, { passive: true });
-})();
-</script>
-
-<!-- ══════ SCROLL REVEALS ══════ -->
-<script>
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            observer.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
 </body>
