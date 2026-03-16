@@ -1,0 +1,1387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serenity · J. Maree</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* ── TOKENS ── */
+        :root {
+            /* Hero palette — V1 seafoam */
+            --seafoam:      #e0e9e6;
+            --seafoam-deep: #8aaba5;
+            --ink-dark:     #3a4a54;
+            --ink-mid:      #5a7078;
+            --ink-light:    #7a9098;
+
+            /* Body palette — V2 but warmer/lighter */
+            --navy:         #0c3a52;
+            --navy-light:   #164d69;
+            --parchment:    #ede8d8;
+            --parchment-dim:#c8c0a8;
+            --gold:         #8a6a20;
+            --gold-pale:    #c09a50;
+            --mauve:        #8a7a78;
+            --aqua-pale:    #e8f2f0;
+
+            /* Body text — the readability fix */
+            --body-bg:      #f2ede0;
+            --body-text:    #2e3a3f;
+            --body-text-2:  #4a5a60;
+            --body-text-3:  #6a7a80;
+
+            --serif: 'Cormorant Garamond', serif;
+            --sans:  'Jost', sans-serif;
+
+            --space-xs: 4px;
+            --space-sm: 12px;
+            --space-md: 24px;
+            --space-lg: 48px;
+            --space-xl: 96px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--seafoam);
+            color: var(--ink-dark);
+            font-family: var(--serif);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ── GRAIN OVERLAY ── */
+        .grain {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.18;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        /* ── CANVAS (hero only, fades out on scroll) ── */
+        #canvas-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        .z { position: relative; z-index: 10; }
+
+        /* ────────────────────────────────────────
+           HERO
+        ──────────────────────────────────────── */
+        #hero {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 80px 1fr 80px;
+            grid-template-rows: 80px 1fr 80px;
+            padding: var(--space-md);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ── Nav ── */
+        #hero nav {
+            grid-column: 1 / -1;
+            grid-row: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .meta {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 200;
+        }
+
+        .nav-meta { color: var(--ink-mid); }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-family: var(--sans);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink-dark);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.4s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 50%;
+            width: 0; height: 0.5px;
+            background: var(--ink-mid);
+            transition: width 0.4s, left 0.4s;
+        }
+
+        .nav-links a:hover { color: var(--ink-mid); }
+        .nav-links a:hover::after { width: 100%; left: 0; }
+
+        /* ── Side labels ── */
+        .side {
+            grid-row: 2;
+            writing-mode: vertical-rl;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .side-l { grid-column: 1; transform: rotate(180deg); }
+        .side-r { grid-column: 3; }
+
+        .side-mark {
+            width: 0.5px;
+            height: 36px;
+            background: var(--ink-light);
+            opacity: 0.3;
+        }
+
+        /* ── Hero centre ── */
+        .hero-c {
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            font-weight: 200;
+            margin-bottom: 28px;
+        }
+
+        /* ── Lotus — V2's richer petals, V1's float ── */
+        .lotus {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 24px;
+            animation: breathe 9s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%,100% { transform: translateY(0) scale(1); opacity: 0.85; }
+            50%      { transform: translateY(-6px) scale(1.04); opacity: 1; }
+        }
+
+        /* ── Brand name — V1's overlay trick, V2's bigger scale ── */
+        .hero-title {
+            font-family: var(--serif);
+            font-size: clamp(36px, 7vw, 80px);
+            font-weight: 300;
+            letter-spacing: 0.55em;
+            margin-left: 0.55em;
+            text-transform: uppercase;
+            color: #f0f7f5;
+            mix-blend-mode: overlay;
+            text-shadow: 0 0 20px rgba(140,180,170,0.25);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .hero-byline {
+            font-family: var(--serif);
+            font-size: 16px;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--ink-dark);
+            opacity: 0.7;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+        }
+
+        .hero-accent {
+            font-family: var(--serif);
+            font-size: 13px;
+            font-style: italic;
+            color: var(--ink-mid);
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+            margin-bottom: 40px;
+        }
+
+        /* ── Ghost button ── */
+        .btn-ghost {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-mid);
+            text-decoration: none;
+            font-weight: 300;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: color 0.4s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .btn-ghost::before,
+        .btn-ghost::after {
+            content: '';
+            width: 28px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .btn-ghost:hover { color: var(--ink-dark); }
+        .btn-ghost:hover::before,
+        .btn-ghost:hover::after { width: 46px; }
+
+        /* ── Hero footer ── */
+        .hero-foot {
+            grid-column: 1 / -1;
+            grid-row: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        /* Audio bars from V1 */
+        .audio-control {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            cursor: pointer;
+        }
+
+        .audio-bars {
+            display: flex;
+            gap: 2px;
+            height: 10px;
+            align-items: flex-end;
+        }
+
+        .bar {
+            width: 1.5px;
+            background-color: var(--ink-light);
+            transition: height 0.2s ease;
+        }
+
+        .audio-control:hover .bar:nth-child(1) { height: 100%; }
+        .audio-control:hover .bar:nth-child(2) { height: 60%; }
+        .audio-control:hover .bar:nth-child(3) { height: 80%; }
+        .audio-control:hover .bar:nth-child(4) { height: 40%; }
+
+        /* Scroll stem */
+        .scroll-stem {
+            width: 0.5px;
+            height: 40px;
+            background: var(--ink-light);
+            opacity: 0.3;
+            animation: stem 3s ease-in-out infinite;
+            transform-origin: top;
+        }
+
+        @keyframes stem {
+            0%,100% { transform: scaleY(0.25); opacity: 0.15; }
+            50%      { transform: scaleY(1); opacity: 0.45; }
+        }
+
+        /* ────────────────────────────────────────
+           FADE ORCHESTRATION
+        ──────────────────────────────────────── */
+        .fu { opacity: 0; transform: translateY(12px); animation: fu 1.8s ease forwards; }
+        .d1 { animation-delay: 0.4s; }
+        .d2 { animation-delay: 0.8s; }
+        .d3 { animation-delay: 1.2s; }
+        .d4 { animation-delay: 1.6s; }
+        .d5 { animation-delay: 2.0s; }
+
+        @keyframes fu {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scroll-triggered reveals */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ────────────────────────────────────────
+           SHARED SECTION COMPONENTS
+        ──────────────────────────────────────── */
+        .section-eyebrow {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 44px;
+        }
+
+        .section-eyebrow::after {
+            content: '';
+            height: 0.5px;
+            width: 36px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        /* V1's vertical indicator line — reused as section divider */
+        .indicator-stem {
+            width: 0.5px;
+            height: 52px;
+            background: currentColor;
+            opacity: 0.15;
+            margin: 0 auto 48px;
+        }
+
+        /* ────────────────────────────────────────
+           GUIDE — parchment bg, dark text, HIGH contrast
+        ──────────────────────────────────────── */
+        #guide {
+            background: var(--body-bg);
+            color: var(--body-text);
+            padding: 130px 24px;
+        }
+
+        .guide-inner {
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        #guide .section-eyebrow { color: var(--mauve); }
+
+        .guide-headline {
+            font-family: var(--serif);
+            font-size: clamp(30px, 4.5vw, 50px);
+            font-weight: 300;
+            line-height: 1.2;
+            color: var(--body-text);
+            margin-bottom: 10px;
+        }
+
+        .guide-subhead {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--gold);
+            margin-bottom: 52px;
+        }
+
+        /* Body text — the main readability fix: bigger, darker, more leading */
+        .guide-body {
+            font-family: var(--serif);
+            font-size: clamp(19px, 2.2vw, 22px);
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--body-text);
+            margin-bottom: 1.6em;
+        }
+
+        .guide-body em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .ornament {
+            text-align: center;
+            color: rgba(46,58,63,0.2);
+            letter-spacing: 0.55em;
+            font-size: 14px;
+            margin: 56px 0;
+        }
+
+        .guide-close {
+            padding-left: 22px;
+            border-left: 1px solid rgba(46,58,63,0.12);
+        }
+
+        .guide-close p {
+            font-family: var(--sans);
+            font-size: 14px;   /* was 13px at 45% opacity — now 14px at full */
+            font-weight: 300;
+            line-height: 2;
+            color: var(--body-text-2);   /* was rgba(5,44,77,0.55) — now proper dark */
+        }
+
+        .guide-close p + p { margin-top: 1em; }
+
+        .guide-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--body-text-2);
+            opacity: 0.7;
+            text-decoration: none;
+            font-weight: 300;
+            margin-top: 44px;
+            transition: opacity 0.4s;
+        }
+
+        .guide-link::after {
+            content: '';
+            width: 24px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .guide-link:hover { opacity: 1; }
+        .guide-link:hover::after { width: 42px; }
+
+        /* ────────────────────────────────────────
+           TRANSITION BAND — seafoam → navy
+        ──────────────────────────────────────── */
+        .transition-band {
+            height: 160px;
+            background: linear-gradient(to bottom, var(--body-bg), var(--navy));
+        }
+
+        /* ────────────────────────────────────────
+           PRACTICES — navy bg
+        ──────────────────────────────────────── */
+        #practices {
+            background: var(--navy);
+            padding: 120px 24px;
+        }
+
+        .practices-inner {
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        #practices .section-eyebrow { color: rgba(226,243,243,0.4); }
+
+        .practices-headline {
+            font-family: var(--serif);
+            font-size: clamp(28px, 4vw, 46px);
+            font-weight: 300;
+            color: var(--parchment);
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .practices-accent {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 16px;
+            color: rgba(237,232,216,0.45);
+            margin-bottom: 64px;
+            display: block;
+        }
+
+        .practice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: rgba(237,232,216,0.07);
+            margin-bottom: 64px;
+        }
+
+        .practice-cell {
+            background: var(--navy);
+            padding: 36px 30px;
+            transition: background 0.4s;
+        }
+
+        .practice-cell:hover { background: rgba(226,243,243,0.05); }
+
+        .practice-num {
+            font-family: var(--sans);
+            font-size: 8px;
+            letter-spacing: 0.2em;
+            color: rgba(226,243,243,0.25);
+            font-weight: 200;
+            margin-bottom: 14px;
+        }
+
+        .practice-name {
+            font-family: var(--serif);
+            font-size: 22px;
+            font-weight: 300;
+            color: var(--parchment);   /* full parchment, not dimmed */
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+
+        .practice-accent-line {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 13px;
+            color: rgba(237,232,216,0.4);
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        /* Practice desc: the big fix — was 40% opacity, now proper readable */
+        .practice-desc {
+            font-family: var(--sans);
+            font-size: 13px;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--parchment-dim);  /* #c8c0a8 — warm and clearly legible */
+        }
+
+        /* ── Offering block ── */
+        .offering-block {
+            border: 0.5px solid rgba(106,81,16,0.35);
+            padding: 40px;
+        }
+
+        .offering-tag {
+            font-family: var(--sans);
+            font-size: 8px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold-pale);
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .offering-name {
+            font-family: var(--serif);
+            font-size: clamp(22px, 3.5vw, 36px);
+            font-weight: 300;
+            color: var(--parchment);
+            line-height: 1.25;
+            margin-bottom: 10px;
+        }
+
+        .offering-name em {
+            font-style: italic;
+            color: rgba(237,232,216,0.55);
+            display: block;
+            font-size: 0.72em;
+            margin-top: 4px;
+        }
+
+        .offering-poem {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 15px;
+            color: rgba(237,232,216,0.5);  /* up from 30% */
+            line-height: 1.9;
+            margin: 20px 0 28px;
+            border-left: 1px solid rgba(106,81,16,0.3);
+            padding-left: 18px;
+        }
+
+        .offering-desc {
+            font-family: var(--sans);
+            font-size: 13px;
+            font-weight: 300;
+            line-height: 2;
+            color: var(--parchment-dim);  /* was 45% — now proper warm mid-tone */
+            margin-bottom: 32px;
+        }
+
+        .offering-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: rgba(237,232,216,0.07);
+            margin-bottom: 32px;
+        }
+
+        .od-cell {
+            background: var(--navy);
+            padding: 18px 22px;
+        }
+
+        .od-label {
+            font-family: var(--sans);
+            font-size: 8px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.35);  /* up from 20% */
+            font-weight: 200;
+            margin-bottom: 6px;
+        }
+
+        .od-val {
+            font-family: var(--serif);
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--parchment);  /* full parchment */
+        }
+
+        .od-sub {
+            font-family: var(--sans);
+            font-size: 11px;
+            font-weight: 300;
+            color: rgba(237,232,216,0.45);  /* up from 30% */
+            margin-top: 3px;
+        }
+
+        .offering-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .offering-price {
+            font-family: var(--serif);
+            font-size: 38px;
+            font-weight: 300;
+            color: var(--parchment);
+            line-height: 1;
+        }
+
+        .offering-price span {
+            display: block;
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.16em;
+            color: var(--gold-pale);
+            font-weight: 300;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .offering-price small {
+            display: block;
+            font-family: var(--sans);
+            font-size: 11px;
+            font-weight: 300;
+            color: rgba(237,232,216,0.4);  /* up from 25% */
+            margin-top: 6px;
+        }
+
+        /* ── Navy btn ── */
+        .btn-ghost-light {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.65);
+            text-decoration: none;
+            font-weight: 300;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: color 0.4s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .btn-ghost-light::before,
+        .btn-ghost-light::after {
+            content: '';
+            width: 28px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .btn-ghost-light:hover { color: var(--parchment); }
+        .btn-ghost-light:hover::before,
+        .btn-ghost-light:hover::after { width: 46px; }
+
+        /* ────────────────────────────────────────
+           JOURNAL — aqua-pale bg
+        ──────────────────────────────────────── */
+        #journal {
+            background: var(--aqua-pale);
+            color: var(--navy);
+            padding: 120px 24px;
+        }
+
+        .journal-inner {
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        #journal .section-eyebrow { color: var(--mauve); }
+
+        .journal-headline {
+            font-family: var(--serif);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 300;
+            color: var(--navy);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .journal-sub {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 17px;
+            color: var(--mauve);
+            margin-bottom: 56px;
+        }
+
+        .journal-entry {
+            padding: 28px 0;
+            border-bottom: 0.5px solid rgba(12,58,82,0.1);
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 24px;
+            align-items: start;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .journal-entry:first-child { border-top: 0.5px solid rgba(12,58,82,0.1); }
+        .journal-entry:hover { opacity: 0.6; }
+
+        .entry-date {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            color: var(--mauve);
+            font-weight: 300;
+            text-transform: uppercase;
+            padding-top: 4px;
+        }
+
+        .entry-title {
+            font-family: var(--serif);
+            font-size: 21px;
+            font-weight: 300;
+            color: var(--navy);
+            margin-bottom: 4px;
+            line-height: 1.25;
+        }
+
+        .entry-accent {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 13px;
+            color: var(--mauve);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Journal preview — was 50% opacity, now 70% readable */
+        .entry-preview {
+            font-family: var(--sans);
+            font-size: 13px;
+            font-weight: 300;
+            color: rgba(12,58,82,0.65);
+            line-height: 1.85;
+        }
+
+        .journal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--navy);
+            opacity: 0.45;
+            text-decoration: none;
+            font-weight: 300;
+            margin-top: 44px;
+            transition: opacity 0.4s;
+        }
+
+        .journal-link::after {
+            content: '';
+            width: 24px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .journal-link:hover { opacity: 0.9; }
+        .journal-link:hover::after { width: 40px; }
+
+        /* ────────────────────────────────────────
+           BEGIN — navy bg
+        ──────────────────────────────────────── */
+        #begin {
+            background: var(--navy);
+            padding: 130px 24px;
+            text-align: center;
+        }
+
+        .begin-inner {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        #begin .section-eyebrow {
+            color: rgba(226,243,243,0.35);
+            justify-content: center;
+        }
+
+        #begin .section-eyebrow::after { display: none; }
+        #begin .section-eyebrow::before {
+            content: '';
+            height: 0.5px;
+            width: 36px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        .begin-headline {
+            font-family: var(--serif);
+            font-size: clamp(30px, 4.5vw, 48px);
+            font-weight: 300;
+            color: var(--parchment);
+            line-height: 1.25;
+            margin-bottom: 14px;
+        }
+
+        .begin-poem {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 15px;
+            color: rgba(237,232,216,0.45);  /* up from 30% */
+            line-height: 1.9;
+            margin-bottom: 48px;
+        }
+
+        .begin-form {
+            display: flex;
+            max-width: 380px;
+            margin: 0 auto 14px;
+        }
+
+        .begin-input {
+            flex: 1;
+            background: rgba(226,243,243,0.06);
+            border: 0.5px solid rgba(226,243,243,0.18);
+            border-right: none;
+            padding: 14px 18px;
+            font-family: var(--sans);
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--parchment);
+            letter-spacing: 0.06em;
+            outline: none;
+            transition: border-color 0.4s;
+        }
+
+        .begin-input::placeholder { color: rgba(237,232,216,0.3); }
+        .begin-input:focus { border-color: rgba(226,243,243,0.4); }
+
+        .begin-submit {
+            background: rgba(226,243,243,0.08);
+            border: 0.5px solid rgba(226,243,243,0.18);
+            padding: 14px 24px;
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.6);
+            cursor: pointer;
+            font-weight: 300;
+            transition: background 0.4s, color 0.4s;
+            white-space: nowrap;
+        }
+
+        .begin-submit:hover {
+            background: rgba(226,243,243,0.14);
+            color: var(--parchment);
+        }
+
+        .begin-note {
+            font-family: var(--sans);
+            font-size: 10px;
+            font-weight: 200;
+            color: rgba(237,232,216,0.3);
+            letter-spacing: 0.08em;
+            margin-bottom: 56px;
+        }
+
+        .begin-divider {
+            width: 0.5px;
+            height: 52px;
+            background: rgba(237,232,216,0.12);
+            margin: 0 auto 36px;
+        }
+
+        .begin-apply {
+            font-family: var(--serif);
+            font-size: 17px;
+            font-style: italic;
+            color: rgba(237,232,216,0.55);
+            margin-bottom: 20px;
+        }
+
+        /* ────────────────────────────────────────
+           FOOTER
+        ──────────────────────────────────────── */
+        footer {
+            background: var(--navy);
+            border-top: 0.5px solid rgba(237,232,216,0.06);
+            padding: 30px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Footer meta — up from 15% to 35% */
+        .footer-meta {
+            font-family: var(--sans);
+            font-size: 8px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.35);
+            font-weight: 200;
+        }
+
+        /* ────────────────────────────────────────
+           RESPONSIVE
+        ──────────────────────────────────────── */
+        @media (max-width: 680px) {
+            #hero {
+                grid-template-columns: 0 1fr 0;
+                grid-template-rows: 60px 1fr 70px;
+                padding: 16px;
+            }
+
+            .side { display: none; }
+            .hero-title { font-size: 38px; letter-spacing: 0.35em; }
+            .practice-grid, .offering-details { grid-template-columns: 1fr; }
+            #guide, #practices, #journal, #begin { padding: 80px 20px; }
+            .offering-footer { flex-direction: column; align-items: flex-start; }
+            .begin-form { flex-direction: column; }
+            .begin-input { border-right: 0.5px solid rgba(226,243,243,0.18); border-bottom: none; }
+            .journal-entry { grid-template-columns: 1fr; gap: 6px; }
+            footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="grain"></div>
+<canvas id="canvas-bg"></canvas>
+
+<!-- ══════ HERO ══════ -->
+<section id="hero" class="z">
+
+    <nav class="fu d1">
+        <span class="meta nav-meta">Est. 2024 · Online Studio</span>
+        <ul class="nav-links">
+            <li><a href="#guide">The Practice</a></li>
+            <li><a href="#journal">Journal</a></li>
+            <li><a href="#practices">The Container</a></li>
+            <li><a href="#begin">Begin</a></li>
+        </ul>
+    </nav>
+
+    <div class="side side-l fu d2">
+        <span class="meta" style="color:var(--ink-light)">Re-Selfing Rituals</span>
+        <div class="side-mark"></div>
+        <span class="meta" style="color:var(--ink-light)">Phase : Waning Crescent</span>
+    </div>
+
+    <div class="hero-c">
+        <p class="hero-eyebrow fu d1">A sanctuary for returning to yourself</p>
+
+        <div class="lotus fu d2">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g opacity="0.75">
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(60 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(120 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(180 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(240 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.35" transform="rotate(300 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(30 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(90 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(150 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(210 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(270 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.8" transform="rotate(330 50 50)"/>
+                    <circle cx="50" cy="50" r="4.5" fill="#3a4a54" opacity="0.5"/>
+                    <circle cx="50" cy="50" r="2" fill="#5a7078" opacity="0.7"/>
+                </g>
+            </svg>
+        </div>
+
+        <h1 class="hero-title fu d3">Serenity</h1>
+        <p class="hero-byline fu d4">A Practice Lived, Not Performed.</p>
+        <p class="hero-accent fu d4">find space · feel seen · restore yourself</p>
+        <a class="btn-ghost fu d5" href="#guide">Enter</a>
+    </div>
+
+    <div class="side side-r fu d2">
+        <span class="meta" style="color:var(--ink-light)">The Spoken Sanctuary</span>
+        <div class="side-mark"></div>
+        <span class="meta" style="color:var(--ink-light)">Vol. I · 2025</span>
+    </div>
+
+    <div class="hero-foot fu d3">
+        <span class="meta nav-meta">Serenity Bespoken · J. Maree</span>
+        <div class="scroll-stem"></div>
+        <div class="audio-control">
+            <span class="meta nav-meta">Ambient Sound</span>
+            <div class="audio-bars">
+                <div class="bar" style="height:40%"></div>
+                <div class="bar" style="height:80%"></div>
+                <div class="bar" style="height:30%"></div>
+                <div class="bar" style="height:60%"></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ══════ GUIDE ══════ -->
+<section id="guide" class="z">
+    <div class="guide-inner">
+
+        <div class="section-eyebrow reveal">The Guide</div>
+
+        <h2 class="guide-headline reveal">A Practice Lived,<br>Not Performed.</h2>
+        <p class="guide-subhead reveal">an extension of my own daily rituals</p>
+
+        <p class="guide-body reveal">
+            I began practicing yoga in 1998 — not for wellness or the aesthetic of movement, but because my body had been injured and this was the only thing that helped me <em>return to it.</em>
+        </p>
+
+        <p class="guide-body reveal">
+            For over twenty years I practiced and eventually taught — classes of two, classes of two hundred. The mat was where I lived. Then, at the end of 2019, I stopped teaching. And without realising it, <em>I stopped coming home to myself too.</em>
+        </p>
+
+        <p class="guide-body reveal">
+            The drift was slow. Nothing dramatic. I was still functioning — but something had gone quiet inside. In 2025, I left my job, and in that pause I finally saw it clearly: the path wasn't lost. <em>I had just stopped walking it.</em>
+        </p>
+
+        <p class="guide-body reveal">
+            Serenity is what I built from that recognition. Here, I share the sequences, meditations, and philosophies that have grounded me through different seasons of life — not as instruction, but as invitation. To slow down. To listen closely to the body's subtle cues. To build a <em>sustainable relationship with your own well-being.</em>
+        </p>
+
+        <div class="ornament reveal">· · ·</div>
+
+        <div class="guide-close reveal">
+            <p>I know what it feels like to function well and feel hollow. To be emotionally aware and still feel unresolved. To be tired of trying to figure yourself out.</p>
+            <p>This space is for you. It was built from the inside out — because I needed it too.</p>
+        </div>
+
+        <a class="guide-link reveal" href="#journal">Read the Journal</a>
+
+    </div>
+</section>
+
+<!-- transition -->
+<div class="transition-band"></div>
+
+<!-- ══════ PRACTICES ══════ -->
+<section id="practices" class="z">
+    <div class="practices-inner">
+
+        <div class="section-eyebrow reveal">Curated Practices</div>
+
+        <h2 class="practices-headline reveal">The Practice</h2>
+        <span class="practices-accent reveal">what lives here</span>
+
+        <div class="practice-grid reveal">
+            <div class="practice-cell">
+                <p class="practice-num">01</p>
+                <p class="practice-name">Yoga &amp; Movement</p>
+                <span class="practice-accent-line">sequences for the body you have today</span>
+                <p class="practice-desc">Functional, somatic-informed yoga that supports confident, sustainable movement. Built around joint health, balance, and trusting the body's present capacity.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">02</p>
+                <p class="practice-name">Guided Voice Rituals</p>
+                <span class="practice-accent-line">short, intimate recordings for regulation</span>
+                <p class="practice-desc">Crafted for moments of overwhelm, stillness, or emotional settling. Something to listen to in the quiet — designed for the nervous system, not the calendar.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">03</p>
+                <p class="practice-name">Somatic Integration</p>
+                <span class="practice-accent-line">we move to remember the architecture of our own breath</span>
+                <p class="practice-desc">Practices that blend somatics, storytelling, and sensory guidance — helping you integrate and release what the body has been quietly carrying.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">04</p>
+                <p class="practice-name">Ritual &amp; Reflection</p>
+                <span class="practice-accent-line">philosophies for different seasons of life</span>
+                <p class="practice-desc">The meditations, journal prompts, and frameworks that have grounded Jamie through her own re-selfing — shared as companions, not prescriptions.</p>
+            </div>
+        </div>
+
+        <!-- Current Offering -->
+        <div class="offering-block reveal">
+            <p class="offering-tag">Current Offering</p>
+            <h3 class="offering-name">
+                A Private Space for Coming Back
+                <em>to Yourself</em>
+            </h3>
+
+            <p class="offering-poem">
+                an invitation to step into the quiet.<br>
+                this is not a performance, but a dismantling.<br>
+                we move to remember the architecture of our own breath.
+            </p>
+
+            <p class="offering-desc">
+                A short-term, one-to-one container for emotional clarity, nervous system settling, and feeling like yourself again. No fixing. No homework. No pressure to arrive with answers.<br><br>
+                Your system leads. I hold the structure.
+            </p>
+
+            <div class="offering-details">
+                <div class="od-cell">
+                    <p class="od-label">Sessions</p>
+                    <p class="od-val">Two private sessions</p>
+                    <p class="od-sub">75 min + 60 min over four weeks</p>
+                </div>
+                <div class="od-cell">
+                    <p class="od-label">Between sessions</p>
+                    <p class="od-val">Two integration audios</p>
+                    <p class="od-sub">Personalised voice reflections</p>
+                </div>
+                <div class="od-cell">
+                    <p class="od-label">Written reflection</p>
+                    <p class="od-val">Session summaries</p>
+                    <p class="od-sub">So nothing feels lost or abstract</p>
+                </div>
+                <div class="od-cell">
+                    <p class="od-label">Intake</p>
+                    <p class="od-val">Careful matching</p>
+                    <p class="od-sub">To ensure the fit is right</p>
+                </div>
+            </div>
+
+            <div class="offering-footer">
+                <div class="offering-price">
+                    <span>Investment</span>
+                    $1,000
+                    <small>Founding rate $500 · Limited to 3 clients<br>Not therapy or clinical care</small>
+                </div>
+                <button class="btn-ghost-light" onclick="document.getElementById('begin').scrollIntoView({behavior:'smooth'})">Apply for a space</button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ══════ JOURNAL ══════ -->
+<section id="journal" class="z">
+    <div class="journal-inner">
+
+        <div class="section-eyebrow reveal">Journal</div>
+
+        <h2 class="journal-headline reveal">Notes from the Practice</h2>
+        <p class="journal-sub reveal">writing from inside the re-selfing</p>
+
+        <div class="journal-entries">
+
+            <div class="journal-entry reveal">
+                <p class="entry-date">2025<br>—</p>
+                <div class="entry-body">
+                    <p class="entry-title">The Failed Yogi</p>
+                    <span class="entry-accent">on losing the path and seeing yourself clearly for the first time</span>
+                    <p class="entry-preview">I thought I was on the path to enlightenment. But somewhere along the way, I got lost — and what I didn't realise was that losing the path might have been the most honest thing I ever did...</p>
+                </div>
+            </div>
+
+            <div class="journal-entry reveal">
+                <p class="entry-date">2025<br>—</p>
+                <div class="entry-body">
+                    <p class="entry-title">When the Practice Stops Being Yours</p>
+                    <span class="entry-accent">on teaching, performing, and finding your way back to the mat</span>
+                    <p class="entry-preview">For years, my practice had been inseparable from teaching. I didn't notice when one disappeared because the other was still there — filling the shape of what had been lost...</p>
+                </div>
+            </div>
+
+            <div class="journal-entry reveal">
+                <p class="entry-date">Coming<br>soon</p>
+                <div class="entry-body">
+                    <p class="entry-title">What Settling Actually Feels Like</p>
+                    <span class="entry-accent">a note on the difference between peace and numbness</span>
+                    <p class="entry-preview">There is a version of quiet that feels like resolution. And there is a version that is just the absence of noise. Learning to tell them apart has been its own kind of practice...</p>
+                </div>
+            </div>
+
+        </div>
+
+        <a class="journal-link reveal" href="#">Read all entries</a>
+
+    </div>
+</section>
+
+<!-- ══════ BEGIN ══════ -->
+<section id="begin" class="z">
+    <div class="begin-inner">
+
+        <div class="section-eyebrow reveal">A Way to Begin</div>
+
+        <h2 class="begin-headline reveal">Stay close<br>to the practice</h2>
+        <p class="begin-poem reveal">
+            letters from inside the work.<br>
+            slow, occasional, honest.
+        </p>
+
+        <div class="begin-form reveal">
+            <input class="begin-input" type="email" placeholder="your email address">
+            <button class="begin-submit">Enter</button>
+        </div>
+        <p class="begin-note reveal">No noise. Unsubscribe any time.</p>
+
+        <div class="begin-divider"></div>
+
+        <p class="begin-apply reveal">Ready for the container?</p>
+        <button class="btn-ghost-light reveal" style="margin:0 auto;display:inline-flex;">Apply for a private space</button>
+
+    </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer class="z">
+    <span class="footer-meta">© 2025 Serenity · J. Maree</span>
+    <span class="footer-meta">Serenity Bespoken · The Spoken Sanctuary · Re-Selfing Rituals</span>
+    <span class="footer-meta">Not therapy · Not coaching · Something quieter</span>
+</footer>
+
+<!-- ══════ SHADER ══════ -->
+<script>
+(function(){
+    const canvas = document.getElementById('canvas-bg');
+    const R = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    R.setPixelRatio(Math.min(devicePixelRatio, 2));
+    R.setSize(innerWidth, innerHeight);
+
+    const scene = new THREE.Scene();
+    const cam = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+
+    const vert = `varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position,1.); }`;
+
+    // V1's seafoam palette — light, airy, full opacity
+    const frag = `
+        uniform float t;
+        uniform vec2 res;
+        varying vec2 vUv;
+
+        float rand(vec2 n){ return fract(sin(dot(n,vec2(12.9898,78.233)))*43758.5453); }
+
+        float noise(vec2 p){
+            vec2 i=floor(p), f=fract(p), u=f*f*(3.-2.*f);
+            return mix(mix(rand(i),rand(i+vec2(1,0)),u.x),mix(rand(i+vec2(0,1)),rand(i+vec2(1,1)),u.x),u.y);
+        }
+
+        float fbm(vec2 p){
+            float v=0.,a=.5;
+            for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.; a*=.5; }
+            return v;
+        }
+
+        void main(){
+            vec2 st = gl_FragCoord.xy/res;
+            st.x *= res.x/res.y;
+
+            vec3 paper   = vec3(0.87, 0.91, 0.90);
+            vec3 sage    = vec3(0.42, 0.58, 0.56);
+            vec3 aqua    = vec3(0.28, 0.42, 0.45);
+
+            vec2 q = vec2(fbm(st+.005*t), fbm(st+vec2(1.)));
+            vec2 r = vec2(fbm(st+q+vec2(1.7,9.2)+.01*t), fbm(st+q+vec2(8.3,2.8)+.008*t));
+            float f = fbm(st+r);
+
+            vec2 cen = vec2(.5*res.x/res.y, .5);
+            float d = length(st-cen);
+            float org = d + f*.45;
+
+            vec3 col = paper;
+            col = mix(col, sage,  smoothstep(.75,.35,org)*.5);
+            col = mix(col, aqua,  smoothstep(.55,.25,org-f*.25)*.6);
+
+            float grain = rand(st*12.)*.035;
+            col -= grain;
+
+            float vig = smoothstep(1.3,.4,d);
+            col = mix(col*.92, col, vig);
+
+            gl_FragColor = vec4(col, 1.);
+        }
+    `;
+
+    const mat = new THREE.ShaderMaterial({
+        vertexShader: vert,
+        fragmentShader: frag,
+        uniforms: {
+            t:   { value: 0 },
+            res: { value: new THREE.Vector2(innerWidth, innerHeight) }
+        }
+    });
+
+    scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2), mat));
+
+    const clk = new THREE.Clock();
+    (function tick(){ requestAnimationFrame(tick); mat.uniforms.t.value = clk.getElapsedTime(); R.render(scene,cam); })();
+
+    window.addEventListener('resize', ()=>{
+        R.setSize(innerWidth, innerHeight);
+        mat.uniforms.res.value.set(innerWidth, innerHeight);
+    });
+
+    // Fade canvas out as user scrolls past hero
+    window.addEventListener('scroll', () => {
+        const heroH = document.getElementById('hero').offsetHeight;
+        const progress = Math.min(window.scrollY / (heroH * 0.6), 1);
+        canvas.style.opacity = 1 - progress;
+    }, { passive: true });
+})();
+</script>
+
+<!-- ══════ SCROLL REVEALS ══════ -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
