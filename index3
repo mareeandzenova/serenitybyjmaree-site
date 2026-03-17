@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Serenity · J. Maree — A sanctuary for becoming yourself again. Yoga, somatic practice, and guided rituals.">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <title>Serenity · J. Maree</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── DESIGN TOKENS ── */
+        :root {
+            --seafoam:       #dce8e4;
+            --seafoam-mid:   #b8cfc9;
+            --seafoam-deep:  #7a9e98;
+            --ink-dark:      #3a4a54;
+            --ink-mid:       #5a7078;
+            --ink-light:     #7a9098;
+            --navy:          #0c3a52;
+            --parchment:     #ede8d8;
+            --parchment-dim: #c8c0a8;
+            --gold:          #8a6a20;
+            --gold-pale:     #c09a50;
+            --mauve:         #8a7a78;
+            --aqua-pale:     #e8f2f0;
+            --body-bg:       #f2ede0;
+            --body-text:     #2e3a3f;
+            --body-text-2:   #4a5a60;
+            --serif: 'Cormorant Garamond', serif;
+            --sans:  'Jost', sans-serif;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--seafoam);
+            color: var(--ink-dark);
+            font-family: var(--serif);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ────────────────────────────────────────
+           STICKY NAV
+        ──────────────────────────────────────── */
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+            background: rgba(220,232,228,0.35);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 0.5px solid rgba(58,74,84,0.06);
+        }
+
+        .sticky-nav.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* mix-blend-mode: difference makes links automatically
+           invert against whatever color is beneath the nav —
+           reads on both dark and light backgrounds */
+        .sticky-nav .nav-links {
+            mix-blend-mode: difference;
+        }
+
+        .sticky-nav .nav-links a {
+            color: white;
+            font-size: 10px;
+        }
+
+        .sticky-nav .nav-links a::after {
+            background: white;
+        }
+
+        .sticky-nav .nav-links a:hover { color: white; opacity: 0.7; }
+
+        /* ────────────────────────────────────────
+           HERO
+        ──────────────────────────────────────── */
+        #hero {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 80px 1fr 80px;
+            grid-template-rows: 80px 1fr 80px;
+            padding: 24px;
+            z-index: 1;
+            background:
+                radial-gradient(ellipse 55% 50% at 52% 48%, rgba(90,140,134,0.38) 0%, transparent 70%),
+                radial-gradient(ellipse 75% 65% at 48% 52%, rgba(120,165,158,0.22) 0%, transparent 75%),
+                radial-gradient(ellipse 100% 90% at 50% 50%, rgba(184,207,201,0.3) 0%, transparent 100%),
+                linear-gradient(160deg, #dce8e4 0%, #ccddd8 40%, #bdd0ca 100%);
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 50% 45% at 50% 50%, rgba(100,150,144,0.18) 0%, transparent 65%);
+            animation: breathe-bg 12s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes breathe-bg {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50%       { opacity: 1;   transform: scale(1.06); }
+        }
+
+        #hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.06;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* ── Nav ── */
+        #hero nav {
+            grid-column: 1 / -1;
+            grid-row: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            position: relative;
+            z-index: 2;
+        }
+
+        .meta {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 200;
+            color: var(--ink-mid);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-family: var(--sans);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink-dark);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.4s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 50%;
+            width: 0; height: 0.5px;
+            background: var(--ink-mid);
+            transition: width 0.4s, left 0.4s;
+        }
+
+        .nav-links a:hover { color: var(--ink-mid); }
+        .nav-links a:hover::after { width: 100%; left: 0; }
+
+        /* ── Side labels ── */
+        .side {
+            grid-row: 2;
+            writing-mode: vertical-rl;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .side-l { grid-column: 1; transform: rotate(180deg); }
+        .side-r { grid-column: 3; }
+
+        /* ── Hero centre ── */
+        .hero-c {
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            color: var(--ink-mid);
+            font-weight: 300;
+            margin-bottom: 28px;
+            line-height: 1.9;
+            max-width: 480px;
+        }
+
+        .lotus {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 24px;
+            animation: breathe 9s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.75; }
+            50%       { transform: translateY(-6px) scale(1.04); opacity: 1; }
+        }
+
+        .hero-title {
+            font-family: var(--serif);
+            font-size: clamp(36px, 7vw, 80px);
+            font-weight: 300;
+            letter-spacing: 0.55em;
+            margin-left: 0.55em;
+            text-transform: uppercase;
+            color: #f0f7f5;
+            mix-blend-mode: overlay;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .hero-byline {
+            font-family: var(--serif);
+            font-size: 16px;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--ink-dark);
+            opacity: 0.7;
+            letter-spacing: 0.04em;
+            margin-bottom: 12px;
+        }
+
+        .hero-accent {
+            font-family: var(--serif);
+            font-size: 13px;
+            font-style: italic;
+            color: var(--ink-mid);
+            opacity: 0.65;
+            letter-spacing: 0.05em;
+            margin-bottom: 40px;
+        }
+
+        .btn-ghost {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-mid);
+            text-decoration: none;
+            font-weight: 300;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: color 0.4s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .btn-ghost::before,
+        .btn-ghost::after {
+            content: '';
+            width: 28px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .btn-ghost:hover { color: var(--ink-dark); }
+        .btn-ghost:hover::before,
+        .btn-ghost:hover::after { width: 46px; }
+
+        .btn-ghost-light {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.65);
+            text-decoration: none;
+            font-weight: 300;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: color 0.4s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .btn-ghost-light::before,
+        .btn-ghost-light::after {
+            content: '';
+            width: 28px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .btn-ghost-light:hover { color: var(--parchment); }
+        .btn-ghost-light:hover::before,
+        .btn-ghost-light:hover::after { width: 46px; }
+
+        /* ── Hero footer bar ── */
+        .hero-foot {
+            grid-column: 1 / -1;
+            grid-row: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ────────────────────────────────────────
+           ANIMATIONS
+        ──────────────────────────────────────── */
+        .fu { opacity: 1; }
+
+        .js-ready .fu {
+            opacity: 0;
+            transform: translateY(12px);
+            animation: fu 1.8s ease forwards;
+        }
+
+        .d1 { animation-delay: 0.4s; }
+        .d2 { animation-delay: 0.8s; }
+        .d3 { animation-delay: 1.2s; }
+        .d4 { animation-delay: 1.6s; }
+        .d5 { animation-delay: 2.0s; }
+
+        @keyframes fu {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .js-ready .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .js-ready .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ────────────────────────────────────────
+           SHARED
+        ──────────────────────────────────────── */
+        .section-eyebrow {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 44px;
+        }
+
+        .section-eyebrow::after {
+            content: '';
+            height: 0.5px;
+            width: 36px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        .transition-band {
+            height: 280px;
+            background: linear-gradient(to bottom, var(--body-bg) 0%, var(--body-bg) 15%, var(--navy) 100%);
+        }
+
+        .transition-band-dark {
+            height: 320px;
+            background: linear-gradient(to bottom, var(--navy) 0%, var(--seafoam-mid) 70%, var(--seafoam) 100%);
+        }
+
+        /* ────────────────────────────────────────
+           GUIDE — parchment bg
+        ──────────────────────────────────────── */
+        #guide {
+            background: var(--body-bg);
+            color: var(--body-text);
+            padding: 130px 24px;
+        }
+
+        .guide-inner {
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        #guide .section-eyebrow { color: var(--mauve); }
+
+        .guide-headline {
+            font-family: var(--serif);
+            font-size: clamp(30px, 4.5vw, 50px);
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--body-text);
+            margin-bottom: 10px;
+        }
+
+        .guide-subhead {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--gold);
+            margin-bottom: 52px;
+        }
+
+        .guide-body {
+            font-family: var(--serif);
+            font-size: clamp(19px, 2.2vw, 22px);
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--body-text);
+            margin-bottom: 1.6em;
+        }
+
+        .guide-body em { font-style: italic; color: var(--gold); }
+
+        .ornament {
+            text-align: center;
+            color: rgba(46,58,63,0.2);
+            letter-spacing: 0.55em;
+            font-size: 14px;
+            margin: 56px 0;
+        }
+
+        .guide-close {
+            padding-left: 22px;
+            border-left: 1px solid rgba(46,58,63,0.12);
+        }
+
+        .guide-close p {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 2;
+            color: var(--body-text-2);
+        }
+
+        .guide-close p + p { margin-top: 1em; }
+
+        .guide-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--body-text-2);
+            opacity: 0.7;
+            text-decoration: none;
+            font-weight: 300;
+            margin-top: 44px;
+            transition: opacity 0.4s;
+        }
+
+        .guide-link::after {
+            content: '';
+            width: 24px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .guide-link:hover { opacity: 1; }
+        .guide-link:hover::after { width: 42px; }
+
+        /* ────────────────────────────────────────
+           WHO THIS IS FOR — inside offering block
+        ──────────────────────────────────────── */
+        .for-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        .for-col-label {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .for-col-label::after {
+            content: '';
+            height: 0.5px;
+            flex: 1;
+            background: currentColor;
+            opacity: 0.2;
+        }
+
+        .for-col-yes .for-col-label { color: var(--gold-pale); }
+        .for-col-no  .for-col-label { color: rgba(237,232,216,0.35); }
+
+        .for-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .for-list li {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--parchment);
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .for-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 5px;
+            height: 0.5px;
+            background: rgba(237,232,216,0.3);
+        }
+
+        /* ────────────────────────────────────────
+           PRACTICES — navy bg
+        ──────────────────────────────────────── */
+        #practices {
+            background: var(--navy);
+            padding: 120px 24px;
+        }
+
+        .practices-inner {
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        #practices .section-eyebrow { color: rgba(226,243,243,0.4); }
+
+        .practices-headline {
+            font-family: var(--serif);
+            font-size: clamp(28px, 4vw, 46px);
+            font-weight: 600;
+            color: var(--parchment);
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .practices-accent {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 16px;
+            color: var(--parchment-dim);
+            margin-bottom: 64px;
+            display: block;
+        }
+
+        .practice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: rgba(237,232,216,0.07);
+            margin-bottom: 64px;
+        }
+
+        .practice-cell {
+            background: var(--navy);
+            padding: 36px 30px;
+            transition: background 0.4s;
+        }
+
+        .practice-cell:hover { background: rgba(226,243,243,0.05); }
+
+        .practice-num {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            color: rgba(226,243,243,0.25);
+            font-weight: 200;
+            margin-bottom: 14px;
+        }
+
+        .practice-name {
+            font-family: var(--serif);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--parchment);
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+
+        .practice-accent-line {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 14px;
+            color: var(--parchment-dim);
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .practice-desc {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--parchment);
+        }
+
+        /* ── Offering ── */
+        .offering-block {
+            border: 0.5px solid rgba(106,81,16,0.35);
+            padding: 40px;
+        }
+
+        .offering-tag {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold-pale);
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .offering-name {
+            font-family: var(--serif);
+            font-size: clamp(22px, 3.5vw, 36px);
+            font-weight: 600;
+            color: var(--parchment);
+            line-height: 1.25;
+            margin-bottom: 10px;
+        }
+
+        .offering-name em {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--parchment-dim);
+            display: block;
+            font-size: 0.72em;
+            margin-top: 4px;
+        }
+
+        .offering-poem {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 15px;
+            color: var(--parchment-dim);
+            line-height: 1.9;
+            margin: 20px 0 28px;
+            border-left: 1px solid rgba(106,81,16,0.3);
+            padding-left: 18px;
+        }
+
+        .offering-desc {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 2;
+            color: var(--parchment);
+            margin-bottom: 32px;
+        }
+
+        .offering-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: rgba(237,232,216,0.07);
+            margin-bottom: 32px;
+        }
+
+        .od-cell {
+            background: var(--navy);
+            padding: 18px 22px;
+        }
+
+        .od-label {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.4);
+            font-weight: 200;
+            margin-bottom: 6px;
+        }
+
+        .od-val {
+            font-family: var(--serif);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--parchment);
+        }
+
+        .od-sub {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--parchment-dim);
+            margin-top: 3px;
+        }
+
+        .offering-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .offering-price {
+            font-family: var(--serif);
+            font-size: 38px;
+            font-weight: 300;
+            color: var(--parchment);
+            line-height: 1;
+        }
+
+        .offering-price span {
+            display: block;
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            color: var(--gold-pale);
+            font-weight: 300;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .offering-price small {
+            display: block;
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--parchment-dim);
+            margin-top: 6px;
+        }
+
+        /* ── Disclaimer band ── */
+        .disclaimer-band {
+            margin-top: 48px;
+            padding: 24px 28px;
+            border: 0.5px solid rgba(237,232,216,0.1);
+            background: rgba(237,232,216,0.03);
+        }
+
+        .disclaimer-band p {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.85;
+            color: var(--parchment-dim);
+        }
+
+        .disclaimer-band strong {
+            font-weight: 600;
+            color: var(--parchment);
+            letter-spacing: 0.04em;
+        }
+
+        #practice-coming {
+            background: var(--navy);
+            padding: 0 24px 120px;
+        }
+
+        /* ────────────────────────────────────────
+           JOURNAL — aqua-pale bg
+        ──────────────────────────────────────── */
+        #journal {
+            background: var(--aqua-pale);
+            color: var(--navy);
+            padding: 120px 24px;
+        }
+
+        .journal-inner {
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        #journal .section-eyebrow { color: var(--mauve); }
+
+        .journal-headline {
+            font-family: var(--serif);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .journal-sub {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 17px;
+            font-weight: 300;
+            color: var(--mauve);
+            margin-bottom: 56px;
+        }
+
+        .journal-entry {
+            padding: 28px 0;
+            border-bottom: 0.5px solid rgba(12,58,82,0.1);
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 24px;
+            align-items: start;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .journal-entry:first-child { border-top: 0.5px solid rgba(12,58,82,0.1); }
+        .journal-entry:hover { opacity: 0.6; }
+
+        .entry-date {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            color: var(--mauve);
+            font-weight: 300;
+            text-transform: uppercase;
+            padding-top: 4px;
+        }
+
+        .entry-title {
+            font-family: var(--serif);
+            font-size: 21px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 4px;
+            line-height: 1.25;
+        }
+
+        .entry-accent {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--mauve);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .entry-preview {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: rgba(12,58,82,0.8);
+            line-height: 1.85;
+        }
+
+        .journal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--navy);
+            opacity: 0.5;
+            text-decoration: none;
+            font-weight: 300;
+            margin-top: 44px;
+            transition: opacity 0.4s;
+        }
+
+        .journal-link::after {
+            content: '';
+            width: 24px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .journal-link:hover { opacity: 0.9; }
+        .journal-link:hover::after { width: 40px; }
+
+        /* ────────────────────────────────────────
+           BEGIN — seafoam bg
+        ──────────────────────────────────────── */
+        #begin {
+            background: var(--seafoam);
+            padding: 130px 24px;
+            text-align: center;
+        }
+
+        .begin-inner {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        #begin .section-eyebrow {
+            color: var(--ink-mid);
+            justify-content: center;
+        }
+
+        #begin .section-eyebrow::after { display: none; }
+        #begin .section-eyebrow::before {
+            content: '';
+            height: 0.5px;
+            width: 36px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        .begin-headline {
+            font-family: var(--serif);
+            font-size: clamp(30px, 4.5vw, 48px);
+            font-weight: 600;
+            color: var(--ink-dark);
+            line-height: 1.25;
+            margin-bottom: 14px;
+        }
+
+        .begin-poem {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--ink-mid);
+            line-height: 1.9;
+            margin-bottom: 48px;
+        }
+
+        .begin-form {
+            display: flex;
+            max-width: 380px;
+            margin: 0 auto 14px;
+        }
+
+        .begin-input {
+            flex: 1;
+            background: rgba(255,255,255,0.5);
+            border: 0.5px solid rgba(58,74,84,0.25);
+            border-right: none;
+            padding: 14px 18px;
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--ink-dark);
+            letter-spacing: 0.06em;
+            outline: none;
+            transition: border-color 0.4s;
+        }
+
+        .begin-input::placeholder { color: var(--ink-light); }
+        .begin-input:focus { border-color: var(--ink-mid); }
+
+        .begin-submit {
+            background: rgba(58,74,84,0.08);
+            border: 0.5px solid rgba(58,74,84,0.25);
+            padding: 14px 24px;
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--ink-mid);
+            cursor: pointer;
+            font-weight: 300;
+            transition: background 0.4s, color 0.4s;
+            white-space: nowrap;
+        }
+
+        .begin-submit:hover {
+            background: rgba(58,74,84,0.14);
+            color: var(--ink-dark);
+        }
+
+        .begin-note {
+            font-family: var(--sans);
+            font-size: 11px;
+            font-weight: 300;
+            color: var(--ink-light);
+            letter-spacing: 0.08em;
+            margin-bottom: 56px;
+        }
+
+        .begin-divider {
+            width: 0.5px;
+            height: 52px;
+            background: var(--ink-light);
+            opacity: 0.2;
+            margin: 0 auto 36px;
+        }
+
+        .begin-apply {
+            font-family: var(--serif);
+            font-size: 17px;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--ink-mid);
+            margin-bottom: 20px;
+        }
+
+        .secondary-cta-note {
+            font-family: var(--serif);
+            font-size: 15px;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--ink-mid);
+            opacity: 0.7;
+            margin-top: 40px;
+            margin-bottom: 6px;
+        }
+
+        .secondary-cta-sub {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--ink-light);
+            letter-spacing: 0.06em;
+        }
+
+        /* ────────────────────────────────────────
+           FOOTER
+        ──────────────────────────────────────── */
+        footer {
+            background: var(--navy);
+            border-top: 0.5px solid rgba(237,232,216,0.06);
+            padding: 40px 24px 32px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px 48px;
+            align-items: start;
+        }
+
+        .footer-left {}
+        .footer-right { text-align: right; }
+
+        .footer-brand {
+            font-family: var(--serif);
+            font-size: 15px;
+            font-weight: 300;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.6);
+            margin-bottom: 16px;
+        }
+
+        .footer-contact {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: rgba(237,232,216,0.5);
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .footer-contact a {
+            color: rgba(237,232,216,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-contact a:hover { color: var(--parchment); }
+
+        .footer-tagline {
+            font-family: var(--serif);
+            font-size: 14px;
+            font-style: italic;
+            color: rgba(237,232,216,0.3);
+            margin-top: 16px;
+        }
+
+        .footer-legal {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .footer-legal a {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.35);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+
+        .footer-legal a:hover { color: rgba(237,232,216,0.7); }
+
+        .footer-copy {
+            grid-column: 1 / -1;
+            border-top: 0.5px solid rgba(237,232,216,0.05);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer-meta {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.2);
+            font-weight: 200;
+        }
+
+        /* ────────────────────────────────────────
+           MODALS
+        ──────────────────────────────────────── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5,24,36,0.85);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal-box {
+            background: var(--body-bg);
+            color: var(--body-text);
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 48px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--body-text-2);
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .modal-close:hover { opacity: 1; }
+
+        .modal-title {
+            font-family: var(--serif);
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--body-text);
+            margin-bottom: 8px;
+        }
+
+        .modal-date {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--mauve);
+            font-weight: 300;
+            margin-bottom: 36px;
+        }
+
+        .modal-body h3 {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: var(--body-text-2);
+            margin: 28px 0 10px;
+        }
+
+        .modal-body p {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--body-text-2);
+            margin-bottom: 12px;
+        }
+
+        .modal-body a { color: var(--gold); text-decoration: none; }
+
+        /* ────────────────────────────────────────
+           RESPONSIVE
+        ──────────────────────────────────────── */
+        @media (max-width: 680px) {
+            #hero {
+                grid-template-columns: 0 1fr 0;
+                grid-template-rows: 60px 1fr 70px;
+                padding: 16px;
+            }
+
+            .side { display: none; }
+            .hero-title { font-size: 38px; letter-spacing: 0.35em; }
+            .practice-grid, .offering-details { grid-template-columns: 1fr; }
+            #guide, #practices, #journal, #begin { padding: 80px 20px; }
+            .for-grid { grid-template-columns: 1fr; gap: 32px; }
+            .offering-footer { flex-direction: column; align-items: flex-start; }
+            .begin-form { flex-direction: column; }
+            .begin-input { border-right: 0.5px solid rgba(58,74,84,0.25); border-bottom: none; }
+            .journal-entry { grid-template-columns: 1fr; gap: 6px; }
+            footer { grid-template-columns: 1fr; }
+            .footer-right { text-align: left; }
+            .footer-legal { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 16px; }
+            .modal-box { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sticky nav — invisible until user scrolls past hero -->
+<nav class="sticky-nav" id="sticky-nav">
+    <ul class="nav-links">
+        <li><a href="#guide">The Practice</a></li>
+        <li><a href="#journal">Journal</a></li>
+        <li><a href="#practices">The Container</a></li>
+        <li><a href="#begin">Begin</a></li>
+    </ul>
+</nav>
+
+<!-- ══════ HERO ══════ -->
+<section id="hero">
+
+    <nav class="fu d1">
+        <ul class="nav-links">
+            <li><a href="#guide">The Practice</a></li>
+            <li><a href="#journal">Journal</a></li>
+            <li><a href="#practices">The Container</a></li>
+            <li><a href="#begin">Begin</a></li>
+        </ul>
+    </nav>
+
+    <div class="side side-l fu d2">
+        <span class="meta" style="color:var(--ink-light)">Re-Selfing Rituals</span>
+    </div>
+
+    <div class="hero-c">
+        <p class="hero-eyebrow fu d1">Something has gone quiet inside.<br>
+            Somewhere along the way, you stopped coming home to yourself.<br>
+            This is somewhere to land while you find your way forward.<br>
+            A sanctuary for becoming yourself again.</p>
+
+        <div class="lotus fu d2">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g opacity="0.7">
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(60 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(120 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(180 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(240 50 50)"/>
+                    <path d="M50 18 Q43 38 50 50 Q57 38 50 18Z" fill="#3a4a54" opacity="0.3" transform="rotate(300 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(30 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(90 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(150 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(210 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(270 50 50)"/>
+                    <path d="M50 30 Q47 43 50 50 Q53 43 50 30Z" fill="#5a7078" opacity="0.75" transform="rotate(330 50 50)"/>
+                    <circle cx="50" cy="50" r="4.5" fill="#3a4a54" opacity="0.45"/>
+                    <circle cx="50" cy="50" r="2" fill="#5a7078" opacity="0.65"/>
+                </g>
+            </svg>
+        </div>
+
+        <h1 class="hero-title fu d3">Serenity</h1>
+        <p class="hero-byline fu d4">A Practice Lived, Not Performed.</p>
+        <p class="hero-accent fu d4">find space · feel seen · restore yourself</p>
+        <a class="btn-ghost fu d5" href="#guide">Enter</a>
+    </div>
+
+    <div class="side side-r fu d2">
+        <span class="meta" style="color:var(--ink-light)">The Spoken Sanctuary</span>
+    </div>
+
+    <div class="hero-foot fu d3">
+        <span class="meta">Serenity by J. Maree</span>
+        <span class="meta" style="opacity:0"></span>
+    </div>
+
+</section>
+
+<!-- ══════ GUIDE ══════ -->
+<section id="guide">
+    <div class="guide-inner">
+
+        <div class="section-eyebrow reveal">The Guide</div>
+
+        <h2 class="guide-headline reveal">A Practice Lived,<br>Not Performed.</h2>
+        <p class="guide-subhead reveal">an extension of my own daily rituals</p>
+
+        <p class="guide-body reveal">
+            I began practicing yoga in 1998 — not for wellness or the aesthetic of movement, but because my body had been injured and this was the only thing that helped me <em>return to it.</em>
+        </p>
+
+        <p class="guide-body reveal">
+            For over twenty years I practiced and eventually taught — classes of two, classes of two hundred. The mat was where I lived. Then, at the end of 2019, I stopped teaching. And without realising it, <em>I stopped coming home to myself too.</em>
+        </p>
+
+        <p class="guide-body reveal">
+            The drift was slow. Nothing dramatic. I was still functioning — but something had gone quiet inside. In 2025, I left my job, and in that pause I finally saw it clearly: the path wasn't lost. <em>I had just stopped walking it.</em>
+        </p>
+
+        <p class="guide-body reveal">
+            Serenity is what I built from that recognition. Here, I share the sequences, meditations, and philosophies that have grounded me through different seasons of life — not as instruction, but as invitation. To slow down. To listen closely to the body's subtle cues. To build a <em>sustainable relationship with your own well-being.</em>
+        </p>
+
+        <div class="ornament reveal">· · ·</div>
+
+        <div class="guide-close reveal">
+            <p>I know what it feels like to function well and feel hollow. To be emotionally aware and still feel unresolved. To be tired of trying to figure yourself out.</p>
+            <p>This space is for you. It was built from the inside out — because I needed it too.</p>
+        </div>
+
+        <a class="guide-link reveal" href="#journal">Read the Journal</a>
+
+    </div>
+</section>
+
+<!-- Gradient fade from parchment into navy -->
+<div class="transition-band"></div>
+
+<!-- ══════ CURRENT OFFERING ══════ -->
+<section id="practices">
+    <div class="practices-inner">
+
+        <div class="offering-block reveal">
+            <p class="offering-tag">Current Offering</p>
+            <h3 class="offering-name">
+                A Private Space for Coming Back
+                <em>to Yourself</em>
+            </h3>
+
+            <p class="offering-poem">
+                an invitation to step into the quiet.<br>
+                this is not a performance, but a dismantling.<br>
+                we move to remember the architecture of our own breath.
+            </p>
+
+            <p class="offering-desc">
+                A short-term, one-to-one container for emotional clarity, nervous system settling, and feeling like yourself again. No fixing. No homework. No pressure to arrive with answers.<br><br>
+                Your system leads. I hold the structure.
+            </p>
+
+            <!-- Who this is for — scoped to this offering -->
+            <div class="for-grid reveal" style="margin-bottom: 32px;">
+                <div class="for-col for-col-yes">
+                    <p class="for-col-label">This is for you if</p>
+                    <ul class="for-list">
+                        <li>You feel like you've lost the thread back to yourself</li>
+                        <li>You're functioning, but something has gone quiet inside</li>
+                        <li>You want to be met without being fixed</li>
+                        <li>You're ready to slow down and actually listen</li>
+                        <li>You're curious about what somatic practice could open up</li>
+                        <li>You've tried therapy or coaching and found it wasn't quite right</li>
+                    </ul>
+                </div>
+
+                <div class="for-col for-col-no">
+                    <p class="for-col-label">This may not be right if</p>
+                    <ul class="for-list">
+                        <li>You're in active crisis or need clinical mental health support</li>
+                        <li>You're looking for a structured wellness programme with goals and homework</li>
+                        <li>You want someone to tell you what to do</li>
+                        <li>You're not ready to be still with what's there</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="offering-details">
+                <div class="od-cell">
+                    <p class="od-label">Sessions</p>
+                    <p class="od-val">Two private sessions</p>
+                    <p class="od-sub">75 min + 60 min over four weeks</p>
+                </div>
+                <div class="od-cell">
+                    <p class="od-label">Between sessions</p>
+                    <p class="od-val">Two integration audios</p>
+                    <p class="od-sub">Personalised voice reflections</p>
+                </div>
+                <div class="od-cell">
+                    <p class="od-label">Written reflection</p>
+                    <p class="od-val">Session summaries</p>
+                    <p class="od-sub">So nothing feels lost or abstract</p>
+                </div>
+                <div class="od-cell">
+                    <p class="od-label">Intake</p>
+                    <p class="od-val">Careful matching</p>
+                    <p class="od-sub">To ensure the fit is right</p>
+                </div>
+            </div>
+
+            <div class="offering-footer">
+                <div class="offering-price">
+                    <span>Investment</span>
+                    $1,000
+                    <small>Founder's Rate (First 3 clients) $250</small>
+                </div>
+                <button class="btn-ghost-light" onclick="document.getElementById('begin').scrollIntoView({behavior:'smooth'})">Apply for a space</button>
+            </div>
+        </div>
+
+        <div class="disclaimer-band reveal">
+            <p><strong>Please read carefully.</strong> Serenity is not therapy, counselling, or any form of clinical or medical care. J. Maree is not a licensed therapist, psychologist, or healthcare provider. Sessions are not a substitute for professional mental health treatment. If you are experiencing a mental health crisis, please contact a qualified professional or crisis service. What is offered here is somatic-informed, experiential, and relational — it is a personal practice shared, not a clinical service rendered.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ══════ JOURNAL ══════ -->
+<section id="journal">
+    <div class="journal-inner">
+
+        <div class="section-eyebrow reveal">Journal</div>
+
+        <h2 class="journal-headline reveal">Notes from the Practice</h2>
+        <p class="journal-sub reveal">writing from inside the re-selfing</p>
+
+        <div class="journal-entries">
+            <div class="journal-entry reveal">
+                <p class="entry-date">2025<br>—</p>
+                <div class="entry-body">
+                    <p class="entry-title">The Failed Yogi</p>
+                    <span class="entry-accent">on losing the path and seeing yourself clearly for the first time</span>
+                    <p class="entry-preview">I thought I was on the path to enlightenment. But somewhere along the way, I got lost — and what I didn't realise was that losing the path might have been the most honest thing I ever did...</p>
+                </div>
+            </div>
+
+            <div class="journal-entry reveal">
+                <p class="entry-date">2025<br>—</p>
+                <div class="entry-body">
+                    <p class="entry-title">When the Practice Stops Being Yours</p>
+                    <span class="entry-accent">on teaching, performing, and finding your way back to the mat</span>
+                    <p class="entry-preview">For years, my practice had been inseparable from teaching. I didn't notice when one disappeared because the other was still there — filling the shape of what had been lost...</p>
+                </div>
+            </div>
+
+            <div class="journal-entry reveal">
+                <p class="entry-date">Coming<br>soon</p>
+                <div class="entry-body">
+                    <p class="entry-title">What Settling Actually Feels Like</p>
+                    <span class="entry-accent">a note on the difference between peace and numbness</span>
+                    <p class="entry-preview">There is a version of quiet that feels like resolution. And there is a version that is just the absence of noise. Learning to tell them apart has been its own kind of practice...</p>
+                </div>
+            </div>
+        </div>
+
+        <a class="journal-link reveal" href="#">Read all entries</a>
+
+    </div>
+</section>
+
+<!-- ══════ THE PRACTICE ══════ -->
+<section id="practice-coming">
+    <div class="practices-inner">
+
+        <div class="section-eyebrow reveal">The Practice</div>
+
+        <h2 class="practices-headline reveal">What's taking shape</h2>
+        <span class="practices-accent reveal">coming as the work deepens</span>
+
+        <div class="practice-grid reveal">
+            <div class="practice-cell">
+                <p class="practice-num">01</p>
+                <p class="practice-name">Yoga &amp; Movement</p>
+                <span class="practice-accent-line">sequences for the body you have today</span>
+                <p class="practice-desc">Functional, somatic-informed yoga that supports confident, sustainable movement. Built around joint health, balance, and trusting the body's present capacity.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">02</p>
+                <p class="practice-name">Guided Voice Rituals</p>
+                <span class="practice-accent-line">short, intimate recordings for regulation</span>
+                <p class="practice-desc">Crafted for moments of overwhelm, stillness, or emotional settling. Something to listen to in the quiet — designed for the nervous system, not the calendar.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">03</p>
+                <p class="practice-name">Somatic Integration</p>
+                <span class="practice-accent-line">we move to remember the architecture of our own breath</span>
+                <p class="practice-desc">Practices that blend somatics, storytelling, and sensory guidance — helping you integrate and release what the body has been quietly carrying.</p>
+            </div>
+
+            <div class="practice-cell">
+                <p class="practice-num">04</p>
+                <p class="practice-name">Ritual &amp; Reflection</p>
+                <span class="practice-accent-line">philosophies for different seasons of life</span>
+                <p class="practice-desc">The meditations, journal prompts, and frameworks that have grounded Jamie through her own re-selfing — shared as companions, not prescriptions.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Gradient fade from navy into seafoam -->
+<div class="transition-band-dark"></div>
+
+<!-- ══════ BEGIN ══════ -->
+<section id="begin">
+    <div class="begin-inner">
+
+        <div class="section-eyebrow reveal">A Way to Begin</div>
+
+        <h2 class="begin-headline reveal">Stay close<br>to the practice</h2>
+        <p class="begin-poem reveal">
+            letters from inside the work.<br>
+            slow, occasional, honest.
+        </p>
+
+        <!--
+            REPLACE THIS FORM with your email provider's embed code.
+            Mailchimp, ConvertKit, and Buttondown all offer a simple
+            copy-paste snippet.
+        -->
+        <div class="begin-form reveal">
+            <input class="begin-input" type="email" placeholder="your email address" autocomplete="email">
+            <button class="begin-submit" type="button">Enter</button>
+        </div>
+        <p class="begin-note reveal">No noise. Unsubscribe any time.</p>
+
+        <div class="begin-divider"></div>
+
+        <p class="begin-apply reveal">Ready for the container?</p>
+        <button class="btn-ghost reveal" style="margin:0 auto;display:inline-flex;" type="button">Apply for a private space</button>
+
+        <p class="secondary-cta-note reveal">Not ready yet — that's okay.</p>
+        <p class="secondary-cta-sub reveal">The letters are a quieter place to start. Come when it feels right.</p>
+
+    </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+    <div class="footer-left">
+        <p class="footer-brand">Serenity · J. Maree</p>
+        <p class="footer-contact">Questions or enquiries: <a href="/cdn-cgi/l/email-protection#177f727b7b785764726572797e636e756e7d7a766572723974787a"><span class="__cf_email__" data-cfemail="2a424f4646456a594f584f44435e53485340474b584f4f04494547">[email&#160;protected]</span></a></p>
+        <p class="footer-contact">Based online · Available internationally</p>
+        <p class="footer-tagline">Not therapy · Not coaching · Something quieter</p>
+    </div>
+
+    <div class="footer-right">
+        <div class="footer-legal">
+            <a href="#" onclick="openModal('privacy'); return false;">Privacy Policy</a>
+            <a href="#" onclick="openModal('terms'); return false;">Terms of Use</a>
+            <a href="#" onclick="openModal('disclaimer'); return false;">Scope &amp; Disclaimer</a>
+        </div>
+    </div>
+
+    <div class="footer-copy">
+        <span class="footer-meta">© 2025 Serenity · J. Maree · All rights reserved</span>
+        <span class="footer-meta">Serenity Bespoken · The Spoken Sanctuary · Re-Selfing Rituals</span>
+    </div>
+</footer>
+
+<!-- ══════ PRIVACY POLICY MODAL ══════ -->
+<div class="modal-overlay" id="modal-privacy">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal('privacy')">Close ×</button>
+        <h2 class="modal-title">Privacy Policy</h2>
+        <p class="modal-date">Last updated: 2025</p>
+        <div class="modal-body">
+            <h3>What information is collected</h3>
+            <p>If you subscribe to the newsletter, your email address is collected and stored by the third-party email service provider (e.g. Mailchimp, ConvertKit, or Buttondown). No other personal data is collected through this website.</p>
+            <h3>How it is used</h3>
+            <p>Your email address is used solely to send occasional letters about the practice. It will never be sold, shared with third parties, or used for advertising purposes.</p>
+            <h3>Cookies and tracking</h3>
+            <p>This website does not use cookies or tracking scripts. Google Fonts is loaded from Google's servers, which means Google may register your IP address when the page loads. This is the only third-party data exposure on this site.</p>
+            <h3>Your rights</h3>
+            <p>You may unsubscribe from the newsletter at any time using the link at the bottom of any email. To request deletion of your data, email <a href="/cdn-cgi/l/email-protection#39515c555556794a5c4b5c57504d405b405354584b5c5c175a5654"><span class="__cf_email__" data-cfemail="cfa7aaa3a3a08fbcaabdaaa1a6bbb6adb6a5a2aebdaaaae1aca0a2">[email&#160;protected]</span></a>.</p>
+            <h3>Contact</h3>
+            <p>For any privacy-related questions, please write to <a href="/cdn-cgi/l/email-protection#d4bcb1b8b8bb94a7b1a6b1babda0adb6adbeb9b5a6b1b1fab7bbb9"><span class="__cf_email__" data-cfemail="e78f828b8b88a794829582898e939e859e8d8a86958282c984888a">[email&#160;protected]</span></a>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ══════ TERMS OF USE MODAL ══════ -->
+<div class="modal-overlay" id="modal-terms">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal('terms')">Close ×</button>
+        <h2 class="modal-title">Terms of Use</h2>
+        <p class="modal-date">Last updated: 2025</p>
+        <div class="modal-body">
+            <h3>Use of this website</h3>
+            <p>This website is provided for informational purposes only. By accessing it, you agree not to reproduce, distribute, or repurpose its content without written permission from J. Maree.</p>
+            <h3>Sessions and offerings</h3>
+            <p>All sessions and offerings are subject to a separate client agreement, which will be provided before any work begins. Payment terms, cancellation policies, and session boundaries are outlined in that document.</p>
+            <h3>Intellectual property</h3>
+            <p>All written content, design, and materials on this website are the intellectual property of J. Maree and Serenity. Please do not reproduce them without permission.</p>
+            <h3>Limitation of liability</h3>
+            <p>J. Maree and Serenity are not liable for any outcomes — positive or negative — experienced as a result of engaging with the content on this website or in sessions. All participation is voluntary and at the individual's own discretion.</p>
+            <h3>Contact</h3>
+            <p>Questions about these terms can be directed to <a href="/cdn-cgi/l/email-protection#4e262b2222210e3d2b3c2b20273a372c3724232f3c2b2b602d2123"><span class="__cf_email__" data-cfemail="6b030e0707042b180e190e05021f12091201060a190e0e45080406">[email&#160;protected]</span></a>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ══════ SCOPE & DISCLAIMER MODAL ══════ -->
+<div class="modal-overlay" id="modal-disclaimer">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal('disclaimer')">Close ×</button>
+        <h2 class="modal-title">Scope &amp; Disclaimer</h2>
+        <p class="modal-date">Please read before enquiring</p>
+        <div class="modal-body">
+            <h3>What this is</h3>
+            <p>Serenity offers somatic-informed, experiential, and relational sessions grounded in J. Maree's personal practice — over 25 years of yoga, movement, and contemplative study. Sessions are a space for slowing down, nervous system settling, and returning to yourself.</p>
+            <h3>What this is not</h3>
+            <p>Serenity is not therapy, counselling, psychotherapy, clinical coaching, or any form of regulated healthcare. J. Maree is not a licensed therapist, psychologist, psychiatrist, or medical professional. Nothing offered here constitutes or replaces professional mental health treatment or medical advice.</p>
+            <h3>If you are in crisis</h3>
+            <p>If you are experiencing a mental health crisis, suicidal thoughts, or any acute psychological or medical emergency, please contact a qualified professional or emergency service immediately. In the US, you can call or text 988 (Suicide and Crisis Lifeline). In the UK, call 116 123 (Samaritans).</p>
+            <h3>Informed participation</h3>
+            <p>By enquiring about or booking a session, you confirm that you have read and understood this scope clarification and are entering into the work voluntarily and with informed consent.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ══════ SCRIPTS ══════ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Activate JS-dependent animations
+    document.body.classList.add('js-ready');
+
+    // Sticky nav — appears after scrolling 60% through hero
+    const stickyNav = document.getElementById('sticky-nav');
+    const heroHeight = document.getElementById('hero').offsetHeight;
+    window.addEventListener('scroll', () => {
+        stickyNav.classList.toggle('visible', window.scrollY > heroHeight * 0.6);
+    }, { passive: true });
+
+    // Scroll reveals
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Modal helpers
+    function openModal(id) {
+        document.getElementById('modal-' + id).classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+        document.getElementById('modal-' + id).classList.remove('open');
+        document.body.style.ove
