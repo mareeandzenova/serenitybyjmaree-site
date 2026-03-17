@@ -1238,10 +1238,50 @@
             .footer-legal { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 16px; }
             .modal-box { padding: 32px 24px; }
         }
+        /* ── STICKY NAV ── */
+.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+    background: rgba(220, 232, 228, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid rgba(58,74,84,0.08);
+}
+
+.sticky-nav.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sticky-nav .nav-links a {
+    color: var(--ink-dark);
+    font-size: 10px;
+}
+
+.sticky-nav .nav-links a:hover {
+    color: var(--ink-mid);
+}
     </style>
 </head>
 <body>
-
+<nav class="sticky-nav" id="sticky-nav">
+    <ul class="nav-links">
+        <li><a href="#guide">The Practice</a></li>
+        <li><a href="#journal">Journal</a></li>
+        <li><a href="#practices">The Container</a></li>
+        <li><a href="#begin">Begin</a></li>
+    </ul>
+</nav>
 <!-- ══════ HERO ══════ -->
 <section id="hero">
 
@@ -1637,8 +1677,12 @@
 <!-- ══════ SCRIPTS ══════ -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Mark body so CSS animations only apply when JS is running
-    document.body.classList.add('js-ready');
-
+    document.body.classList.add('js-ready') ;
+const stickyNav = document.getElementById('sticky-nav');
+const heroHeight = document.getElementById('hero').offsetHeight;
+window.addEventListener('scroll', () => {
+    stickyNav.classList.toggle('visible', window.scrollY > heroHeight * 0.6);
+}, { passive: true });
     // Scroll reveals
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => {
