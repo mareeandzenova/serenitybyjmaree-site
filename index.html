@@ -602,52 +602,6 @@
     padding: 120px 24px;
     position: relative;
     overflow: hidden;
-}
-
-#practices::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background: radial-gradient(
-        ellipse at 15% 40%,
-        rgba(192, 154, 80, 0.08) 0%,
-        transparent 65%
-    );
-    animation: serenity-breath-left 8s ease-in-out infinite;
-}
-
-#practices::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background: radial-gradient(
-        ellipse at 85% 65%,
-        rgba(237, 232, 216, 0.06) 0%,
-        transparent 60%
-    );
-    animation: serenity-breath-right 8s ease-in-out infinite 4s;
-}
-
-#practices > * {
-    position: relative;
-    z-index: 1;
-}
-
-@keyframes serenity-breath-left {
-    0%   { opacity: 0; }
-    50%  { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-@keyframes serenity-breath-right {
-    0%   { opacity: 0; }
-    50%  { opacity: 1; }
-    100% { opacity: 0; }
-}
 
         .practices-inner {
             max-width: 660px;
@@ -1334,9 +1288,9 @@
 <!-- Sticky nav — invisible until user scrolls past hero -->
 <nav class="sticky-nav" id="sticky-nav">
     <ul class="nav-links">
-        <li><a href="#guide">The Practice</a></li>
-        <li><a href="#journal">Journal</a></li>
+        <li><a href="#guide">The Guide</a></li>
         <li><a href="#practices">The Container</a></li>
+        <li><a href="#journal">Journal</a></li>
         <li><a href="#begin">Begin</a></li>
     </ul>
 </nav>
@@ -1346,10 +1300,10 @@
 
     <nav class="fu d1">
         <ul class="nav-links">
-            <li><a href="#guide">The Practice</a></li>
-            <li><a href="#journal">Journal</a></li>
-            <li><a href="#practices">The Container</a></li>
-            <li><a href="#begin">Begin</a></li>
+        <li><a href="#guide">The Guide</a></li>
+        <li><a href="#practices">The Container</a></li>
+        <li><a href="#journal">Journal</a></li>
+        <li><a href="#begin">Begin</a></li>
         </ul>
     </nav>
 
@@ -1415,12 +1369,12 @@
 <!-- Gradient fade from parchment into navy -->
 <div class="transition-band"></div>
 
-<!-- ══════ CURRENT OFFERING ══════ -->
+<!-- ══════ THE CONTAINER ══════ -->
 <section id="practices">
     <div class="practices-inner">
 
         <div class="offering-block reveal">
-            <p class="offering-tag">Current Offering</p>
+            <p class="offering-tag">The Container</p>
             <h3 class="offering-name">
                 A Private Space for Coming Back
                 <em>to Yourself</em>
@@ -1551,7 +1505,7 @@
 
         <div class="section-eyebrow reveal">The Practice</div>
 
-        <h2 class="practices-headline reveal">What's taking shape</h2>
+        <h2 class="practices-headline reveal">The Practice</h2>
         <span class="practices-accent reveal">coming as the work deepens</span>
 
         <div class="practice-grid reveal">
