@@ -1,455 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Serenity · J. Maree — A sanctuary for becoming yourself again. Yoga, somatic practice, and guided rituals.">
+    <meta name="description" content="Writing from inside the re-selfing. Notes, reflections, and audio from J. Maree's somatic practice.">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <title>Journal — Serenity · J. Maree</title>
-  <meta name="description" content="Writing from inside the re-selfing. Notes, reflections, and audio from J'maree's somatic practice." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+    <style>
+        /* ── DESIGN TOKENS ── */
+        :root {
+            --seafoam:       #dce8e4;
+            --seafoam-mid:   #b8cfc9;
+            --seafoam-deep:  #7a9e98;
+            --ink-dark:      #3a4a54;
+            --ink-mid:       #5a7078;
+            --ink-light:     #7a9098;
+            --navy:          #0c3a52;
+            --parchment:     #ede8d8;
+            --parchment-dim: #c8c0a8;
+            --gold:          #8a6a20;
+            --gold-pale:     #c09a50;
+            --mauve:         #8a7a78;
+            --aqua-pale:     #e8f2f0;
+            --body-bg:       #f2ede0;
+            --body-text:     #2e3a3f;
+            --body-text-2:   #4a5a60;
+            --serif: 'Cormorant Garamond', serif;
+            --sans:  'Jost', sans-serif;
+        }
 
-  <style>
-    /* ─── TOKENS ─── */
-    :root {
-      --seafoam:     #8db5aa;
-      --parchment:   #f5f0e8;
-      --navy:        #1e2d3d;
-      --aqua-pale:   #c8dedd;
-      --ink:         #2c2c2c;
-      --muted:       #7a7a7a;
-      --rule:        rgba(141,181,170,0.28);
-      --entry-hover: rgba(141,181,170,0.06);
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
-      --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-body:    'Jost', sans-serif;
+        body {
+            background: var(--aqua-pale);
+            color: var(--ink-dark);
+            font-family: var(--serif);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
 
-      --max-w: 1100px;
-      --col-date: 110px;
-      --transition: 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
+        /* ── NAV ── */
+        .site-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 22px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(232,242,240,0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 0.5px solid rgba(58,74,84,0.08);
+        }
 
-    /* ─── RESET ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--parchment);
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-weight: 300;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
+        .nav-logo {
+            font-family: var(--sans);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink-mid);
+            text-decoration: none;
+            font-weight: 300;
+        }
 
-    /* ─── NAV ─── */
-    .site-nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 22px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(245,240,232,0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rule);
-    }
-    .nav-logo {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 1.05rem;
-      letter-spacing: 0.04em;
-      color: var(--navy);
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.72rem;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-    .nav-links a:hover,
-    .nav-links a[aria-current="page"] { color: var(--navy); }
-    .nav-links a[aria-current="page"] { color: var(--seafoam); }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
 
-    /* ─── PAGE HEADER ─── */
-    .page-header {
-      padding: 160px 48px 72px;
-      max-width: var(--max-w);
-      margin: 0 auto;
-    }
-    .eyebrow {
-      font-family: var(--font-body);
-      font-size: 0.65rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--seafoam);
-      margin-bottom: 18px;
-    }
-    .page-title {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: clamp(2.8rem, 6vw, 4.6rem);
-      line-height: 1.08;
-      color: var(--navy);
-      margin-bottom: 20px;
-    }
-    .page-sub {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 480px;
-    }
+        .nav-links a {
+            font-family: var(--sans);
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink-dark);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.4s;
+            position: relative;
+        }
 
-    /* ─── FILTER PILLS ─── */
-    .filter-bar {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 48px 56px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 18px;
-      border-radius: 100px;
-      border: 1px solid var(--rule);
-      background: transparent;
-      font-family: var(--font-body);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-    .pill:hover { border-color: var(--seafoam); color: var(--navy); }
-    .pill.active {
-      background: var(--seafoam);
-      border-color: var(--seafoam);
-      color: #fff;
-    }
-    .pill svg { width: 11px; height: 11px; }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 50%;
+            width: 0; height: 0.5px;
+            background: var(--ink-mid);
+            transition: width 0.4s, left 0.4s;
+        }
 
-    /* ─── RULE ─── */
-    .rule-line {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 48px;
-      border: none;
-      border-top: 1px solid var(--rule);
-    }
+        .nav-links a:hover { color: var(--ink-mid); }
+        .nav-links a:hover::after { width: 100%; left: 0; }
 
-    /* ─── ENTRY LIST ─── */
-    .entry-list {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 48px 120px;
-    }
+        /* ── SHARED ── */
+        .section-eyebrow {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 44px;
+        }
 
-    /* ─── SINGLE ENTRY ROW ─── */
-    .entry-row {
-      display: grid;
-      grid-template-columns: var(--col-date) 1fr;
-      gap: 0 48px;
-      padding: 44px 0;
-      border-bottom: 1px solid var(--rule);
-      text-decoration: none;
-      color: inherit;
-      transition: background var(--transition);
-      position: relative;
-    }
-    .entry-row:last-child { border-bottom: none; }
-    .entry-row:hover { background: var(--entry-hover); margin: 0 -24px; padding-left: 24px; padding-right: 24px; }
+        .section-eyebrow::after {
+            content: '';
+            height: 0.5px;
+            width: 36px;
+            background: currentColor;
+            opacity: 0.3;
+        }
 
-    /* Date column */
-    .entry-date-col {
-      padding-top: 4px;
-    }
-    .entry-date-year {
-      font-family: var(--font-body);
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      color: var(--seafoam);
-    }
-    .entry-date-day {
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-    .entry-date-month {
-      font-family: var(--font-body);
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .entry-date-soon {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 0.82rem;
-      color: var(--aqua-pale);
-      line-height: 1.4;
-    }
+        /* ── REVEAL ── */
+        .reveal {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
 
-    /* Type badge */
-    .entry-type-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--seafoam);
-      margin-bottom: 10px;
-    }
-    .entry-type-badge svg { width: 10px; height: 10px; }
+        .js-ready .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-    /* Content column */
-    .entry-content { display: flex; flex-direction: column; }
-    .entry-title-text {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 1.55rem;
-      line-height: 1.2;
-      color: var(--navy);
-      margin-bottom: 8px;
-      transition: color var(--transition);
-    }
-    .entry-row:hover .entry-title-text { color: var(--seafoam); }
-    .entry-accent-text {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-    .entry-preview-text {
-      font-size: 0.88rem;
-      line-height: 1.75;
-      color: #555;
-      max-width: 580px;
-    }
-    .entry-arrow {
-      align-self: flex-start;
-      margin-top: 18px;
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--seafoam);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      transform: translateX(-6px);
-      transition: opacity var(--transition), transform var(--transition);
-    }
-    .entry-row:hover .entry-arrow { opacity: 1; transform: translateX(0); }
-    .entry-arrow svg { width: 14px; height: 14px; }
+        .js-ready .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    /* Audio entry */
-    .entry-row.audio-type { background: rgba(200,222,221,0.06); }
+        /* ── JOURNAL ── */
+        #journal {
+            background: var(--aqua-pale);
+            color: var(--navy);
+            padding: 140px 24px 120px;
+        }
 
-    /* Coming soon */
-    .entry-row.coming-soon { opacity: 0.5; pointer-events: none; cursor: default; }
+        .journal-inner {
+            max-width: 660px;
+            margin: 0 auto;
+        }
 
-    /* ─── REVEAL ANIMATION ─── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        #journal .section-eyebrow { color: var(--mauve); }
 
-    /* ─── FOOTER ─── */
-    .site-footer {
-      border-top: 1px solid var(--rule);
-      padding: 48px;
-      max-width: var(--max-w);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-    .footer-logo {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--navy);
-      text-decoration: none;
-    }
-    .footer-copy {
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
+        .journal-headline {
+            font-family: var(--serif);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      .site-nav { padding: 18px 24px; }
-      .nav-links { display: none; }
-      .page-header { padding: 120px 24px 48px; }
-      .filter-bar { padding: 0 24px 40px; }
-      .rule-line { padding: 0 24px; }
-      .entry-list { padding: 0 24px 80px; }
-      .entry-row { grid-template-columns: 1fr; gap: 12px; }
-      .entry-row:hover { margin: 0; padding-left: 0; padding-right: 0; }
-      .entry-date-col { padding-top: 0; }
-      .site-footer { padding: 36px 24px; flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+        .journal-sub {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 17px;
+            font-weight: 300;
+            color: var(--mauve);
+            margin-bottom: 56px;
+        }
+
+        .journal-entry {
+            padding: 28px 0;
+            border-bottom: 0.5px solid rgba(12,58,82,0.1);
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 24px;
+            align-items: start;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .journal-entry:first-child { border-top: 0.5px solid rgba(12,58,82,0.1); }
+        .journal-entry:hover { opacity: 0.6; }
+
+        .entry-date {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            color: var(--mauve);
+            font-weight: 300;
+            text-transform: uppercase;
+            padding-top: 4px;
+        }
+
+        .entry-title {
+            font-family: var(--serif);
+            font-size: 21px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 4px;
+            line-height: 1.25;
+        }
+
+        .entry-accent {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--mauve);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .entry-preview {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: rgba(12,58,82,0.8);
+            line-height: 1.85;
+        }
+
+        .journal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--navy);
+            opacity: 0.5;
+            text-decoration: none;
+            font-weight: 300;
+            margin-top: 44px;
+            transition: opacity 0.4s;
+        }
+
+        .journal-link::after {
+            content: '';
+            width: 24px; height: 0.5px;
+            background: currentColor;
+            transition: width 0.4s;
+        }
+
+        .journal-link:hover { opacity: 0.9; }
+        .journal-link:hover::after { width: 40px; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--navy);
+            border-top: 0.5px solid rgba(237,232,216,0.06);
+            padding: 40px 24px 32px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 32px 48px;
+            align-items: start;
+        }
+
+        .footer-brand {
+            font-family: var(--serif);
+            font-size: 15px;
+            font-weight: 300;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.6);
+            margin-bottom: 16px;
+        }
+
+        .footer-contact {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            color: rgba(237,232,216,0.5);
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .footer-contact a {
+            color: rgba(237,232,216,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-contact a:hover { color: var(--parchment); }
+
+        .footer-tagline {
+            font-family: var(--serif);
+            font-size: 14px;
+            font-style: italic;
+            color: rgba(237,232,216,0.3);
+            margin-top: 16px;
+        }
+
+        .footer-right { text-align: right; }
+
+        .footer-legal {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .footer-legal a {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.35);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+
+        .footer-legal a:hover { color: rgba(237,232,216,0.7); }
+
+        .footer-copy {
+            grid-column: 1 / -1;
+            border-top: 0.5px solid rgba(237,232,216,0.05);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer-meta {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(237,232,216,0.2);
+            font-weight: 200;
+        }
+
+        /* ── MODALS ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5,24,36,0.85);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal-box {
+            background: var(--body-bg);
+            color: var(--body-text);
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 48px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 24px;
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--body-text-2);
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .modal-close:hover { opacity: 1; }
+
+        .modal-title {
+            font-family: var(--serif);
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--body-text);
+            margin-bottom: 8px;
+        }
+
+        .modal-date {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--mauve);
+            font-weight: 300;
+            margin-bottom: 36px;
+        }
+
+        .modal-body h3 {
+            font-family: var(--sans);
+            font-size: 9px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: var(--body-text-2);
+            margin: 28px 0 10px;
+        }
+
+        .modal-body p {
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--body-text-2);
+            margin-bottom: 12px;
+        }
+
+        .modal-body a { color: var(--gold); text-decoration: none; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 680px) {
+            .site-nav { padding: 18px 24px; }
+            .nav-links { display: none; }
+            #journal { padding: 100px 20px 80px; }
+            .journal-entry { grid-template-columns: 1fr; gap: 6px; }
+            footer { grid-template-columns: 1fr; }
+            .footer-right { text-align: left; }
+            .footer-legal { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 16px; }
+            .modal-box { padding: 32px 24px; }
+        }
+    </style>
 </head>
-
 <body>
 
-  <!-- NAV -->
-  <nav class="site-nav" aria-label="Site navigation">
-    <a class="nav-logo" href="/">Serenity by J. Maree</a>
+<!-- NAV -->
+<nav class="site-nav" aria-label="Site navigation">
+    <a class="nav-logo" href="/">Serenity · J. Maree</a>
     <ul class="nav-links">
-      <li><a href="https://serenitybyjmaree.com">Home</a></li>
-      <li><a href="https://serenitybyjmaree.com/#practices">The Container</a></li>
-      <li><a href="https://serenitybyjmaree.com/#begin">Connect</a></li>
+        <li><a href="https://serenitybyjmaree.com">Home</a></li>
+        <li><a href="https://serenitybyjmaree.com/#practices">The Container</a></li>
+        <li><a href="https://serenitybyjmaree.com/#begin">Connect</a></li>
     </ul>
-  </nav>
+</nav>
 
-  <!-- PAGE HEADER -->
-  <header class="page-header">
-    <p class="eyebrow reveal">Journal</p>
-    <h1 class="page-title reveal">Notes from<br>the Practice</h1>
-    <p class="page-sub reveal">writing from inside the re-selfing</p>
-  </header>
+<!-- ══════ JOURNAL ══════ -->
+<section id="journal">
+    <div class="journal-inner">
 
-  <!-- FILTER PILLS -->
-  <div class="filter-bar" role="group" aria-label="Filter entries">
-    <button class="pill active" data-filter="all">All</button>
-    <button class="pill" data-filter="writing">
-      <!-- Pen icon -->
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      Writing
-    </button>
-    <button class="pill" data-filter="audio">
-      <!-- Headphones icon -->
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
-      Audio
-    </button>
-    <button class="pill" data-filter="somatic">Somatic</button>
-    <button class="pill" data-filter="midlife">Midlife</button>
-  </div>
+        <div class="section-eyebrow reveal">Journal</div>
 
-  <hr class="rule-line" />
+        <h2 class="journal-headline reveal">Notes from the Practice</h2>
+        <p class="journal-sub reveal">writing from inside the re-selfing</p>
 
-  <!-- ENTRY LIST -->
-  <main class="entry-list" id="entries">
+        <div class="journal-entries">
+            <div class="journal-entry reveal">
+                <p class="entry-date">2025<br>—</p>
+                <div class="entry-body">
+                    <p class="entry-title">The Failed Yogi</p>
+                    <span class="entry-accent">on losing the path and seeing yourself clearly for the first time</span>
+                    <p class="entry-preview">I thought I was on the path to enlightenment. But somewhere along the way, I got lost — and what I didn't realise was that losing the path might have been the most honest thing I ever did...</p>
+                </div>
+            </div>
 
-    <!-- Entry 1 – Writing -->
-    <a class="entry-row reveal" href="/journal/the-failed-yogi" data-type="writing">
-      <div class="entry-date-col">
-        <div class="entry-date-year">2025</div>
-        <div class="entry-date-day">Mar 14</div>
-      </div>
-      <div class="entry-content">
-        <div class="entry-type-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          Writing
+            <div class="journal-entry reveal">
+                <p class="entry-date">2025<br>—</p>
+                <div class="entry-body">
+                    <p class="entry-title">When the Practice Stops Being Yours</p>
+                    <span class="entry-accent">on teaching, performing, and finding your way back to the mat</span>
+                    <p class="entry-preview">For years, my practice had been inseparable from teaching. I didn't notice when one disappeared because the other was still there — filling the shape of what had been lost...</p>
+                </div>
+            </div>
+
+            <div class="journal-entry reveal">
+                <p class="entry-date">Coming<br>soon</p>
+                <div class="entry-body">
+                    <p class="entry-title">What Settling Actually Feels Like</p>
+                    <span class="entry-accent">a note on the difference between peace and numbness</span>
+                    <p class="entry-preview">There is a version of quiet that feels like resolution. And there is a version that is just the absence of noise. Learning to tell them apart has been its own kind of practice...</p>
+                </div>
+            </div>
         </div>
-        <p class="entry-title-text">The Failed Yogi</p>
-        <span class="entry-accent-text">on losing the path and seeing yourself clearly for the first time</span>
-        <p class="entry-preview-text">I thought I was on the path to enlightenment. But somewhere along the way, I got lost — and what I didn't realise was that losing the path might have been the most honest thing I ever did...</p>
-        <span class="entry-arrow">
-          Read
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </span>
-      </div>
-    </a>
 
-    <!-- Entry 2 – Writing -->
-    <a class="entry-row reveal" href="/journal/when-the-practice-stops-being-yours" data-type="writing">
-      <div class="entry-date-col">
-        <div class="entry-date-year">2025</div>
-        <div class="entry-date-day">Feb 28</div>
-      </div>
-      <div class="entry-content">
-        <div class="entry-type-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          Writing
-        </div>
-        <p class="entry-title-text">When the Practice Stops Being Yours</p>
-        <span class="entry-accent-text">on teaching, performing, and finding your way back to the mat</span>
-        <p class="entry-preview-text">For years, my practice had been inseparable from teaching. I didn't notice when one disappeared because the other was still there — filling the shape of what had been lost...</p>
-        <span class="entry-arrow">
-          Read
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </span>
-      </div>
-    </a>
+        <a class="journal-link reveal" href="#">Read all entries</a>
 
-    <!-- Entry 3 – Audio (example) -->
-    <a class="entry-row audio-type reveal" href="/journal/what-the-body-keeps" data-type="audio">
-      <div class="entry-date-col">
-        <div class="entry-date-year">2025</div>
-        <div class="entry-date-day">Jan 19</div>
-      </div>
-      <div class="entry-content">
-        <div class="entry-type-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
-          Audio
-        </div>
-        <p class="entry-title-text">What the Body Keeps</p>
-        <span class="entry-accent-text">a guided listening — where you've been holding it</span>
-        <p class="entry-preview-text">This is not an exercise. It's an invitation to feel what you've been carrying — without trying to fix it. Settle somewhere quiet, close your eyes, and let the body speak first...</p>
-        <span class="entry-arrow">
-          Listen
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <!-- Entry 4 – Coming soon -->
-    <div class="entry-row coming-soon" aria-hidden="true">
-      <div class="entry-date-col">
-        <div class="entry-date-soon">Coming<br>soon</div>
-      </div>
-      <div class="entry-content">
-        <div class="entry-type-badge" style="opacity:0.5;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          Writing
-        </div>
-        <p class="entry-title-text">What Settling Actually Feels Like</p>
-        <span class="entry-accent-text">a note on the difference between peace and numbness</span>
-        <p class="entry-preview-text">There is a version of quiet that feels like resolution. And there is a version that is just the absence of noise. Learning to tell them apart has been its own kind of practice...</p>
-      </div>
     </div>
+</section>
 
-  </main>
-
-  <!-- FOOTER -->
-  <!-- ══════ FOOTER ══════ -->
+<!-- ══════ FOOTER ══════ -->
 <footer>
     <div class="footer-left">
         <p class="footer-brand">Serenity · J. Maree</p>
-        <p class="footer-contact">Questions or inquiries: <a href="/cdn-cgi/l/email-protection#177f727b7b785764726572797e636e756e7d7a766572723974787a"><span class="__cf_email__" data-cfemail="2a424f4646456a594f584f44435e53485340474b584f4f04494547">[email&#160;protected]</span></a></p>
+        <p class="footer-contact">Questions or inquiries: <a href="mailto:hello@serenitybyjmaree.com">hello@serenitybyjmaree.com</a></p>
         <p class="footer-contact">Based online · Available internationally</p>
         <p class="footer-tagline">Not therapy · Not coaching · Something quieter</p>
     </div>
@@ -476,15 +516,13 @@
         <p class="modal-date">Last updated: 2025</p>
         <div class="modal-body">
             <h3>What information is collected</h3>
-            <p>If you subscribe to the newsletter, your email address is collected and stored by the third-party email service provider (e.g. Mailchimp, ConvertKit, or Buttondown). No other personal data is collected through this website.</p>
+            <p>If you subscribe to the newsletter, your email address is collected and stored by the third-party email service provider. No other personal data is collected through this website.</p>
             <h3>How it is used</h3>
             <p>Your email address is used solely to send occasional letters about the practice. It will never be sold, shared with third parties, or used for advertising purposes.</p>
             <h3>Cookies and tracking</h3>
-            <p>This website does not use cookies or tracking scripts. Google Fonts is loaded from Google's servers, which means Google may register your IP address when the page loads. This is the only third-party data exposure on this site.</p>
+            <p>This website does not use cookies or tracking scripts. Google Fonts is loaded from Google's servers, which means Google may register your IP address when the page loads.</p>
             <h3>Your rights</h3>
-            <p>You may unsubscribe from the newsletter at any time using the link at the bottom of any email. To request deletion of your data, email <a href="/cdn-cgi/l/email-protection#39515c555556794a5c4b5c57504d405b405354584b5c5c175a5654"><span class="__cf_email__" data-cfemail="cfa7aaa3a3a08fbcaabdaaa1a6bbb6adb6a5a2aebdaaaae1aca0a2">[email&#160;protected]</span></a>.</p>
-            <h3>Contact</h3>
-            <p>For any privacy-related questions, please write to <a href="/cdn-cgi/l/email-protection#d4bcb1b8b8bb94a7b1a6b1babda0adb6adbeb9b5a6b1b1fab7bbb9"><span class="__cf_email__" data-cfemail="e78f828b8b88a794829582898e939e859e8d8a86958282c984888a">[email&#160;protected]</span></a>.</p>
+            <p>You may unsubscribe from the newsletter at any time using the link at the bottom of any email. To request deletion of your data, email <a href="mailto:hello@serenitybyjmaree.com">hello@serenitybyjmaree.com</a>.</p>
         </div>
     </div>
 </div>
@@ -494,133 +532,4 @@
     <div class="modal-box">
         <button class="modal-close" onclick="closeModal('terms')">Close ×</button>
         <h2 class="modal-title">Terms of Use</h2>
-        <p class="modal-date">Last updated: 2025</p>
-        <div class="modal-body">
-            <h3>Use of this website</h3>
-            <p>This website is provided for informational purposes only. By accessing it, you agree not to reproduce, distribute, or repurpose its content without written permission from J. Maree.</p>
-            <h3>Sessions and offerings</h3>
-            <p>All sessions and offerings are subject to a separate client agreement, which will be provided before any work begins. Payment terms, cancellation policies, and session boundaries are outlined in that document.</p>
-            <h3>Intellectual property</h3>
-            <p>All written content, design, and materials on this website are the intellectual property of J. Maree and Serenity. Please do not reproduce them without permission.</p>
-            <h3>Limitation of liability</h3>
-            <p>J. Maree and Serenity are not liable for any outcomes — positive or negative — experienced as a result of engaging with the content on this website or in sessions. All participation is voluntary and at the individual's own discretion.</p>
-            <h3>Contact</h3>
-            <p>Questions about these terms can be directed to <a href="/cdn-cgi/l/email-protection#4e262b2222210e3d2b3c2b20273a372c3724232f3c2b2b602d2123"><span class="__cf_email__" data-cfemail="6b030e0707042b180e190e05021f12091201060a190e0e45080406">[email&#160;protected]</span></a>.</p>
-        </div>
-    </div>
-</div>
-
-<!-- ══════ SCOPE & DISCLAIMER MODAL ══════ -->
-<div class="modal-overlay" id="modal-disclaimer">
-    <div class="modal-box">
-        <button class="modal-close" onclick="closeModal('disclaimer')">Close ×</button>
-        <h2 class="modal-title">Scope &amp; Disclaimer</h2>
-        <p class="modal-date">Please read before enquiring</p>
-        <div class="modal-body">
-            <h3>What this is</h3>
-            <p>Serenity offers somatic-informed, experiential, and relational sessions grounded in J. Maree's personal practice — over 25 years of yoga, movement, and contemplative study. Sessions are a space for slowing down, nervous system settling, and returning to yourself.</p>
-            <h3>What this is not</h3>
-            <p>Serenity is not therapy, counselling, psychotherapy, clinical coaching, or any form of regulated healthcare. J. Maree is not a licensed therapist, psychologist, psychiatrist, or medical professional. Nothing offered here constitutes or replaces professional mental health treatment or medical advice.</p>
-            <h3>If you are in crisis</h3>
-            <p>If you are experiencing a mental health crisis, suicidal thoughts, or any acute psychological or medical emergency, please contact a qualified professional or emergency service immediately. In the US, you can call or text 988 (Suicide and Crisis Lifeline). In the UK, call 116 123 (Samaritans).</p>
-            <h3>Informed participation</h3>
-            <p>By enquiring about or booking a session, you confirm that you have read and understood this scope clarification and are entering into the work voluntarily and with informed consent.</p>
-        </div>
-    </div>
-</div>
-
-<!-- ══════ SCRIPTS ══════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // Activate JS-dependent animations
-    document.body.classList.add('js-ready');
-
-    // Sticky nav — visibility + dark/light text switching
-    const stickyNav = document.getElementById('sticky-nav');
-    const heroHeight = document.getElementById('hero').offsetHeight;
-
-    // Sections with dark backgrounds — nav links go light over these
-    const darkSections = ['practices', 'practice-coming'];
-
-    function updateNav() {
-        const scrollY = window.scrollY;
-
-        // Show/hide nav after 60% of hero
-        stickyNav.classList.toggle('visible', scrollY > heroHeight * 0.6);
-
-        // Detect which section the top of the viewport is inside
-        let onDark = false;
-        darkSections.forEach(id => {
-            const el = document.getElementById(id);
-            if (!el) return;
-            const rect = el.getBoundingClientRect();
-            // Section is overlapping the nav (top 60px)
-            if (rect.top <= 60 && rect.bottom > 0) {
-                onDark = true;
-            }
-        });
-
-        // Also check transition bands — they go dark during navy→seafoam
-        // by checking if we're between practice-coming and begin
-        const practiceEnd = document.getElementById('practice-coming');
-        const beginEl = document.getElementById('begin');
-        if (practiceEnd && beginEl) {
-            const pRect = practiceEnd.getBoundingClientRect();
-            const bRect = beginEl.getBoundingClientRect();
-            // In the transition band between practice and begin
-            if (pRect.bottom <= 60 && bRect.top > 60) {
-                onDark = true;
-            }
-        }
-
-        stickyNav.classList.toggle('on-dark', onDark);
-    }
-
-    window.addEventListener('scroll', updateNav, { passive: true });
-    updateNav(); // run once on load
-
-    // Scroll reveals
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('visible');
-                observer.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Modal helpers
-    function openModal(id) {
-        document.getElementById('modal-' + id).classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal(id) {
-        document.getElementById('modal-' + id).classList.remove('open');
-        document.body.style.overflow = '';
-    }
-
-    // Close modal on overlay click
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
-    });
-
-    // Close modal on Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.modal-overlay.open').forEach(m => {
-                m.classList.remove('open');
-                document.body.style.overflow = '';
-            });
-        }
-    });
-</script>
-
-</body>
-</html>
+        <p class="modal
