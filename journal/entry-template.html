@@ -19,7 +19,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
 
   <style>
     /* ─── TOKENS ─── */
@@ -61,34 +61,46 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: rgba(245,240,232,0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rule);
+      background: rgba(232,242,240,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 0.5px solid rgba(58,74,84,0.08);
     }
     .nav-logo {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 1.05rem;
-      letter-spacing: 0.04em;
-      color: var(--navy);
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.72rem;
-      letter-spacing: 0.13em;
+      font-family: var(--font-body);
+      font-size: 10px;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
-      transition: color var(--transition);
+      font-weight: 300;
     }
-    .nav-links a:hover { color: var(--navy); }
-    .nav-links a[aria-current="page"] { color: var(--seafoam); }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 300;
+      transition: color 0.4s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 50%;
+      width: 0; height: 0.5px;
+      background: var(--muted);
+      transition: width 0.4s, left 0.4s;
+    }
+    .nav-links a:hover { color: var(--muted); }
+    .nav-links a:hover::after { width: 100%; left: 0; }
 
     /* ─── BACK LINK ─── */
     .back-link {
@@ -367,25 +379,155 @@
       color: var(--muted);
     }
 
-    /* ─── SITE FOOTER ─── */
-    .site-footer {
-      border-top: 1px solid var(--rule);
-      padding: 48px;
-      max-width: var(--max-w);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--navy);
+      border-top: 0.5px solid rgba(237,232,216,0.06);
+      padding: 40px 24px 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px 48px;
+      align-items: start;
     }
-    .footer-logo {
+    .footer-brand {
       font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--navy);
-      text-decoration: none;
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(237,232,216,0.6);
+      margin-bottom: 16px;
     }
-    .footer-copy { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; }
+    .footer-contact {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(237,232,216,0.5);
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .footer-contact a {
+      color: rgba(237,232,216,0.7);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-contact a:hover { color: #ede8d8; }
+    .footer-tagline {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-style: italic;
+      color: rgba(237,232,216,0.3);
+      margin-top: 16px;
+    }
+    .footer-right { text-align: right; }
+    .footer-legal {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .footer-legal a {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(237,232,216,0.35);
+      text-decoration: none;
+      font-weight: 300;
+      transition: color 0.3s;
+    }
+    .footer-legal a:hover { color: rgba(237,232,216,0.7); }
+    .footer-copy {
+      grid-column: 1 / -1;
+      border-top: 0.5px solid rgba(237,232,216,0.05);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-meta {
+      font-family: var(--font-body);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(237,232,216,0.2);
+      font-weight: 300;
+    }
+
+    /* ─── MODALS ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5,24,36,0.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #f2ede0;
+      color: #2e3a3f;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 48px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-family: var(--font-body);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #4a5a60;
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+    .modal-close:hover { opacity: 1; }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      color: #2e3a3f;
+      margin-bottom: 8px;
+    }
+    .modal-date {
+      font-family: var(--font-body);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8a7a78;
+      font-weight: 300;
+      margin-bottom: 36px;
+    }
+    .modal-body h3 {
+      font-family: var(--font-body);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 300;
+      color: #4a5a60;
+      margin: 28px 0 10px;
+    }
+    .modal-body p {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.9;
+      color: #4a5a60;
+      margin-bottom: 12px;
+    }
+    .modal-body a { color: #8a6a20; text-decoration: none; }
 
     /* ─── REVEAL ─── */
     .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.65s ease, transform 0.65s ease; }
@@ -402,7 +544,10 @@
       .entry-body { grid-template-columns: 1fr; padding: 40px 24px 80px; }
       .entry-body-spacer { display: none; }
       .related-bar { padding: 40px 24px; }
-      .site-footer { padding: 36px 24px; flex-direction: column; align-items: flex-start; }
+      footer { grid-template-columns: 1fr; }
+      .footer-right { text-align: left; }
+      .footer-legal { align-items: flex-start; flex-direction: row; flex-wrap: wrap; gap: 16px; }
+      .modal-box { padding: 32px 24px; }
     }
   </style>
 </head>
@@ -411,12 +556,11 @@
 
   <!-- NAV -->
   <nav class="site-nav" aria-label="Site navigation">
-    <a class="nav-logo" href="/">Serenity by J'maree</a>
+    <a class="nav-logo" href="/">Serenity · J. Maree</a>
     <ul class="nav-links">
-      <li><a href="/#practice">Practice</a></li>
-      <li><a href="/#offerings">Offerings</a></li>
-      <li><a href="/journal" aria-current="page">Journal</a></li>
-      <li><a href="/#contact">Connect</a></li>
+      <li><a href="https://serenitybyjmaree.com">Home</a></li>
+      <li><a href="https://serenitybyjmaree.com/#practices">The Container</a></li>
+      <li><a href="https://serenitybyjmaree.com/#begin">Connect</a></li>
     </ul>
   </nav>
 
@@ -554,11 +698,79 @@
     </div>
   </section>
 
-  <!-- SITE FOOTER -->
-  <footer class="site-footer">
-    <a class="footer-logo" href="/">Serenity by J'maree</a>
-    <p class="footer-copy">© 2025 Serenity by J'maree. All rights reserved.</p>
+  <!-- ══════ FOOTER ══════ -->
+  <footer>
+    <div class="footer-left">
+      <p class="footer-brand">Serenity · J. Maree</p>
+      <p class="footer-contact">Questions or inquiries: <a href="mailto:hello@serenitybyjmaree.com">hello@serenitybyjmaree.com</a></p>
+      <p class="footer-contact">Based online · Available internationally</p>
+      <p class="footer-tagline">Not therapy · Not coaching · Something quieter</p>
+    </div>
+    <div class="footer-right">
+      <div class="footer-legal">
+        <a href="#" onclick="openModal('privacy'); return false;">Privacy Policy</a>
+        <a href="#" onclick="openModal('terms'); return false;">Terms of Use</a>
+        <a href="#" onclick="openModal('disclaimer'); return false;">Scope &amp; Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      <span class="footer-meta">© 2025 Serenity · J. Maree · All rights reserved</span>
+      <span class="footer-meta">Serenity Bespoken · The Spoken Sanctuary · Re-Selfing Rituals</span>
+    </div>
   </footer>
+
+  <!-- ══════ PRIVACY POLICY MODAL ══════ -->
+  <div class="modal-overlay" id="modal-privacy">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('privacy')">Close ×</button>
+      <h2 class="modal-title">Privacy Policy</h2>
+      <p class="modal-date">Last updated: 2025</p>
+      <div class="modal-body">
+        <h3>What information is collected</h3>
+        <p>If you subscribe to the newsletter, your email address is collected and stored by the third-party email service provider. No other personal data is collected through this website.</p>
+        <h3>How it is used</h3>
+        <p>Your email address is used solely to send occasional letters about the practice. It will never be sold, shared with third parties, or used for advertising purposes.</p>
+        <h3>Cookies and tracking</h3>
+        <p>This website does not use cookies or tracking scripts. Google Fonts is loaded from Google's servers, which means Google may register your IP address when the page loads.</p>
+        <h3>Your rights</h3>
+        <p>You may unsubscribe from the newsletter at any time using the link at the bottom of any email. To request deletion of your data, email <a href="mailto:hello@serenitybyjmaree.com">hello@serenitybyjmaree.com</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ TERMS OF USE MODAL ══════ -->
+  <div class="modal-overlay" id="modal-terms">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('terms')">Close ×</button>
+      <h2 class="modal-title">Terms of Use</h2>
+      <p class="modal-date">Last updated: 2025</p>
+      <div class="modal-body">
+        <h3>Use of this website</h3>
+        <p>This website is provided for informational purposes only. By accessing it, you agree not to reproduce, distribute, or repurpose its content without written permission from J. Maree.</p>
+        <h3>Intellectual property</h3>
+        <p>All written content, design, and materials on this website are the intellectual property of J. Maree and Serenity. Please do not reproduce them without permission.</p>
+        <h3>Limitation of liability</h3>
+        <p>J. Maree and Serenity are not liable for any outcomes experienced as a result of engaging with the content on this website or in sessions. All participation is voluntary and at the individual's own discretion.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ SCOPE & DISCLAIMER MODAL ══════ -->
+  <div class="modal-overlay" id="modal-disclaimer">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('disclaimer')">Close ×</button>
+      <h2 class="modal-title">Scope &amp; Disclaimer</h2>
+      <p class="modal-date">Please read before enquiring</p>
+      <div class="modal-body">
+        <h3>What this is</h3>
+        <p>Serenity offers somatic-informed, experiential, and relational sessions grounded in J. Maree's personal practice — over 25 years of yoga, movement, and contemplative study.</p>
+        <h3>What this is not</h3>
+        <p>Serenity is not therapy, counselling, psychotherapy, clinical coaching, or any form of regulated healthcare. J. Maree is not a licensed therapist, psychologist, psychiatrist, or medical professional.</p>
+        <h3>If you are in crisis</h3>
+        <p>If you are experiencing a mental health crisis or acute emergency, please contact a qualified professional or emergency service immediately. In the US, call or text 988. In the UK, call 116 123 (Samaritans).</p>
+      </div>
+    </div>
+  </div>
 
   <script>
     /* Reveal on scroll */
@@ -572,6 +784,28 @@
       });
     }, { threshold: 0.1 });
     revealEls.forEach(el => observer.observe(el));
+
+    /* Modal helpers */
+    function openModal(id) {
+      document.getElementById('modal-' + id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById('modal-' + id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === this) { this.classList.remove('open'); document.body.style.overflow = ''; }
+      });
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(m => {
+          m.classList.remove('open'); document.body.style.overflow = '';
+        });
+      }
+    });
   </script>
 
 </body>
