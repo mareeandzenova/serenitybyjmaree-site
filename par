@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The CommuniTea Parlour</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Libre+Baskerville:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* ── Core Botanical Neutrals (Foundation 70-80%) ── */
+    --forest:      #162114;   /* deepest bg, hero, footer */
+    --evergreen:   #294122;   /* nav, dark bands */
+    --olive:       #4A5D14;   /* section containers, card borders top accent */
+    --sage-gray:   #6B705C;   /* secondary text, subdued labels */
+    --warm-stone:  #A5A58D;   /* dividers, borders, quiet lines */
+
+    /* ── Warm Earth Tones (Support / Hospitality) ── */
+    --clay:        #BF7343;   /* highlight boxes, event surfaces */
+    --amber:       #E2954D;   /* secondary bg warmth, pull-quote tint */
+    --blush:       #F4C4B7;   /* soft backgrounds, calm containers */
+
+    /* ── Botanical Accent (Ceremony — use sparingly) ── */
+    --chartreuse:  #B7AC27;   /* seals, emblems, occasional callouts */
+
+    /* ── Signal Red (Directional only — never as background) ── */
+    --signal:      #EB3D00;   /* nav hover, micro-interactions, eyebrows, monogram */
+
+    /* Derived surfaces */
+    --reading-bg:  #EDE8DF;   /* long-form reading surface, derived from warm-stone */
+    --card-bg:     #F0EBE2;   /* calm containers */
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--reading-bg);
+    color: var(--forest);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--evergreen);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; font-weight: 600; letter-spacing: 0.12em;
+    color: var(--reading-bg); text-transform: uppercase; text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-logo:hover { color: var(--chartreuse); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--warm-stone); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--signal); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; padding-top: 64px;
+    background: var(--forest);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(120px, 22vw, 260px); font-weight: 300;
+    color: rgba(255,255,255,0.03); letter-spacing: 0.05em;
+    white-space: nowrap; pointer-events: none; user-select: none;
+  }
+  .hero-botanical {
+    font-size: 1.8rem; margin-bottom: 16px; opacity: 0.55;
+  }
+  .hero-sub {
+    font-family: 'DM Sans', sans-serif; font-size: 0.68rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--warm-stone); margin-bottom: 24px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px); font-weight: 300; line-height: 1;
+    color: var(--reading-bg); margin-bottom: 8px;
+  }
+  .hero-title em { font-style: italic; color: var(--chartreuse); }
+  .hero-parlour {
+    font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+    letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--sage-gray); margin-bottom: 40px;
+  }
+  .hero-tagline {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 1rem; color: var(--warm-stone); margin-bottom: 56px;
+    max-width: 420px; line-height: 1.8;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    display: inline-block; padding: 14px 32px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; border: none;
+    transition: all 0.25s;
+  }
+  /* Primary CTA uses warm earth hospitality tone */
+  .btn-primary {
+    background: var(--clay); color: var(--reading-bg);
+    font-weight: 500;
+  }
+  .btn-primary:hover { background: var(--amber); }
+  .btn-outline {
+    background: transparent; color: var(--warm-stone);
+    border: 1px solid var(--sage-gray);
+  }
+  .btn-outline:hover { border-color: var(--reading-bg); color: var(--reading-bg); }
+
+  .leaf-divider {
+    margin: 0 auto 0; text-align: center;
+    font-size: 1.2rem; color: var(--sage-gray); padding: 20px 0 0;
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+
+  /* Section eyebrow = signal red (directional label, small moment of look-here) */
+  .section-eyebrow {
+    font-family: 'DM Sans', sans-serif; font-size: 0.65rem;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--signal); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 60px); font-weight: 300; line-height: 1.1;
+    color: var(--forest); margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; }
+  .section-desc {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.95rem; color: var(--sage-gray);
+    max-width: 560px; line-height: 1.8;
+  }
+  .rule {
+    border: none; border-top: 1px solid var(--warm-stone);
+    margin: 60px 0; opacity: 0.35;
+  }
+
+  /* ── FULL-WIDTH DARK BAND (Private Events) ── */
+  .band { background: var(--evergreen); }
+  .band-inner { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+  .band .section-title { color: var(--reading-bg); }
+  .band .section-eyebrow { color: var(--signal); }
+  .band .section-desc { color: var(--warm-stone); }
+
+  /* ══ SECTION 1: POPUPS ══ */
+  .popups-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px;
+  }
+  .popup-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(165,165,141,0.35);
+    padding: 36px 32px; position: relative; overflow: hidden;
+  }
+  /* Top accent = olive (calm structure, not signal) */
+  .popup-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--olive);
+  }
+  /* Featured card gets warm clay top — hospitality, you're invited */
+  .popup-card.featured::before { background: var(--clay); }
+  .popup-tag {
+    display: inline-block; font-size: 0.6rem; letter-spacing: 0.22em;
+    text-transform: uppercase; padding: 4px 10px;
+    background: transparent; color: var(--sage-gray);
+    border: 1px solid rgba(165,165,141,0.5);
+    margin-bottom: 20px;
+  }
+  /* Upcoming tag = amber warmth (invite, not alarm) */
+  .popup-tag.upcoming {
+    background: var(--amber); color: var(--forest);
+    border-color: var(--amber);
+  }
+  .popup-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
+    font-weight: 600; color: var(--forest); margin-bottom: 8px;
+  }
+  .popup-date {
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--clay); margin-bottom: 14px;
+  }
+  .popup-desc {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.88rem; color: var(--sage-gray);
+    line-height: 1.75; margin-bottom: 24px;
+  }
+  .popup-detail {
+    font-size: 0.72rem; letter-spacing: 0.08em; color: var(--sage-gray);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── MENU SHOWCASE ── */
+  .menu-showcase {
+    margin-top: 64px;
+    border: 1px solid rgba(165,165,141,0.35); background: var(--card-bg);
+    padding: 48px;
+  }
+  .menu-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 24px; margin-bottom: 40px;
+  }
+  .menu-sections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  /* Category label = signal red (small directional moment) */
+  .menu-category-label {
+    font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--signal); margin-bottom: 16px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(165,165,141,0.4);
+  }
+  .menu-item { margin-bottom: 18px; }
+  .menu-item-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+    font-weight: 600; color: var(--forest); letter-spacing: 0.03em;
+  }
+  /* Price = chartreuse — a small ceremony, this costs something */
+  .menu-item-price {
+    font-size: 0.7rem; color: var(--chartreuse); letter-spacing: 0.1em; margin-left: 6px;
+  }
+  .menu-item-desc {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.78rem; color: var(--sage-gray);
+    line-height: 1.65; margin-top: 3px;
+  }
+  .menu-item-flavors {
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--olive); margin-top: 4px;
+  }
+  .menu-note {
+    margin-top: 32px; padding-top: 24px;
+    border-top: 1px solid rgba(165,165,141,0.4);
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.82rem; color: var(--sage-gray); text-align: center;
+  }
+
+  /* ══ SECTION 2: PRIVATE EVENTS ══ */
+  .events-layout {
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px;
+    align-items: start; margin-top: 56px;
+  }
+  .events-info { position: sticky; top: 90px; }
+  .events-perks { margin-top: 36px; }
+  .perk {
+    display: flex; gap: 16px; margin-bottom: 28px; align-items: flex-start;
+  }
+  /* Perk icon box uses olive — structural, botanical */
+  .perk-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: var(--forest); color: var(--warm-stone);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem;
+  }
+  .perk-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+    font-weight: 600; color: var(--reading-bg); margin-bottom: 4px;
+  }
+  .perk-desc { font-size: 0.8rem; color: var(--warm-stone); line-height: 1.65; }
+
+  /* ── INQUIRY FORM ── */
+  /* Form sits on a blush/warm surface — invitation energy */
+  .inquiry-form { background: var(--blush); padding: 48px; }
+  .form-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;
+    font-weight: 600; color: var(--forest); margin-bottom: 32px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--sage-gray); margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; padding: 12px 16px;
+    border: 1px solid rgba(107,112,92,0.35); background: var(--reading-bg);
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--forest);
+    appearance: none; outline: none; transition: border-color 0.2s;
+    border-radius: 0;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--olive); }
+  .form-group textarea { min-height: 110px; resize: vertical; }
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234A5D14'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    cursor: pointer;
+  }
+  .btn-form {
+    width: 100%; padding: 16px; background: var(--forest); color: var(--reading-bg);
+    border: none; font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
+    letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer;
+    transition: background 0.25s; margin-top: 8px;
+  }
+  .btn-form:hover { background: var(--olive); }
+  .form-success {
+    display: none; text-align: center; padding: 32px;
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    color: var(--forest); font-size: 1rem; line-height: 1.8;
+  }
+
+  /* ══ SECTION 3: PROVISIONS ══ */
+  /* Provisions lives on reading-bg — this is a calm, long-form surface */
+  .provisions-band { background: var(--reading-bg); border-top: 1px solid rgba(165,165,141,0.4); }
+  .coming-soon-wrapper {
+    margin-top: 56px; text-align: center;
+  }
+  /* Still Steeping container gets the card-bg — a calm container */
+  .still-steeping {
+    display: inline-block;
+    padding: 80px 60px;
+    border: 1px solid rgba(165,165,141,0.4);
+    position: relative; background: var(--card-bg);
+    max-width: 680px; width: 100%;
+  }
+  .still-steeping::before {
+    content: ''; position: absolute; inset: 8px;
+    border: 1px solid rgba(165,165,141,0.25); pointer-events: none;
+  }
+  .steeping-icon { font-size: 3rem; margin-bottom: 24px; display: block; opacity: 0.6; }
+  .steeping-headline {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: clamp(32px, 5vw, 52px); font-weight: 300;
+    color: var(--forest); margin-bottom: 16px; line-height: 1.15;
+  }
+  /* "Coming Soon" sub = chartreuse seal moment */
+  .steeping-sub {
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--chartreuse); margin-bottom: 24px;
+  }
+  .steeping-desc {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.9rem; color: var(--sage-gray);
+    line-height: 1.8; max-width: 420px; margin: 0 auto 36px;
+  }
+
+  /* Notify form */
+  .notify-form {
+    display: flex; gap: 0; max-width: 380px; margin: 0 auto;
+  }
+  .notify-form input {
+    flex: 1; padding: 13px 18px; border: 1px solid rgba(165,165,141,0.5);
+    border-right: none; background: var(--reading-bg);
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+    color: var(--forest); outline: none; border-radius: 0;
+  }
+  .notify-form input:focus { border-color: var(--olive); }
+  .notify-form button {
+    padding: 13px 22px; background: var(--evergreen); color: var(--reading-bg);
+    border: 1px solid var(--evergreen); font-size: 0.68rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    border-radius: 0;
+  }
+  .notify-form button:hover { background: var(--olive); border-color: var(--olive); }
+
+  /* Preview tiles for provisions — warm earth hospitality grid */
+  .provisions-preview {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: rgba(165,165,141,0.3);
+    margin-top: 64px; border: 1px solid rgba(165,165,141,0.3);
+  }
+  .provision-tile {
+    background: var(--card-bg); padding: 36px 28px; text-align: center;
+  }
+  .provision-tile-icon { font-size: 2rem; margin-bottom: 16px; display: block; opacity: 0.45; }
+  .provision-tile-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+    font-weight: 600; color: var(--forest); margin-bottom: 8px;
+  }
+  .provision-tile-desc {
+    font-size: 0.78rem; color: var(--sage-gray); line-height: 1.65;
+  }
+  /* Badge = chartreuse — small ceremony, this will matter */
+  .provision-tile-badge {
+    display: inline-block; margin-top: 14px; font-size: 0.6rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--chartreuse); border: 1px solid var(--chartreuse); padding: 3px 10px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--forest); color: var(--warm-stone);
+    padding: 60px 40px 32px; text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;
+    font-weight: 300; letter-spacing: 0.1em; margin-bottom: 8px;
+    color: var(--reading-bg);
+  }
+  /* CTP monogram/logo accent = chartreuse (emblem moment) */
+  .footer-logo em { font-style: italic; color: var(--chartreuse); }
+  .footer-tagline {
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--sage-gray); margin-bottom: 32px;
+  }
+  .footer-links {
+    display: flex; gap: 32px; justify-content: center; list-style: none;
+    margin-bottom: 40px; flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sage-gray); text-decoration: none; transition: color 0.2s;
+  }
+  /* Arrow/link hover = signal red (directional micro-interaction) */
+  .footer-links a:hover { color: var(--signal); }
+  .footer-insta {
+    font-size: 0.72rem; color: var(--sage-gray); margin-bottom: 24px;
+  }
+  .footer-insta a { color: var(--clay); text-decoration: none; transition: color 0.2s; }
+  .footer-insta a:hover { color: var(--amber); }
+  .footer-copy { font-size: 0.65rem; color: var(--sage-gray); opacity: 0.45; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { gap: 20px; }
+    .section, .band-inner { padding: 72px 24px; }
+    .popups-grid { grid-template-columns: 1fr; }
+    .menu-sections { grid-template-columns: 1fr; }
+    .events-layout { grid-template-columns: 1fr; gap: 48px; }
+    .events-info { position: static; }
+    .form-row { grid-template-columns: 1fr; }
+    .provisions-preview { grid-template-columns: 1fr; }
+    .still-steeping { padding: 48px 32px; }
+    .menu-showcase { padding: 32px 24px; }
+    .inquiry-form { padding: 32px 24px; }
+    .notify-form { flex-direction: column; }
+    .notify-form input { border-right: 1px solid rgba(165,165,141,0.5); border-bottom: none; }
+    footer { padding: 48px 24px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">The CommuniTea Parlour</a>
+  <ul class="nav-links">
+    <li><a href="#popups">Popups</a></li>
+    <li><a href="#private-events">Private Events</a></li>
+    <li><a href="#provisions">Provisions</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">TEA</div>
+  <div class="hero-botanical">🌿</div>
+  <div class="hero-sub">Small-batched · Seasonal · Botanical</div>
+  <h1 class="hero-title">The <em>Communi</em>Tea</h1>
+  <div class="hero-parlour">P A R L O U R</div>
+  <p class="hero-tagline">A seasonal rotation of teas and botanicals, brewed with intention and shared with care.</p>
+  <div class="hero-actions">
+    <a href="#popups" class="btn btn-primary">View Our Menu</a>
+    <a href="#private-events" class="btn btn-outline">Book a Private Event</a>
+  </div>
+  <div class="leaf-divider">✦ ✦ ✦</div>
+</section>
+
+<!-- ══ SECTION 1: POPUPS ══ -->
+<div id="popups">
+  <div class="section">
+    <div class="section-eyebrow">Where to Find Us</div>
+    <h2 class="section-title">Popups &amp; <em>Events</em></h2>
+    <p class="section-desc">We travel to you. Find our seasonal menu at local markets, community gatherings, and curated pop-up experiences throughout the region.</p>
+
+    <div class="popups-grid" style="margin-top:56px;">
+      <div class="popup-card featured">
+        <span class="popup-tag upcoming">Upcoming</span>
+        <div class="popup-name">Farmers Market – Midtown</div>
+        <div class="popup-date">Every Saturday · 8 AM – 1 PM</div>
+        <p class="popup-desc">Join us for the full Late Spring menu — botanical mocktails, fruitea refreshers, and pure iced steeps under the pavilion.</p>
+        <div class="popup-detail"><span>📍</span> Midtown Farmers Market, Central Pavilion</div>
+        <div class="popup-detail"><span>🌿</span> Full seasonal menu available</div>
+      </div>
+      <div class="popup-card">
+        <span class="popup-tag">Monthly</span>
+        <div class="popup-name">Evening Botanical Social</div>
+        <div class="popup-date">Last Friday of the Month · 5 – 9 PM</div>
+        <p class="popup-desc">A slower, more intimate gathering — guided tastings, seasonal tea flights, and conversation over something beautiful in your cup.</p>
+        <div class="popup-detail"><span>📍</span> Location announced monthly via Instagram</div>
+        <div class="popup-detail"><span>🫖</span> Ticketed tasting flights · $28/person</div>
+      </div>
+      <div class="popup-card">
+        <span class="popup-tag">Community</span>
+        <div class="popup-name">Wellness Wednesday Pop-Up</div>
+        <div class="popup-date">Select Wednesdays · 10 AM – 3 PM</div>
+        <p class="popup-desc">Partnering with local wellness studios, we bring hydration and botanical intention to your mid-week reset.</p>
+        <div class="popup-detail"><span>📍</span> Various wellness studios, announced weekly</div>
+        <div class="popup-detail"><span>☀️</span> Pure Steeps &amp; Fruitea Refreshers only</div>
+      </div>
+      <div class="popup-card">
+        <span class="popup-tag">Seasonal</span>
+        <div class="popup-name">Late Spring Closing Dinner</div>
+        <div class="popup-date">TBD · Late Summer</div>
+        <p class="popup-desc">A seated farewell to the Late Spring menu — a final pour of the Strawberry Jubilee and Muscadine Spritz before we rotate into new botanicals.</p>
+        <div class="popup-detail"><span>📍</span> Venue TBA — follow us to be first to know</div>
+        <div class="popup-detail"><span>🍓</span> Limited seating · Reservation required</div>
+      </div>
+    </div>
+
+    <hr class="rule"/>
+
+    <!-- MENU SHOWCASE -->
+    <div class="section-eyebrow">Late Spring 2026</div>
+    <h2 class="section-title">Our <em>Current Menu</em></h2>
+    <p class="section-desc">Handcrafted in small batches. Every item is made fresh on-site at each popup.</p>
+
+    <div class="menu-showcase">
+      <div class="menu-header">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.8rem; color:var(--forest); line-height:1;">craft tea</div>
+          <div style="font-size:0.62rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--sage-gray);margin-top:4px;">Botanical Mocktails</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--sage-gray);">All drinks handcrafted to order</div>
+        </div>
+      </div>
+
+      <div class="menu-sections">
+        <!-- Craft Tea -->
+        <div>
+          <div class="menu-category-label">✦ Craft Tea — Botanical Mocktails</div>
+          <div class="menu-item">
+            <div class="menu-item-name">Strawberry Jubilee <span class="menu-item-price">$12 · 16 oz</span></div>
+            <div class="menu-item-desc">A sparkling botanical tea sour with strawberry, rhubarb, and soft rose, finished with strawberry shrub foam and a lime-rose sugar.</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-name">Cucumber Hydra <span class="menu-item-price">$12 · 16 oz</span></div>
+            <div class="menu-item-desc">Green tea and coconut water brightened with lemongrass and juniper, cooled with fresh cucumber for a clean, light mineral finish.</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-name">Muscadine Spritz <span class="menu-item-price">$10 · 12 oz</span></div>
+            <div class="menu-item-desc">A lush, fruit-forward herbal un-wine layered with muscadines and plums, with a softly tannic, sparkling finish.</div>
+          </div>
+        </div>
+
+        <!-- Fruitea -->
+        <div>
+          <div class="menu-category-label">✦ Fruitea — Refreshers · $10 / 20 oz</div>
+          <div class="menu-item">
+            <div class="menu-item-name">Build Your Blend</div>
+            <div class="menu-item-desc">Choose your base, your fruit, and your sweetness level. Each cup is made exactly for you.</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-name" style="font-size:0.8rem;font-weight:400;">Tea Base</div>
+            <div class="menu-item-flavors">Herbal · Green Tea · Black Tea</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-name" style="font-size:0.8rem;font-weight:400;">Fruit Add</div>
+            <div class="menu-item-flavors">Cherry · Guava · Peach · Mango · Passion Fruit · Strawberry</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-name" style="font-size:0.8rem;font-weight:400;">Sweetness</div>
+            <div class="menu-item-flavors">1 Natural · 2 Semi · 3 Sweet · 4 Extra · 5 Super</div>
+          </div>
+          <div class="menu-item" style="padding-top:8px;border-top:1px solid var(--soft-line);">
+            <div class="menu-item-name" style="font-size:0.78rem;">Add Extras · +$1</div>
+            <div class="menu-item-flavors">Extra Fruit · Lemonade Top · Coconut Water</div>
+          </div>
+        </div>
+
+        <!-- Pure Steeps -->
+        <div>
+          <div class="menu-category-label">✦ Pure Steeps — Unsweet Iced Tea · $6 / 20 oz</div>
+          <div class="menu-item">
+            <div class="menu-item-name" style="font-size:0.8rem;font-weight:400;color:var(--signal);">Black Tea</div>
+            <div class="menu-item-name">Smoky Northern Noir</div>
+            <div class="menu-item-flavors">Smoky · Earthy</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-name">Wild Rhubarb Meadow</div>
+            <div class="menu-item-flavors">Wildfruit · Herbal</div>
+          </div>
+          <div class="menu-item" style="margin-top:16px;">
+            <div class="menu-item-name" style="font-size:0.8rem;font-weight:400;color:var(--signal);">Herbal Tea</div>
+            <div class="menu-item-name">Hibiscus</div>
+            <div class="menu-item-flavors">Tart · Fruity</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-name">Dandelion Red Root</div>
+            <div class="menu-item-flavors">Honeyed · Earthy</div>
+          </div>
+          <div class="menu-item" style="margin-top:16px;">
+            <div class="menu-item-name" style="font-size:0.8rem;font-weight:400;color:var(--signal);">Green Tea</div>
+            <div class="menu-item-name">Bancha Green Tea</div>
+            <div class="menu-item-flavors">Earthy · Sweet Grains</div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-name">Jasmine Green Tea</div>
+            <div class="menu-item-flavors">Floral · Verdant</div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-note">Menu rotates seasonally · Small-batched · Made fresh on-site at every popup</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 2: PRIVATE EVENTS ══ -->
+<div id="private-events" class="band">
+  <div class="band-inner">
+    <div class="section-eyebrow" style="color:var(--gold);">Gather With Us</div>
+    <h2 class="section-title" style="color:var(--cream);">Private <em>Events</em></h2>
+    <p class="section-desc" style="color:var(--cream);opacity:0.7;">Bring the CommuniTea Parlour to your gathering — birthdays, bridal showers, corporate wellness, studio events, and everything in between.</p>
+
+    <div class="events-layout">
+      <div class="events-info">
+        <div class="events-perks">
+          <div class="perk">
+            <div class="perk-icon">🫖</div>
+            <div>
+              <div class="perk-title">Custom Botanical Menu</div>
+              <div class="perk-desc">We build a seasonal, curated drink menu around your event's theme, palette, and guests.</div>
+            </div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">🌿</div>
+            <div>
+              <div class="perk-title">On-Site Brewing Bar</div>
+              <div class="perk-desc">We arrive fully set up — aesthetic, botanical, and ready to serve your guests with care.</div>
+            </div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">✨</div>
+            <div>
+              <div class="perk-title">Experience Design</div>
+              <div class="perk-desc">From guided tastings to DIY blend stations, we shape the experience to fit your vision.</div>
+            </div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">🎋</div>
+            <div>
+              <div class="perk-title">Flexible &amp; Scalable</div>
+              <div class="perk-desc">Intimate dinners for 10 to large-scale corporate wellness events. We make it work.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="inquiry-form">
+        <div class="form-title">Send an Inquiry</div>
+        <div id="inquiry-fields">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="Rosemary"/>
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Collins"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@email.com"/>
+          </div>
+          <div class="form-group">
+            <label>Phone (optional)</label>
+            <input type="tel" placeholder="(555) 000-0000"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Event Type</label>
+              <select>
+                <option value="">Select one...</option>
+                <option>Birthday / Celebration</option>
+                <option>Bridal / Baby Shower</option>
+                <option>Corporate Wellness</option>
+                <option>Studio or Fitness Event</option>
+                <option>Community Gathering</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Estimated Guest Count</label>
+              <select>
+                <option value="">Select range...</option>
+                <option>Under 20</option>
+                <option>20 – 50</option>
+                <option>50 – 100</option>
+                <option>100 – 200</option>
+                <option>200+</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Preferred Event Date</label>
+              <input type="date"/>
+            </div>
+            <div class="form-group">
+              <label>Alternate Date</label>
+              <input type="date"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Event Location / Venue</label>
+            <input type="text" placeholder="Address or venue name"/>
+          </div>
+          <div class="form-group">
+            <label>Tell Us About Your Vision</label>
+            <textarea placeholder="Share any details about your event, theme, must-haves, or questions — the more we know, the better we can serve you."></textarea>
+          </div>
+          <button class="btn-form" onclick="submitInquiry()">Send Inquiry →</button>
+        </div>
+        <div class="form-success" id="inquiry-success">
+          <div style="font-size:2rem;margin-bottom:16px;">🌿</div>
+          <strong style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;display:block;margin-bottom:8px;color:var(--olive-dark);">Your inquiry is steeping.</strong>
+          Thank you for reaching out. We'll be in touch within 2 business days to begin crafting your experience.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECTION 3: PROVISIONS ══ -->
+<div id="provisions" class="provisions-band">
+  <div class="section">
+    <div class="section-eyebrow">Online Shop</div>
+    <h2 class="section-title">Provisions</h2>
+    <p class="section-desc">Take the ritual home. Small-batch loose leaf teas, botanical syrups, shrubs, and brewing kits — everything you need to steep with intention.</p>
+
+    <div class="coming-soon-wrapper">
+      <div class="still-steeping">
+        <span class="steeping-icon">🍵</span>
+        <div class="steeping-sub">Coming Soon</div>
+        <div class="steeping-headline">Still<br/>Steeping</div>
+        <p class="steeping-desc">Our online provisions shop is being lovingly built. Be the first to know when small-batch teas, seasonal syrups, and botanical kits are ready to ship.</p>
+        <div class="notify-form">
+          <input type="email" id="notify-email" placeholder="your@email.com"/>
+          <button onclick="submitNotify()">Notify Me</button>
+        </div>
+        <div id="notify-success" style="display:none;margin-top:16px;font-family:'Libre Baskerville',serif;font-style:italic;font-size:0.85rem;color:var(--olive);"></div>
+      </div>
+    </div>
+
+    <!-- Teaser tiles -->
+    <div class="provisions-preview">
+      <div class="provision-tile">
+        <span class="provision-tile-icon">🍃</span>
+        <div class="provision-tile-name">Loose Leaf Teas</div>
+        <div class="provision-tile-desc">Signature single-origin and blended teas from our rotating seasonal menu — yours to steep at home.</div>
+        <span class="provision-tile-badge">Coming Soon</span>
+      </div>
+      <div class="provision-tile">
+        <span class="provision-tile-icon">🍓</span>
+        <div class="provision-tile-name">Botanical Syrups &amp; Shrubs</div>
+        <div class="provision-tile-desc">The same handcrafted syrups behind our mocktails — strawberry shrub, rose, muscadine, and more.</div>
+        <span class="provision-tile-badge">Coming Soon</span>
+      </div>
+      <div class="provision-tile">
+        <span class="provision-tile-icon">🫙</span>
+        <div class="provision-tile-name">Brewing Kits</div>
+        <div class="provision-tile-desc">Curated bundles with everything you need to recreate your favorite CommuniTea drinks at home.</div>
+        <span class="provision-tile-badge">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">The <em>Communi</em>Tea Parlour</div>
+  <div class="footer-tagline">Small-batched · Seasonal · Botanical</div>
+  <ul class="footer-links">
+    <li><a href="#popups">Popups &amp; Menu</a></li>
+    <li><a href="#private-events">Private Events</a></li>
+    <li><a href="#provisions">Provisions</a></li>
+  </ul>
+  <div class="footer-insta">Follow our journey → <a href="https://instagram.com/thecommuniteaparlour" target="_blank">@thecommuniteaparlour</a></div>
+  <div class="footer-copy">© 2026 The CommuniTea Parlour · All rights reserved</div>
+</footer>
+
+<script>
+  function submitInquiry() {
+    const fields = document.getElementById('inquiry-fields');
+    const success = document.getElementById('inquiry-success');
+    fields.style.display = 'none';
+    success.style.display = 'block';
+  }
+
+  function submitNotify() {
+    const email = document.getElementById('notify-email').value.trim();
+    const msg = document.getElementById('notify-success');
+    if (!email || !email.includes('@')) {
+      msg.style.display = 'block';
+      msg.style.color = 'var(--rust)';
+      msg.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    msg.style.display = 'block';
+    msg.style.color = 'var(--olive)';
+    msg.textContent = '✦ You\'re on the list — we\'ll let you know the moment the shop opens.';
+    document.getElementById('notify-email').value = '';
+  }
+
+  // Smooth scroll offset for fixed nav
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 72;
+        window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
