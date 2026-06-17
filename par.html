@@ -50,13 +50,12 @@
     padding: 0 40px;
     height: 64px;
   }
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem; font-weight: 600; letter-spacing: 0.12em;
-    color: var(--reading-bg); text-transform: uppercase; text-decoration: none;
-    transition: color 0.2s;
+ .nav-logo img {
+    height: 100%; width: auto; display: block;
+    transition: opacity 0.2s;
   }
-  .nav-logo:hover { color: var(--chartreuse); }
+ 
+  .nav-logo:hover img { opacity: 0.8; }
   .nav-links { display: flex; gap: 36px; list-style: none; }
   .nav-links a {
     font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
@@ -65,7 +64,20 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--signal); }
-
+ 
+ /* Hamburger */
+  .nav-toggle {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .nav-toggle span {
+    display: block; width: 24px; height: 2px;
+    background: var(--warm-stone); transition: all 0.25s;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+ 
   /* ── HERO ── */
   .hero {
     min-height: 100vh; padding-top: 64px;
@@ -221,41 +233,36 @@
   />
 </div>
 
-  /* ══ SECTION 2: PRIVATE EVENTS ══ */
+/* ══ SECTION 2: PRIVATE EVENTS ══ */
   .events-layout {
-    display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px;
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px;
     align-items: start; margin-top: 56px;
-  }
-  .events-info { position: sticky; top: 90px; }
-  .events-perks { margin-top: 36px; }
-  .perk {
-    display: flex; gap: 16px; margin-bottom: 28px; align-items: flex-start;
-  }
-  /* Perk icon box uses olive — structural, botanical */
+  }.events-info { position: sticky; top: 90px; }
+  .events-perks { margin-top: 32px; }
+  .perk { display: flex; gap: 14px; margin-bottom: 26px; align-items: flex-start; }
   .perk-icon {
-    width: 38px; height: 38px; flex-shrink: 0;
-    background: var(--amber); color: var(--amber);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.95rem;
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: rgba(22,33,20,0.15);
+    display: flex; align-items: center; justify-content: center; font-size: 1rem;
   }
   .perk-title {
     font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
     font-weight: 600; color: var(--reading-bg); margin-bottom: 4px;
   }
-  .perk-desc { font-size: 0.8rem; color: var(--warm-stone); line-height: 1.65; }
-
+  .perk-desc { font-size: 0.8rem; color: var(--forest); opacity: 0.7; line-height: 1.65; }
+ 
+  
   /* ── INQUIRY FORM ── */
-  /* Form sits on a blush/warm surface — invitation energy */
   .inquiry-form { background: var(--sage-gray); padding: 48px; }
   .form-title {
     font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;
-    font-weight: 600; color: var(--forest); margin-bottom: 32px;
+    font-weight: 600; color: var(--reading-bg); margin-bottom: 28px;
   }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .form-group { margin-bottom: 20px; }
   .form-group label {
     display: block; font-size: 0.65rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--sage-gray); margin-bottom: 8px;
+    text-transform: uppercase; color: var(--clay); margin-bottom: 8px;
     font-weight: 500;
   }
   .form-group input,
@@ -425,18 +432,22 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">The CommuniTea Parlour</a>
-  <ul class="nav-links">
+  <a href="#" class="nav-logo">
+    <img src="assets/images/nav-logo.png" alt="The CommuniTea Parlour"/>
+  </a>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#popups">Popups</a></li>
     <li><a href="#private-events">Private Events</a></li>
     <li><a href="#provisions">Provisions</a></li>
   </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-sub"></div>
-  <img src="assets/images/parlogo.png" alt="The CommuniTea Parlour" style="width: 600px; margin-bottom: 72px;"/>
+  <img src="assets/images/parlogo.png" alt="The CommuniTea Parlour" class="hero-logo"/>
   <p class="hero-tagline">A seasonal rotation of teas and botanicals, brewed with intention and shared with care.</p>
   <div class="hero-actions">
     <a href="#popups" class="btn btn-primary">View Our Menu</a>
@@ -489,21 +500,71 @@
 
     <hr class="rule"/>
 
-    <!-- MENU SHOWCASE -->
-    <div class="section-eyebrow">Late Spring 2026</div>
+     <!-- ══ CURRENT MENU ══ -->
+    <!-- Menu is now a swappable image.
+         TO UPDATE each season:
+           1. Change the src below to your new menu filename
+           2. Update the eyebrow text ("Late Spring 2026" → "Summer 2026" etc.)
+           3. Update the alt text to match
+         Filename tip: avoid spaces — use "Late_Spring_2026.png" not "Late Spring 2026.png" -->
+    <span class="section-eyebrow">Late Spring 2026</span>
     <h2 class="section-title">Our <em>Current Menu</em></h2>
-    <p class="section-desc">Handcrafted in small batches. Every item is made fresh on-site at each popup.</p>
-</div>
+    <p class="section-desc">Handcrafted in small batches. </p>
+ 
+    <div class="menu-image-wrap">
+      <img
+        src="assets/images/Late_Spring_2026.png"
+        alt="The CommuniTea Parlour – Late Spring 2026 Menu"
+      />
+    </div>
+ 
+  </div><!-- /section -->
+</div><!-- /popups -->
+ 
 
 <!-- ══ SECTION 2: PRIVATE EVENTS ══ -->
 <div id="private-events" class="band">
   <div class="band-inner">
-    <div class="section-eyebrow" style="color:var(--gold);">Gather With Us</div>
-    <h2 class="section-title" style="color:var(--cream);">Private <em>Events</em></h2>
-    <p class="section-desc" style="color:var(--cream);opacity:0.7;">Bring the CommuniTea Parlour to your gathering — birthdays, bridal showers, corporate wellness, studio events, and everything in between.</p>
-       </div>
-</div>
-   <!-- INQUIRY FORM — clay -->
+    <span class="section-eyebrow">Gather With Us</span>
+    <h2 class="section-title">Private <em>Events</em></h2>
+    <p class="section-desc">Bring the CommuniTea Parlour to your gathering — birthdays, bridal showers, corporate wellness, studio events, and everything in between.</p>
+ 
+    <div class="events-layout">
+      <!-- LEFT: info + perks -->
+      <div class="events-info">
+        <div class="events-perks">
+          <div class="perk">
+            <div class="perk-icon">🫖</div>
+            <div>
+              <div class="perk-title">Custom Botanical Menu</div>
+              <div class="perk-desc">We build a seasonal, curated drink menu around your event's theme, palette, and guests.</div>
+            </div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">🌿</div>
+            <div>
+              <div class="perk-title">On-Site Brewing Bar</div>
+              <div class="perk-desc">We arrive fully set up — aesthetic, botanical, and ready to serve your guests with care.</div>
+            </div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">✨</div>
+            <div>
+              <div class="perk-title">Experience Design</div>
+              <div class="perk-desc">From guided tastings to DIY blend stations, we shape the experience to fit your vision.</div>
+            </div>
+          </div>
+          <div class="perk">
+            <div class="perk-icon">🎋</div>
+            <div>
+              <div class="perk-title">Flexible &amp; Scalable</div>
+              <div class="perk-desc">Intimate dinners for 10 to large-scale corporate wellness events. We make it work.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- RIGHT: inquiry form -->
       <div class="inquiry-form">
         <div class="form-title">Send an Inquiry</div>
         <div id="inquiry-fields">
@@ -572,7 +633,7 @@
         </div>
         <div class="form-success" id="inquiry-success">
           <div style="font-size:2rem;margin-bottom:16px;">🌿</div>
-          <strong style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;display:block;margin-bottom:8px;color:var(--olive-dark);">Your inquiry is steeping.</strong>
+          <strong style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;display:block;margin-bottom:8px;">Your inquiry is steeping.</strong>
           Thank you for reaching out. We'll be in touch within 2 business days to begin crafting your experience.
         </div>
       </div>
