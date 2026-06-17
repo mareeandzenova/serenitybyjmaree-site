@@ -51,7 +51,12 @@
     height: 64px;
   }
   .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
+   <img 
+    src="assets/images/nav-logo.png" 
+    alt="The CommuniTea Parlour"
+    style="width: 100%; display: block;"
+  /> 
+   font-family: 'Cormorant Garamond', serif;
     font-size: 1.15rem; font-weight: 600; letter-spacing: 0.12em;
     color: var(--reading-bg); text-transform: uppercase; text-decoration: none;
     transition: color 0.2s;
@@ -208,47 +213,18 @@
     margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
   }
 
-  /* ── MENU SHOWCASE ── */
-  .menu-showcase {
-    margin-top: 64px;
-    border: 1px solid rgba(165,165,141,0.35); background: var(--card-bg);
-    padding: 48px;
-  }
-  .menu-header {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    flex-wrap: wrap; gap: 24px; margin-bottom: 40px;
-  }
-  .menu-sections { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  /* Category label = signal red (small directional moment) */
-  .menu-category-label {
-    font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
-    color: var(--signal); margin-bottom: 16px; padding-bottom: 10px;
-    border-bottom: 1px solid rgba(165,165,141,0.4);
-  }
-  .menu-item { margin-bottom: 18px; }
-  .menu-item-name {
-    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
-    font-weight: 600; color: var(--forest); letter-spacing: 0.03em;
-  }
-  /* Price = chartreuse — a small ceremony, this costs something */
-  .menu-item-price {
-    font-size: 0.7rem; color: var(--chartreuse); letter-spacing: 0.1em; margin-left: 6px;
-  }
-  .menu-item-desc {
-    font-family: 'Libre Baskerville', serif; font-style: italic;
-    font-size: 0.78rem; color: var(--sage-gray);
-    line-height: 1.65; margin-top: 3px;
-  }
-  .menu-item-flavors {
-    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--olive); margin-top: 4px;
-  }
-  .menu-note {
-    margin-top: 32px; padding-top: 24px;
-    border-top: 1px solid rgba(165,165,141,0.4);
-    font-family: 'Libre Baskerville', serif; font-style: italic;
-    font-size: 0.82rem; color: var(--sage-gray); text-align: center;
-  }
+  <!-- MENU -->
+<span class="section-eyebrow">Late Spring 2026</span>
+<h2 class="section-title">Our <em>Current Menu</em></h2>
+<p class="section-desc">Handcrafted in small batches. Every item is made fresh on-site at each popup.</p>
+
+<div class="menu-showcase" style="padding: 0; overflow: hidden;">
+  <img 
+    src="assets/images/menu-current.png" 
+    alt="The CommuniTea Parlour – Late Spring 2026 Menu"
+    style="width: 100%; display: block;"
+  />
+</div>
 
   /* ══ SECTION 2: PRIVATE EVENTS ══ */
   .events-layout {
