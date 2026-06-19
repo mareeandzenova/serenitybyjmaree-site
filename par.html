@@ -50,12 +50,16 @@
     padding: 0 40px;
     height: 64px;
   }
- .nav-logo img {
-    height: 100%; width: auto; display: block;
-    transition: opacity 0.2s;
-  }
+ .nav-logo {
+  display: flex; align-items: center; text-decoration: none;
+  height: 40px;
+}
+.nav-logo img {
+  height: 100%; width: auto; max-width: 180px;
+  display: block; transition: opacity 0.2s;
+}
+.nav-logo:hover img { opacity: 0.8; }
  
-  .nav-logo:hover img { opacity: 0.8; }
   .nav-links { display: flex; gap: 36px; list-style: none; }
   .nav-links a {
     font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
@@ -79,13 +83,19 @@
   .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
  
   /* ── HERO ── */
-  .hero {
-    min-height: 100vh; padding-top: 64px;
-    background: url('assets/images/logo.png') center center / cover no-repeat;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; position: relative; overflow: hidden;
-  }
+ .hero {
+  min-height: 100vh; padding-top: 64px;
+  background: var(--forest);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; position: relative; overflow: hidden;
+  padding-left: 24px; padding-right: 24px;
+}
+.hero-logo {
+  width: 100%; max-width: 480px;
+  height: auto; display: block;
+  margin: 0 auto 48px;
+}
   .hero-bg-text {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
     font-family: 'Cormorant Garamond', serif;
@@ -219,7 +229,14 @@
     font-size: 0.72rem; letter-spacing: 0.08em; color: var(--sage-gray);
     margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
   }
-
+.menu-image-wrap {
+  margin-top: 48px;
+  border: 1px solid rgba(165,165,141,0.35);
+  overflow: hidden;
+}
+.menu-image-wrap img {
+  width: 100%; height: auto; display: block;
+}
   <!-- MENU -->
 <span class="section-eyebrow">Late Spring 2026</span>
 <h2 class="section-title">Our <em>Current Menu</em></h2>
