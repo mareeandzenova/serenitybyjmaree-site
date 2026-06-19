@@ -124,7 +124,7 @@
   }
   .hero-tagline {
     font-family: 'Libre Baskerville', serif; font-style: italic;
-    font-size: 1rem; color: var(--warm-stone); margin-bottom: 56px;
+    font-size: 1rem; color: var(--forest); margin-bottom: 56px;
     max-width: 420px; line-height: 1.8;
   }
   .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
@@ -229,6 +229,70 @@
     font-size: 0.72rem; letter-spacing: 0.08em; color: var(--sage-gray);
     margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
   }
+ .band { background: var(--amber); }
+.band-inner { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+.band .section-title { color: var(--reading-bg); }
+.band .section-eyebrow { color: var(--signal); }
+.band .section-desc { color: var(--reading-bg); opacity: 0.85; }
+
+.events-layout {
+  display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px;
+  align-items: start; margin-top: 0;
+}
+.events-info { position: sticky; top: 90px; }
+.events-perks { margin-top: 32px; }
+.perk { display: flex; gap: 14px; margin-bottom: 26px; align-items: flex-start; }
+.perk-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: rgba(22,33,20,0.15);
+  display: flex; align-items: center; justify-content: center; font-size: 1rem;
+}
+.perk-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+  font-weight: 600; color: var(--reading-bg); margin-bottom: 4px;
+}
+.perk-desc { font-size: 0.8rem; color: var(--forest); opacity: 0.7; line-height: 1.65; }
+
+.inquiry-form { background: var(--clay); padding: 44px; }
+.form-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;
+  font-weight: 600; color: var(--reading-bg); margin-bottom: 28px;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { margin-bottom: 18px; }
+.form-group label {
+  display: block; font-size: 0.63rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--reading-bg); opacity: 0.75;
+  margin-bottom: 7px; font-weight: 500;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid rgba(237,232,223,0.35); background: var(--reading-bg);
+  font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--forest);
+  appearance: none; outline: none; transition: border-color 0.2s; border-radius: 0;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--forest); }
+.form-group textarea { min-height: 110px; resize: vertical; }
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23162114'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; cursor: pointer;
+}
+.btn-form {
+  width: 100%; padding: 15px; background: var(--forest); color: var(--reading-bg);
+  border: none; font-family: 'DM Sans', sans-serif; font-size: 0.7rem;
+  letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer;
+  transition: background 0.25s; margin-top: 8px;
+}
+.btn-form:hover { background: var(--evergreen); }
+.form-success {
+  display: none; text-align: center; padding: 32px;
+  font-family: 'Libre Baskerville', serif; font-style: italic;
+  color: var(--reading-bg); font-size: 1rem; line-height: 1.8;
+}
 .menu-image-wrap {
   margin-top: 48px;
   border: 1px solid rgba(165,165,141,0.35);
@@ -238,7 +302,6 @@
   width: 100%; height: auto; display: block;
 }
   <!-- MENU -->
-<span class="section-eyebrow">Late Spring 2026</span>
 <h2 class="section-title">Our <em>Current Menu</em></h2>
 <p class="section-desc">Handcrafted in small batches. Every item is made fresh on-site at each popup.</p>
 
@@ -250,68 +313,6 @@
   />
 </div>
 
-/* ══ SECTION 2: PRIVATE EVENTS ══ */
-  .events-layout {
-    display: grid; grid-template-columns: 1fr 1.5fr; gap: 64px;
-    align-items: start; margin-top: 56px;
-  }.events-info { position: sticky; top: 90px; }
-  .events-perks { margin-top: 32px; }
-  .perk { display: flex; gap: 14px; margin-bottom: 26px; align-items: flex-start; }
-  .perk-icon {
-    width: 36px; height: 36px; flex-shrink: 0;
-    background: rgba(22,33,20,0.15);
-    display: flex; align-items: center; justify-content: center; font-size: 1rem;
-  }
-  .perk-title {
-    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
-    font-weight: 600; color: var(--reading-bg); margin-bottom: 4px;
-  }
-  .perk-desc { font-size: 0.8rem; color: var(--forest); opacity: 0.7; line-height: 1.65; }
- 
-  
-  /* ── INQUIRY FORM ── */
-  .inquiry-form { background: var(--sage-gray); padding: 48px; }
-  .form-title {
-    font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;
-    font-weight: 600; color: var(--reading-bg); margin-bottom: 28px;
-  }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-group { margin-bottom: 20px; }
-  .form-group label {
-    display: block; font-size: 0.65rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--clay); margin-bottom: 8px;
-    font-weight: 500;
-  }
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%; padding: 12px 16px;
-    border: 1px solid rgba(107,112,92,0.35); background: var(--reading-bg);
-    font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--forest);
-    appearance: none; outline: none; transition: border-color 0.2s;
-    border-radius: 0;
-  }
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus { border-color: var(--olive); }
-  .form-group textarea { min-height: 110px; resize: vertical; }
-  .form-group select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234A5D14'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 14px center;
-    cursor: pointer;
-  }
-  .btn-form {
-    width: 100%; padding: 16px; background: var(--forest); color: var(--reading-bg);
-    border: none; font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
-    letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer;
-    transition: background 0.25s; margin-top: 8px;
-  }
-  .btn-form:hover { background: var(--olive); }
-  .form-success {
-    display: none; text-align: center; padding: 32px;
-    font-family: 'Libre Baskerville', serif; font-style: italic;
-    color: var(--forest); font-size: 1rem; line-height: 1.8;
-  }
 
   /* ══ SECTION 3: PROVISIONS ══ */
   /* Provisions lives on reading-bg — this is a calm, long-form surface */
@@ -542,45 +543,15 @@
 <!-- ══ SECTION 2: PRIVATE EVENTS ══ -->
 <div id="private-events" class="band">
   <div class="band-inner">
-    <span class="section-eyebrow">Gather With Us</span>
-    <h2 class="section-title">Private <em>Events</em></h2>
-    <p class="section-desc">Bring the CommuniTea Parlour to your gathering — birthdays, bridal showers, corporate wellness, studio events, and everything in between.</p>
- 
+
     <div class="events-layout">
-      <!-- LEFT: info + perks -->
+      <!-- LEFT: heading + desc -->
       <div class="events-info">
-        <div class="events-perks">
-          <div class="perk">
-            <div class="perk-icon">🫖</div>
-            <div>
-              <div class="perk-title">Custom Botanical Menu</div>
-              <div class="perk-desc">We build a seasonal, curated drink menu around your event's theme, palette, and guests.</div>
-            </div>
-          </div>
-          <div class="perk">
-            <div class="perk-icon">🌿</div>
-            <div>
-              <div class="perk-title">On-Site Brewing Bar</div>
-              <div class="perk-desc">We arrive fully set up — aesthetic, botanical, and ready to serve your guests with care.</div>
-            </div>
-          </div>
-          <div class="perk">
-            <div class="perk-icon">✨</div>
-            <div>
-              <div class="perk-title">Experience Design</div>
-              <div class="perk-desc">From guided tastings to DIY blend stations, we shape the experience to fit your vision.</div>
-            </div>
-          </div>
-          <div class="perk">
-            <div class="perk-icon">🎋</div>
-            <div>
-              <div class="perk-title">Flexible &amp; Scalable</div>
-              <div class="perk-desc">Intimate dinners for 10 to large-scale corporate wellness events. We make it work.</div>
-            </div>
-          </div>
-        </div>
+        <span class="section-eyebrow">Gather With Us</span>
+        <h2 class="section-title">Private <em>Events</em></h2>
+        <p class="section-desc">Bring the CommuniTea Parlour to your gathering — birthdays, bridal showers, corporate wellness, studio events, and everything in between.</p>
       </div>
- 
+
       <!-- RIGHT: inquiry form -->
       <div class="inquiry-form">
         <div class="form-title">Send an Inquiry</div>
@@ -655,6 +626,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -678,7 +650,7 @@
         <div id="notify-success" style="display:none;margin-top:16px;font-family:'Libre Baskerville',serif;font-style:italic;font-size:0.85rem;color:var(--olive);"></div>
       </div>
     </div>
-
+</div></div></div>
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">The <em>Communi</em>Tea Parlour</div>
